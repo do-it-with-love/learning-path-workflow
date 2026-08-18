@@ -1,0 +1,127 @@
+{
+  "run_id": "run-001-spanish-b1",
+  "schema_version": 1,
+  "status": "running",
+  "created_at": "2026-08-18T11:56:59Z",
+  "updated_at": "2026-08-18T12:17:39Z",
+  "requirements_confirmed": true,
+  "selected_agents": {
+    "curator": "video-curator"
+  },
+  "skipped_steps": [],
+  "steps": {
+    "requirements-formalizer": {
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/requirements.md",
+      "digest": "sha256:1407c3ddea53357d7067347c145f380a0dd31663408787f7d8f354d7f91562f0",
+      "updated_at": "2026-08-18T11:58:57Z"
+    },
+    "knowledge-assessor": {
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/baseline-assessment.md",
+      "digest": "sha256:dff4b4a7b490bdeca5102700e7957f49f7490dab3bf13877b0284e1906b080ad",
+      "updated_at": "2026-08-18T12:01:23Z"
+    },
+    "curriculum-architect": {
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/curriculum.md",
+      "digest": "sha256:7c9bc369784165159c3b09a5dc46b06d0d8638a187c796d8b9aa8b37a4e1e8bc",
+      "updated_at": "2026-08-18T12:13:42Z"
+    },
+    "curator": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "artifacts/resources.md"
+    },
+    "exercise-designer": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "artifacts/exercises.md"
+    },
+    "assessment-designer": {
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/assessments.md",
+      "digest": "sha256:9b49c5da1d3e3b504fc8c819072ba5f010803fc4659e9913fe844d3ca748fb8b",
+      "updated_at": "2026-08-18T12:17:39Z"
+    },
+    "schedule-planner": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "artifacts/schedule.md"
+    },
+    "effort-budget-aggregator": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "artifacts/effort-budget.md"
+    },
+    "validator": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "artifacts/validation-report.md"
+    },
+    "learning-path-builder": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "output/learning-path.md"
+    },
+    "html-builder": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "output/learning-path.html"
+    }
+  },
+  "gates": {},
+  "approval": {
+    "status": "pending",
+    "digest": null,
+    "decided_at": null,
+    "feedback": []
+  },
+  "retry_limit": 3,
+  "history": [
+    {
+      "at": "2026-08-18T11:58:57Z",
+      "event": "artifact_written",
+      "step": "requirements-formalizer",
+      "artifact": "artifacts/requirements.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T11:59:33Z",
+      "event": "plan_selected",
+      "selected": {
+        "curator": "video-curator"
+      },
+      "skipped": []
+    },
+    {
+      "at": "2026-08-18T12:01:23Z",
+      "event": "artifact_written",
+      "step": "knowledge-assessor",
+      "artifact": "artifacts/baseline-assessment.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T12:13:42Z",
+      "event": "artifact_written",
+      "step": "curriculum-architect",
+      "artifact": "artifacts/curriculum.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T12:17:39Z",
+      "event": "artifact_written",
+      "step": "assessment-designer",
+      "artifact": "artifacts/assessments.md",
+      "attempt": 1,
+      "invalidated": []
+    }
+  ]
+}

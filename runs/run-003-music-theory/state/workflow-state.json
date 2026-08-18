@@ -1,0 +1,127 @@
+{
+  "run_id": "run-003-music-theory",
+  "schema_version": 1,
+  "status": "running",
+  "created_at": "2026-08-18T12:02:44Z",
+  "updated_at": "2026-08-18T12:18:55Z",
+  "requirements_confirmed": true,
+  "selected_agents": {
+    "curator": "reading-curator"
+  },
+  "skipped_steps": [],
+  "steps": {
+    "requirements-formalizer": {
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/requirements.md",
+      "digest": "sha256:76b997a15894fa0a8559ad23a72e6a2969a35cd4339d4f67a3f398894f92ab22",
+      "updated_at": "2026-08-18T12:05:22Z"
+    },
+    "knowledge-assessor": {
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/baseline-assessment.md",
+      "digest": "sha256:d610333951a5a633ed6bdb0a06893a0c47b1bde0c5673328ee99bf66e371f8eb",
+      "updated_at": "2026-08-18T12:07:24Z"
+    },
+    "curriculum-architect": {
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/curriculum.md",
+      "digest": "sha256:5ae8a25c8855d0dc73880c06fbaa2dd8fcdb731ef4769b6191ca6da5249059df",
+      "updated_at": "2026-08-18T12:14:15Z"
+    },
+    "curator": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "artifacts/resources.md"
+    },
+    "exercise-designer": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "artifacts/exercises.md"
+    },
+    "assessment-designer": {
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/assessments.md",
+      "digest": "sha256:aa7bc49f1453a1cb5db1b4a61b6d97e5897b62ee8e927c732084d25d66efbde6",
+      "updated_at": "2026-08-18T12:18:55Z"
+    },
+    "schedule-planner": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "artifacts/schedule.md"
+    },
+    "effort-budget-aggregator": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "artifacts/effort-budget.md"
+    },
+    "validator": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "artifacts/validation-report.md"
+    },
+    "learning-path-builder": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "output/learning-path.md"
+    },
+    "html-builder": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "output/learning-path.html"
+    }
+  },
+  "gates": {},
+  "approval": {
+    "status": "pending",
+    "digest": null,
+    "decided_at": null,
+    "feedback": []
+  },
+  "retry_limit": 3,
+  "history": [
+    {
+      "at": "2026-08-18T12:05:22Z",
+      "event": "artifact_written",
+      "step": "requirements-formalizer",
+      "artifact": "artifacts/requirements.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T12:05:55Z",
+      "event": "plan_selected",
+      "selected": {
+        "curator": "reading-curator"
+      },
+      "skipped": []
+    },
+    {
+      "at": "2026-08-18T12:07:24Z",
+      "event": "artifact_written",
+      "step": "knowledge-assessor",
+      "artifact": "artifacts/baseline-assessment.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T12:14:15Z",
+      "event": "artifact_written",
+      "step": "curriculum-architect",
+      "artifact": "artifacts/curriculum.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T12:18:55Z",
+      "event": "artifact_written",
+      "step": "assessment-designer",
+      "artifact": "artifacts/assessments.md",
+      "attempt": 1,
+      "invalidated": []
+    }
+  ]
+}
