@@ -3,11 +3,11 @@ artifact: assessments
 owner: assessment-designer
 run_id: run-003-music-theory
 status: final
-attempt: 1
+attempt: 2
 inputs:
   - artifacts/requirements.md
   - artifacts/curriculum.md
-generated: 2026-08-18T17:00:00Z
+generated: 2026-08-19T09:00:00Z
 ---
 
 # Assessments — Music Theory for Score Reading and Analysis
@@ -30,8 +30,10 @@ Modules 3, 6 and 9, each a short retrieval sweep across everything so far plus a
 re-check. The final check is the Module 10 capstone rubric itself, applied to the written
 analysis of Clementi's Sonatina in C, Op. 36 No. 1, 1st movement, and is written to cover
 all five target outcomes in `requirements.md` directly. Total self-assessment time across
-the course is approximately 5.5–6 hours, comfortably inside the 8-hour slack the curriculum
-already reserved — checkpoints are overhead on top of study time, not a redirection of it.
+the course is approximately 5 hours 25 minutes (~5.4 hours) — 245 minutes across the ten
+module checks plus the final fluency check, and 80 minutes across the three cumulative
+reviews — comfortably inside the 8-hour slack the curriculum already reserved —
+checkpoints are overhead on top of study time, not a redirection of it.
 
 ## Findings
 
@@ -48,7 +50,7 @@ already reserved — checkpoints are overhead on top of study time, not a redire
    steady pace (a metronome or phone timer helps), timing yourself. Compute **bars
    correctly read per minute** — check correctness by playing what you named and
    confirming the notes match the score. Write this number down; you will repeat this
-   exact exercise three more times.
+   exact exercise four more times.
 
 **Rubric.**
 - *Not yet* — fewer than 7/10 signatures named correctly, or each one requires counting
@@ -232,6 +234,29 @@ recalculating them mid-exercise.
 
 ---
 
+### Cumulative review — after Module 6 (25 min)
+
+A short retrieval sweep, not new material: closed-book items drawn from Modules 4–6 — 2
+triads built from root+quality instructions (Module 4), 2 primary-triad spellings (I, IV,
+V or vi) in a given key (Module 5), and a 4-chord progression labelled with Roman numerals
+including correct case (Module 6) — each self-marked against the same piano and interval-
+recipe answer keys used in the original module checks. Then the **third fluency timing
+exercise**, same method as Module 1 and the first cumulative review — a new unseen
+excerpt, timed, checked by playing it — record bars/minute and error rate next to the two
+earlier data points.
+
+**Go/no-go.** If exactly one of the three retrieval categories (triad building,
+primary-triad spelling, Roman-numeral labelling) is weak, revisit only that module's
+material for one short session before continuing — do not re-do all three. If two or more
+categories are weak, that is a forgetting pattern, not a fluke: spend a full extra 20–30
+minute session across the weak modules before starting Module 7 — cadence identification
+in Module 7 depends on reliable Roman-numeral labels, and Module 9's phrase/form work
+assumes all of Modules 4–6 are solid. The fluency number is not pass/fail here either; note
+whether it is trending up across the two earlier data points and continue regardless — one
+more checkpoint (after Module 9) plus the final check remain to confirm the trend.
+
+---
+
 ### Module 7: Cadences
 
 **Check (20 min).**
@@ -327,11 +352,11 @@ A retrieval sweep across the whole course so far: one item each from Modules 1�
 signature, an interval, a minor scale, a triad quality, a primary triad spelling, a
 Roman-numeral label, a cadence identification, a V7 spelling, and a phrase/form call on a
 fresh short unseen piece), each self-marked as in its original module's check. Then a
-**third fluency timing exercise**, same method as Module 1 and the first cumulative review
-— record bars/minute and error rate and compare all three data points as a trend.
+**fourth fluency timing exercise**, same method as Module 1 and the first two cumulative
+reviews — record bars/minute and error rate and compare all four data points as a trend.
 
 **Go/no-go.** If any single item is weak, revisit only that module before Module 10. If two
-or more are weak, or the fluency trend has not improved across all three timings, treat
+or more are weak, or the fluency trend has not improved across all four timings, treat
 this as a signal to spend a full extra session on review before starting the capstone —
 producing the capstone analysis on a shaky foundation wastes the 5 hours the curriculum has
 budgeted for it. This is effectively a dry run of the capstone's separate components before
@@ -361,7 +386,7 @@ taking your own notation at face value.
 |---|---|---|
 | 3 | Key signatures, intervals, minor scales | 2nd fluency timing |
 | 6 | + triads, primary triads, Roman numerals | 3rd fluency timing |
-| 9 | + cadences, sevenths, form | Dry run of all three capstone legs separately |
+| 9 | + cadences, sevenths, form | 4th fluency timing; dry run of all three capstone legs separately |
 
 Each review is a 20–30 minute retrieval sweep, self-marked against the same answer keys
 (piano, written reference sheets) used in the original module checks — no new grading
@@ -376,16 +401,16 @@ to cover the five target outcomes from `requirements.md` directly.
 
 | Target outcome | Where it is assessed |
 |---|---|
-| 1. Read/name notes and rhythms in both clefs, measurably faster than baseline | Final (4th) fluency timing, same method as Module 1, compared against the Module 1 baseline number |
+| 1. Read/name notes and rhythms in both clefs, measurably faster than baseline | Final (5th) fluency timing, same method as Module 1, compared against all four prior recordings |
 | 2. Identify a piece's key, including relative major/minor | Capstone document's key section |
 | 3. Label chords via triads/Roman-numeral/lead-sheet, including simple sevenths | Capstone document's chord section |
 | 4. Identify formal structure and describe section relationships | Capstone document's form section |
 | 5. Produce a written capstone analysis combining key, chords and form | The capstone document as a whole |
 
-**Fluency check (10 min).** Repeat the timed sight-reading exercise from Module 1 a fourth
+**Fluency check (10 min).** Repeat the timed sight-reading exercise from Module 1 a fifth
 time, same method, an unseen excerpt of similar length and difficulty. Compare bars/minute
-and error rate against all three prior recordings. *Good enough to continue*: a clear
-upward trend across the four data points, with the final error rate under 10%. *Solid*: at
+and error rate against all four prior recordings. *Good enough to continue*: a clear
+upward trend across the five data points, with the final error rate under 10%. *Solid*: at
 least a doubling of bars/minute from the Module 1 baseline at an error rate under 5%. If the
 trend is flat or reversed, this is diagnostic, not a capstone blocker on its own — it means
 sight-reading practice needs to become a deliberate weekly habit going forward, separate

@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T11:56:59Z",
-  "updated_at": "2026-08-18T16:35:26Z",
+  "updated_at": "2026-08-18T21:50:27Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "video-curator"
@@ -33,10 +33,11 @@
     },
     "curator": {
       "status": "done",
-      "attempts": 1,
+      "attempts": 3,
       "artifact": "artifacts/resources.md",
-      "digest": "sha256:bb80c7f4c682813c33452cbcb7903064ea669ba7d8c23d685150dc4967e8b945",
-      "updated_at": "2026-08-18T16:23:44Z"
+      "digest": "sha256:68257178c9ac2c95b7ef8748472c74d991c6be872b7307959b983b18b4738915",
+      "updated_at": "2026-08-18T21:45:44Z",
+      "stale_cause": "G7,G8"
     },
     "exercise-designer": {
       "status": "done",
@@ -54,22 +55,30 @@
     },
     "schedule-planner": {
       "status": "done",
-      "attempts": 1,
+      "attempts": 2,
       "artifact": "artifacts/schedule.md",
-      "digest": "sha256:5aea47778c1cc2c40dbd1246dd5563eb933f4af4519431341b7ccf107ccd08b9",
-      "updated_at": "2026-08-18T16:35:26Z"
+      "digest": "sha256:95e466b9daa2913056a4041bd9013c6a7c83ea63e66d2a1e9a07fe3fa9262d36",
+      "updated_at": "2026-08-18T21:50:27Z",
+      "stale_since": "2026-08-18T21:43:55Z",
+      "stale_cause": "curator"
     },
     "effort-budget-aggregator": {
       "status": "done",
-      "attempts": 1,
+      "attempts": 2,
       "artifact": "artifacts/effort-budget.md",
-      "digest": "sha256:30e7322f9642148bb2e0778ca5e3aab12fa63fe2f0c0f3838f373276d69d4261",
-      "updated_at": "2026-08-18T16:27:59Z"
+      "digest": "sha256:d9927a5b983b82efecb5f47fc25767eeaea98904a5b7a4d97ecab2e7e0c8f112",
+      "updated_at": "2026-08-18T21:50:19Z",
+      "stale_since": "2026-08-18T21:43:55Z",
+      "stale_cause": "curator"
     },
     "validator": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/validation-report.md"
+      "status": "stale",
+      "attempts": 1,
+      "artifact": "artifacts/validation-report.md",
+      "digest": "sha256:3aa38f2d5d1b14e0e121c647df2b7b39e2bbafabe662f901ac126a87648a36e1",
+      "updated_at": "2026-08-18T21:34:05Z",
+      "stale_since": "2026-08-18T21:43:55Z",
+      "stale_cause": "curator"
     },
     "learning-path-builder": {
       "status": "pending",
@@ -82,7 +91,20 @@
       "artifact": "output/learning-path.html"
     }
   },
-  "gates": {},
+  "gates": {
+    "G7": {
+      "status": "fail",
+      "owner": "curator",
+      "finding": "module 5 citation 'Perfecting the Prepositions in Spanish' resolves to a paid Amazon workbook promo page, not a free lesson",
+      "at": "2026-08-18T21:35:00Z"
+    },
+    "G8": {
+      "status": "fail",
+      "owner": "curator",
+      "finding": "video ratio is 18/26 (69.2%), below the 70% floor; curator claimed 20/26 (76.9%)",
+      "at": "2026-08-18T21:35:00Z"
+    }
+  },
   "approval": {
     "status": "pending",
     "digest": null,
@@ -161,6 +183,57 @@
       "step": "schedule-planner",
       "artifact": "artifacts/schedule.md",
       "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T21:34:05Z",
+      "event": "artifact_written",
+      "step": "validator",
+      "artifact": "artifacts/validation-report.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T21:35:00Z",
+      "event": "mark",
+      "step": "curator",
+      "status": "failed",
+      "reason": "G7,G8"
+    },
+    {
+      "at": "2026-08-18T21:43:55Z",
+      "event": "artifact_written",
+      "step": "curator",
+      "artifact": "artifacts/resources.md",
+      "attempt": 2,
+      "invalidated": [
+        "effort-budget-aggregator",
+        "schedule-planner",
+        "validator"
+      ]
+    },
+    {
+      "at": "2026-08-18T21:45:44Z",
+      "event": "artifact_written",
+      "step": "curator",
+      "artifact": "artifacts/resources.md",
+      "attempt": 3,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T21:50:19Z",
+      "event": "artifact_written",
+      "step": "effort-budget-aggregator",
+      "artifact": "artifacts/effort-budget.md",
+      "attempt": 2,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T21:50:27Z",
+      "event": "artifact_written",
+      "step": "schedule-planner",
+      "artifact": "artifacts/schedule.md",
+      "attempt": 2,
       "invalidated": []
     }
   ]

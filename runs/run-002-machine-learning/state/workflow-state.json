@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T11:58:50Z",
-  "updated_at": "2026-08-18T16:32:31Z",
+  "updated_at": "2026-08-18T21:46:49Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "project-curator"
@@ -33,10 +33,11 @@
     },
     "curator": {
       "status": "done",
-      "attempts": 1,
+      "attempts": 2,
       "artifact": "artifacts/resources.md",
-      "digest": "sha256:ae1e8f26f08ddca8ba0062655db9575aa5b5f56a648d08f6eb477cde45bec362",
-      "updated_at": "2026-08-18T16:26:37Z"
+      "digest": "sha256:fd3f8bf39166a894e7265a9271c77456940614a2faebee7a1c0e7cad55ae46cf",
+      "updated_at": "2026-08-18T21:42:59Z",
+      "stale_cause": "G1,G8"
     },
     "exercise-designer": {
       "status": "done",
@@ -54,22 +55,30 @@
     },
     "schedule-planner": {
       "status": "done",
-      "attempts": 1,
+      "attempts": 2,
       "artifact": "artifacts/schedule.md",
-      "digest": "sha256:245d30b35dfeae84e740e626eca1c310f9da9dc3e37ee0a16071869dcb5ddbbd",
-      "updated_at": "2026-08-18T16:31:55Z"
+      "digest": "sha256:07b9c9cc7f38bc131a0b88a3e34ad3d096e58ba96ad796001a44205c6aeec395",
+      "updated_at": "2026-08-18T21:46:10Z",
+      "stale_since": "2026-08-18T21:42:59Z",
+      "stale_cause": "curator"
     },
     "effort-budget-aggregator": {
       "status": "done",
-      "attempts": 1,
+      "attempts": 2,
       "artifact": "artifacts/effort-budget.md",
-      "digest": "sha256:6f0ef79397eaa798ff47f15b2fd7971a744643a1639fc2c720c61eb78d64e182",
-      "updated_at": "2026-08-18T16:32:31Z"
+      "digest": "sha256:843f221737b55a4f0e3b13129b1ca8d9c12b6cf0679d30425bb1deeb83c475bb",
+      "updated_at": "2026-08-18T21:46:49Z",
+      "stale_since": "2026-08-18T21:42:59Z",
+      "stale_cause": "curator"
     },
     "validator": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/validation-report.md"
+      "status": "stale",
+      "attempts": 1,
+      "artifact": "artifacts/validation-report.md",
+      "digest": "sha256:d70763f8cf657ccda9a836c86eed61419db1ce02b817a3480ed395db16f3bbb5",
+      "updated_at": "2026-08-18T21:34:38Z",
+      "stale_since": "2026-08-18T21:42:59Z",
+      "stale_cause": "curator"
     },
     "learning-path-builder": {
       "status": "pending",
@@ -82,7 +91,20 @@
       "artifact": "output/learning-path.html"
     }
   },
-  "gates": {},
+  "gates": {
+    "G1": {
+      "status": "fail",
+      "owner": "curator",
+      "finding": "resources.md coverage table undercounts Modules 2 and 3 by ~0.5h each; corrected, Week 3 hits 3.35h over the 3.30h ceiling",
+      "at": "2026-08-18T21:35:15Z"
+    },
+    "G8": {
+      "status": "fail",
+      "owner": "curator",
+      "finding": "interactive ratio is 10/17 (58.8%), not the claimed 70.6%; two sklearn examples run passively on demo data",
+      "at": "2026-08-18T21:35:15Z"
+    }
+  },
   "approval": {
     "status": "pending",
     "digest": null,
@@ -161,6 +183,49 @@
       "step": "effort-budget-aggregator",
       "artifact": "artifacts/effort-budget.md",
       "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T21:34:38Z",
+      "event": "artifact_written",
+      "step": "validator",
+      "artifact": "artifacts/validation-report.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T21:35:15Z",
+      "event": "mark",
+      "step": "curator",
+      "status": "failed",
+      "reason": "G1,G8"
+    },
+    {
+      "at": "2026-08-18T21:42:59Z",
+      "event": "artifact_written",
+      "step": "curator",
+      "artifact": "artifacts/resources.md",
+      "attempt": 2,
+      "invalidated": [
+        "effort-budget-aggregator",
+        "schedule-planner",
+        "validator"
+      ]
+    },
+    {
+      "at": "2026-08-18T21:46:10Z",
+      "event": "artifact_written",
+      "step": "schedule-planner",
+      "artifact": "artifacts/schedule.md",
+      "attempt": 2,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T21:46:49Z",
+      "event": "artifact_written",
+      "step": "effort-budget-aggregator",
+      "artifact": "artifacts/effort-budget.md",
+      "attempt": 2,
       "invalidated": []
     }
   ]

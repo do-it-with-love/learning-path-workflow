@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T12:02:44Z",
-  "updated_at": "2026-08-18T16:33:43Z",
+  "updated_at": "2026-08-18T21:45:52Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "reading-curator"
@@ -47,29 +47,38 @@
     },
     "assessment-designer": {
       "status": "done",
-      "attempts": 1,
+      "attempts": 2,
       "artifact": "artifacts/assessments.md",
-      "digest": "sha256:aa7bc49f1453a1cb5db1b4a61b6d97e5897b62ee8e927c732084d25d66efbde6",
-      "updated_at": "2026-08-18T12:18:55Z"
+      "digest": "sha256:7037a232692bc015c1f3c93c5425f1e916a590e20df9ead820af71cb275f824c",
+      "updated_at": "2026-08-18T21:39:52Z",
+      "stale_cause": "G5"
     },
     "schedule-planner": {
-      "status": "done",
+      "status": "stale",
       "attempts": 1,
       "artifact": "artifacts/schedule.md",
       "digest": "sha256:13a1928b156bace2c95b637273345c651c45d0d9fb68813789e6f7934089eeda",
-      "updated_at": "2026-08-18T16:33:43Z"
+      "updated_at": "2026-08-18T16:33:43Z",
+      "stale_since": "2026-08-18T21:39:52Z",
+      "stale_cause": "assessment-designer"
     },
     "effort-budget-aggregator": {
       "status": "done",
-      "attempts": 1,
+      "attempts": 2,
       "artifact": "artifacts/effort-budget.md",
-      "digest": "sha256:9ca75ac340824ae77712b244e6108425d79a5e42b5dbaf378ba16e20c3278751",
-      "updated_at": "2026-08-18T16:17:15Z"
+      "digest": "sha256:5cc37d0e409602bbb68d4fc8555204c81811bcd9198754c1f2eca5d00f0f9cca",
+      "updated_at": "2026-08-18T21:45:52Z",
+      "stale_since": "2026-08-18T21:39:52Z",
+      "stale_cause": "assessment-designer"
     },
     "validator": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/validation-report.md"
+      "status": "stale",
+      "attempts": 1,
+      "artifact": "artifacts/validation-report.md",
+      "digest": "sha256:c067cac1c7e9a5c15c8cffc7aca963e7d07d408c553c33af577a63add1abe4bb",
+      "updated_at": "2026-08-18T21:34:39Z",
+      "stale_since": "2026-08-18T21:39:52Z",
+      "stale_cause": "assessment-designer"
     },
     "learning-path-builder": {
       "status": "pending",
@@ -82,7 +91,14 @@
       "artifact": "output/learning-path.html"
     }
   },
-  "gates": {},
+  "gates": {
+    "G5": {
+      "status": "fail",
+      "owner": "assessment-designer",
+      "finding": "assessments.md promises cumulative reviews after Modules 3, 6 and 9 but Findings contains no Module 6 review",
+      "at": "2026-08-18T21:35:15Z"
+    }
+  },
   "approval": {
     "status": "pending",
     "digest": null,
@@ -161,6 +177,41 @@
       "step": "schedule-planner",
       "artifact": "artifacts/schedule.md",
       "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T21:34:39Z",
+      "event": "artifact_written",
+      "step": "validator",
+      "artifact": "artifacts/validation-report.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T21:35:15Z",
+      "event": "mark",
+      "step": "assessment-designer",
+      "status": "failed",
+      "reason": "G5"
+    },
+    {
+      "at": "2026-08-18T21:39:52Z",
+      "event": "artifact_written",
+      "step": "assessment-designer",
+      "artifact": "artifacts/assessments.md",
+      "attempt": 2,
+      "invalidated": [
+        "effort-budget-aggregator",
+        "schedule-planner",
+        "validator"
+      ]
+    },
+    {
+      "at": "2026-08-18T21:45:52Z",
+      "event": "artifact_written",
+      "step": "effort-budget-aggregator",
+      "artifact": "artifacts/effort-budget.md",
+      "attempt": 2,
       "invalidated": []
     }
   ]
