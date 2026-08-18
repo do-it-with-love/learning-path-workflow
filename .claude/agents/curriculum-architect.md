@@ -18,7 +18,14 @@ attempt number, and on a retry the failed gate findings verbatim.
 
 ## Method
 
-1. **Learn the real structure of the subject** with `search_wikipedia` and `get_article`.
+> **Known issue with the Wikipedia MCP:** `search_wikipedia` currently returns empty
+> results for every query. `get_summary` and `get_article` work normally when given an
+> exact article title. Go straight to titles you can name — "Spanish conjugation",
+> "Music theory", "Supervised learning" — and if you need to discover a title, use
+> WebSearch reasoning to guess it and confirm with `get_summary`. Do not treat an empty
+> search as "the subject has no standard structure".
+
+1. **Learn the real structure of the subject** with `get_article` and `get_summary`.
    Look at how the field decomposes itself: its canonical subfields, the order textbooks
    and syllabi actually teach them in, the named methods. Do not impose a generic
    "beginner/intermediate/advanced" split on a subject that has its own well-worn

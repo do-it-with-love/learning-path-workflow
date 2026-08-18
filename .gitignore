@@ -12,3 +12,6 @@ __pycache__/
 
 # Scratch
 *.tmp
+
+# Run locks are transient coordination, not run evidence
+runs/*/state/.state.lock

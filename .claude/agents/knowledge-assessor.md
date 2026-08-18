@@ -18,7 +18,12 @@ Load the `artifact-validator` skill before writing.
 
 ## Method
 
-1. **Ground the level scale in the real field.** Use `search_wikipedia` and `get_summary`
+> **Known issue with the Wikipedia MCP:** `search_wikipedia` currently returns empty
+> results for every query. `get_summary` and `get_article` work normally when given an
+> exact article title, so go straight to titles you can name. Do not treat an empty
+> search as evidence that the field has no standard framework.
+
+1. **Ground the level scale in the real field.** Use `get_summary` and `get_article`
    to find how this subject is actually organised and whether it has a standard
    proficiency framework — CEFR for languages, grade/ABRSM levels for music, recognised
    subfield progressions elsewhere. Use the real framework when one exists; a named
