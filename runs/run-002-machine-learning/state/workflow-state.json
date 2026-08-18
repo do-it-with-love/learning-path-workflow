@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T11:58:50Z",
-  "updated_at": "2026-08-18T12:17:27Z",
+  "updated_at": "2026-08-18T16:32:31Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "project-curator"
@@ -32,29 +32,39 @@
       "updated_at": "2026-08-18T12:17:27Z"
     },
     "curator": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/resources.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/resources.md",
+      "digest": "sha256:ae1e8f26f08ddca8ba0062655db9575aa5b5f56a648d08f6eb477cde45bec362",
+      "updated_at": "2026-08-18T16:26:37Z"
     },
     "exercise-designer": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/exercises.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/exercises.md",
+      "digest": "sha256:0354469ee7911f476a219a466f8a20c698696c4a5460bedadd173af26eca3edf",
+      "updated_at": "2026-08-18T12:21:02Z"
     },
     "assessment-designer": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/assessments.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/assessments.md",
+      "digest": "sha256:028581df8334b08b26f8f82edff40d05a6fcab83e199f4bedf004848d50238ad",
+      "updated_at": "2026-08-18T12:21:19Z"
     },
     "schedule-planner": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/schedule.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/schedule.md",
+      "digest": "sha256:245d30b35dfeae84e740e626eca1c310f9da9dc3e37ee0a16071869dcb5ddbbd",
+      "updated_at": "2026-08-18T16:31:55Z"
     },
     "effort-budget-aggregator": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/effort-budget.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/effort-budget.md",
+      "digest": "sha256:6f0ef79397eaa798ff47f15b2fd7971a744643a1639fc2c720c61eb78d64e182",
+      "updated_at": "2026-08-18T16:32:31Z"
     },
     "validator": {
       "status": "pending",
@@ -110,6 +120,46 @@
       "event": "artifact_written",
       "step": "curriculum-architect",
       "artifact": "artifacts/curriculum.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T12:21:02Z",
+      "event": "artifact_written",
+      "step": "exercise-designer",
+      "artifact": "artifacts/exercises.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T12:21:19Z",
+      "event": "artifact_written",
+      "step": "assessment-designer",
+      "artifact": "artifacts/assessments.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T16:26:37Z",
+      "event": "artifact_written",
+      "step": "curator",
+      "artifact": "artifacts/resources.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T16:31:55Z",
+      "event": "artifact_written",
+      "step": "schedule-planner",
+      "artifact": "artifacts/schedule.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T16:32:31Z",
+      "event": "artifact_written",
+      "step": "effort-budget-aggregator",
+      "artifact": "artifacts/effort-budget.md",
       "attempt": 1,
       "invalidated": []
     }

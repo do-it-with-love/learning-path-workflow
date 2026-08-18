@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T11:56:59Z",
-  "updated_at": "2026-08-18T12:17:39Z",
+  "updated_at": "2026-08-18T16:35:26Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "video-curator"
@@ -32,14 +32,18 @@
       "updated_at": "2026-08-18T12:13:42Z"
     },
     "curator": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/resources.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/resources.md",
+      "digest": "sha256:bb80c7f4c682813c33452cbcb7903064ea669ba7d8c23d685150dc4967e8b945",
+      "updated_at": "2026-08-18T16:23:44Z"
     },
     "exercise-designer": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/exercises.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/exercises.md",
+      "digest": "sha256:c96694b08e91e0901e11ac570937d0cd495c41f886063a1a54a00dadfb022c1e",
+      "updated_at": "2026-08-18T12:20:28Z"
     },
     "assessment-designer": {
       "status": "done",
@@ -49,14 +53,18 @@
       "updated_at": "2026-08-18T12:17:39Z"
     },
     "schedule-planner": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/schedule.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/schedule.md",
+      "digest": "sha256:5aea47778c1cc2c40dbd1246dd5563eb933f4af4519431341b7ccf107ccd08b9",
+      "updated_at": "2026-08-18T16:35:26Z"
     },
     "effort-budget-aggregator": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "artifacts/effort-budget.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "artifacts/effort-budget.md",
+      "digest": "sha256:30e7322f9642148bb2e0778ca5e3aab12fa63fe2f0c0f3838f373276d69d4261",
+      "updated_at": "2026-08-18T16:27:59Z"
     },
     "validator": {
       "status": "pending",
@@ -120,6 +128,38 @@
       "event": "artifact_written",
       "step": "assessment-designer",
       "artifact": "artifacts/assessments.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T12:20:28Z",
+      "event": "artifact_written",
+      "step": "exercise-designer",
+      "artifact": "artifacts/exercises.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T16:23:44Z",
+      "event": "artifact_written",
+      "step": "curator",
+      "artifact": "artifacts/resources.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T16:27:59Z",
+      "event": "artifact_written",
+      "step": "effort-budget-aggregator",
+      "artifact": "artifacts/effort-budget.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-18T16:35:26Z",
+      "event": "artifact_written",
+      "step": "schedule-planner",
+      "artifact": "artifacts/schedule.md",
       "attempt": 1,
       "invalidated": []
     }
