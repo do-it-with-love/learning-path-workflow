@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "wikipedia": {
+      "command": ".venv/bin/wikipedia-mcp",
+      "args": [],
+      "env": {}
+    },
+    "openlibrary": {
+      "command": ".venv/bin/python",
+      "args": ["mcp-servers/openlibrary_mcp/server.py"],
+      "env": {}
+    }
+  }
+}

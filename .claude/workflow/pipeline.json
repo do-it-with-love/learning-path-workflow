@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "retry_limit": 3,
+  "description": "Declarative step graph for the Personalized Learning Assistant workflow. Single source of truth: the coordinator reads it to build the execution plan, and the hooks read it to enforce artifact ownership and to cascade staleness. Steps sharing a group number have no dependency on each other and MUST be dispatched in parallel.",
+
+  "steps": {
+    "requirements-formalizer": {
+      "group": 1,
+      "agent": "requirements-formalizer",
+      "artifact": "artifacts/requirements.md",
+      "depends_on": [],
+      "purpose": "Turn the raw request plus clarifying Q&A into confirmed, structured requirements."
+    },
+
+    "knowledge-assessor": {
+      "group": 2,
+      "agent": "knowledge-assessor",
+      "artifact": "artifacts/baseline-assessment.md",
+      "depends_on": ["requirements-formalizer"],
+      "modes": ["full", "light"],
+      "mode_rule": "light when requirements.current_level == 'absolute beginner' (skip the diagnostic, assert a zero baseline); otherwise full.",
+      "purpose": "Establish what the learner already knows and place them on a level scale."
+    },
+
+    "curriculum-architect": {
+      "group": 3,
+      "agent": "curriculum-architect",
+      "artifact": "artifacts/curriculum.md",
+      "depends_on": ["requirements-formalizer", "knowledge-assessor"],
+      "purpose": "Decompose the goal into ordered modules with objectives and prerequisites."
+    },
+
+    "curator": {
+      "group": 4,
+      "agent_choices": ["video-curator", "reading-curator", "project-curator"],
+      "selector": "requirements.preferred_modality -> video | reading | project",
+      "artifact": "artifacts/resources.md",
+      "depends_on": ["curriculum-architect"],
+      "purpose": "Source concrete, verifiable learning resources for every module. Exactly one variant runs per run."
+    },
+
+    "exercise-designer": {
+      "group": 4,
+      "agent": "exercise-designer",
+      "artifact": "artifacts/exercises.md",
+      "depends_on": ["curriculum-architect"],
+      "purpose": "Design hands-on practice per module. Keyed to module objectives, not to specific resources, so it can run in parallel with the curator."
+    },
+
+    "assessment-designer": {
+      "group": 4,
+      "agent": "assessment-designer",
+      "artifact": "artifacts/assessments.md",
+      "depends_on": ["curriculum-architect"],
+      "optional": true,
+      "skip_rule": "Skip when requirements.wants_assessments == false. Gate G5 then drops its assessment clause.",
+      "purpose": "Design checkpoints, self-tests and rubrics per module."
+    },
+
+    "schedule-planner": {
+      "group": 5,
+      "agent": "schedule-planner",
+      "artifact": "artifacts/schedule.md",
+      "depends_on": ["curator", "exercise-designer", "assessment-designer"],
+      "purpose": "Lay modules, resources and exercises onto a week-by-week calendar within the stated weekly budget."
+    },
+
+    "effort-budget-aggregator": {
+      "group": 5,
+      "agent": "effort-budget-aggregator",
+      "artifact": "artifacts/effort-budget.md",
+      "depends_on": ["curator", "exercise-designer", "assessment-designer"],
+      "purpose": "Total up hours and money across every module and resource."
+    },
+
+    "validator": {
+      "group": 6,
+      "agent": "validator",
+      "artifact": "artifacts/validation-report.md",
+      "depends_on": ["schedule-planner", "effort-budget-aggregator"],
+      "purpose": "Run every quality gate in gates.md and report pass/fail with findings and the owning step."
+    },
+
+    "learning-path-builder": {
+      "group": 7,
+      "agent": "learning-path-builder",
+      "artifact": "output/learning-path.md",
+      "depends_on": ["validator"],
+      "requires_gates_passed": true,
+      "purpose": "Synthesis subagent. Merge validated artifacts into one coherent learner-facing document."
+    },
+
+    "html-builder": {
+      "group": 8,
+      "agent": "html-builder",
+      "artifact": "output/learning-path.html",
+      "depends_on": ["learning-path-builder"],
+      "requires_approval": true,
+      "purpose": "Render the approved Markdown as a standalone HTML guide."
+    }
+  }
+}

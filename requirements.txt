@@ -1,0 +1,6 @@
+# Python dependencies for the MCP servers.
+# Hooks and scripts/ intentionally use only the standard library, so they keep
+# working even if this venv is missing.
+
+mcp>=1.2.0            # SDK for the custom Open Library MCP server
+wikipedia-mcp>=1.5.0  # community MCP server: https://pypi.org/project/wikipedia-mcp/
