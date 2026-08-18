@@ -103,6 +103,34 @@ None.
 """
 
 
+VALID_DOCUMENT = """# Spanish to B1 — Your Learning Path
+
+## Overview
+Six months.
+
+## Before You Start
+Nothing to buy.
+
+## Your Path Week by Week
+Week 1: greetings.
+
+## Modules
+Module 1.
+
+## Checkpoints and Progress
+Rubrics.
+
+## Resources
+Links.
+
+## Time and Cost
+Totals.
+
+## What Comes Next
+B2.
+"""
+
+
 def test_ownership(tmp: Path) -> None:
     print("\nno_leak_guard — artifact ownership & structure")
     run = make_run(tmp, "run-own")
@@ -137,24 +165,33 @@ def test_ownership(tmp: Path) -> None:
         run / "artifacts" / "curriculum.md", reordered))
     check("out-of-order sections denied", decision(out) == "deny")
 
-    print("\nno_leak_guard — output hygiene")
-    out, _ = run_hook("no_leak_guard.py", write_payload(
-        run / "output" / "learning-path.md", "# Your plan\n\nWeek 1: basics.\n"))
-    check("clean learner output allowed", decision(out) is None, f"got {out!r}")
+    print("\nno_leak_guard — final document structure")
+    doc = run / "output" / "learning-path.md"
+
+    out, _ = run_hook("no_leak_guard.py", write_payload(doc, VALID_DOCUMENT))
+    check("well-formed document allowed", decision(out) is None, f"got {out!r}")
 
     out, _ = run_hook("no_leak_guard.py", write_payload(
-        run / "output" / "learning-path.md",
-        "# Your plan\n\nSee artifacts/curriculum.md for detail.\n"))
+        doc, VALID_DOCUMENT.replace("## Time and Cost\nTotals.\n\n", "")))
+    check("document missing a section denied", decision(out) == "deny")
+
+    swapped = VALID_DOCUMENT.replace(
+        "## Modules\nModule 1.\n\n## Checkpoints and Progress\nRubrics.\n",
+        "## Checkpoints and Progress\nRubrics.\n\n## Modules\nModule 1.\n")
+    out, _ = run_hook("no_leak_guard.py", write_payload(doc, swapped))
+    check("document sections out of order denied", decision(out) == "deny")
+
+    print("\nno_leak_guard — output hygiene")
+    out, _ = run_hook("no_leak_guard.py", write_payload(
+        doc, VALID_DOCUMENT.replace("Module 1.", "See artifacts/curriculum.md.")))
     check("leaked artifact path denied", decision(out) == "deny")
 
     out, _ = run_hook("no_leak_guard.py", write_payload(
-        run / "output" / "learning-path.md",
-        "# Your plan\n\nBuilt by the curriculum-architect agent.\n"))
+        doc, VALID_DOCUMENT.replace("Module 1.", "Built by the curriculum-architect.")))
     check("leaked agent name denied", decision(out) == "deny")
 
     out, _ = run_hook("no_leak_guard.py", write_payload(
-        run / "output" / "learning-path.md",
-        "# Your plan\n\nModule 2 covers the curriculum for scales.\n"))
+        doc, VALID_DOCUMENT.replace("Module 1.", "Module 2 covers the curriculum for scales.")))
     check("ordinary word 'curriculum' not a false positive", decision(out) is None,
           f"got {out!r}")
 

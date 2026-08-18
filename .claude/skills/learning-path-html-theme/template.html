@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{GOAL}} — Learning Path</title>
+<style>
+  /* Light palette on bare :root; dark overrides the same tokens. */
+  :root {
+    --bg: #fbfaf8;
+    --surface: #ffffff;
+    --surface-alt: #f4f2ee;
+    --border: #ddd8d0;
+    --text: #1f1d1a;
+    --text-muted: #5f594f;
+    --accent: #7a5c2e;
+    --accent-soft: #f0e7d8;
+    --ok: #2f6b3f;
+    --warn: #8a5a12;
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 4px 12px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16150f;
+      --surface: #1e1d16;
+      --surface-alt: #262419;
+      --border: #3a372c;
+      --text: #ece8dd;
+      --text-muted: #a8a091;
+      --accent: #d9b46a;
+      --accent-soft: #2f2a1c;
+      --ok: #7fc08c;
+      --warn: #e0b062;
+      --shadow: none;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2.5rem 1.25rem 5rem;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 62rem; margin: 0 auto; }
+
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .5rem; letter-spacing: -.02em; }
+  h2 {
+    font-size: 1.35rem; margin: 3rem 0 1rem; padding-bottom: .4rem;
+    border-bottom: 2px solid var(--accent-soft);
+  }
+  h3 { font-size: 1.1rem; margin: 1.75rem 0 .5rem; }
+  h4 { font-size: .95rem; margin: 1.25rem 0 .4rem; color: var(--text-muted); }
+  p, li { margin: .5rem 0; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { text-decoration-thickness: 2px; }
+
+  /* Overview facts card */
+  .facts {
+    display: grid; gap: .75rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem; margin: 1.5rem 0; box-shadow: var(--shadow);
+  }
+  .facts div { display: flex; flex-direction: column; gap: .15rem; }
+  .facts dt, .facts .label {
+    font-size: .72rem; text-transform: uppercase; letter-spacing: .07em;
+    color: var(--text-muted);
+  }
+  .facts dd, .facts .value { margin: 0; font-size: 1.05rem; font-weight: 600; }
+
+  /* Tables: the page never scrolls sideways, the table does. */
+  .scroll { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .94rem; }
+  th, td { padding: .55rem .7rem; text-align: left; border-bottom: 1px solid var(--border); }
+  thead th {
+    position: sticky; top: 0; background: var(--surface-alt);
+    font-size: .75rem; text-transform: uppercase; letter-spacing: .05em;
+    color: var(--text-muted); border-bottom: 2px solid var(--border);
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:last-child td { border-bottom: none; }
+  tfoot td { font-weight: 700; border-top: 2px solid var(--border); }
+
+  /* Module cards */
+  .module {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.25rem 1.4rem; margin: 1.25rem 0; box-shadow: var(--shadow);
+  }
+  .module > h3 { margin-top: 0; }
+  .module .meta { color: var(--text-muted); font-size: .85rem; margin-bottom: .75rem; }
+
+  /* Rubric: three bands, labelled in text as well as colour */
+  .rubric { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+  .rubric .band {
+    border: 1px solid var(--border); border-radius: 8px; padding: .8rem 1rem;
+    background: var(--surface);
+  }
+  .rubric .band strong { display: block; margin-bottom: .3rem; }
+  .rubric .band.not-yet strong { color: var(--warn); }
+  .rubric .band.continue strong { color: var(--accent); }
+  .rubric .band.solid strong { color: var(--ok); }
+
+  /* Resource entries */
+  .resources { list-style: none; padding: 0; }
+  .resources li {
+    border-left: 3px solid var(--accent-soft); padding: .4rem 0 .4rem .85rem;
+    margin: .6rem 0;
+  }
+  .resources .detail { display: block; color: var(--text-muted); font-size: .85rem; }
+  .badge {
+    display: inline-block; padding: .05rem .45rem; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent);
+    font-size: .72rem; font-weight: 700; letter-spacing: .03em;
+  }
+
+  /* Caveats stay visible — never a footnote */
+  .caveat {
+    border-left: 4px solid var(--warn); background: var(--surface-alt);
+    padding: .8rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0;
+  }
+  .caveat strong { color: var(--warn); }
+
+  /* Tickable checklists */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { display: flex; gap: .6rem; align-items: flex-start; margin: .45rem 0; }
+  .checklist input[type="checkbox"] { margin-top: .35rem; flex: none; width: 1rem; height: 1rem; }
+
+  footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--border);
+           color: var(--text-muted); font-size: .85rem; }
+
+  @media print {
+    body { background: #fff; color: #000; padding: 0; font-size: 11pt; }
+    .module, .facts, .rubric .band { box-shadow: none; break-inside: avoid; }
+    h2 { break-after: avoid; }
+    thead th { position: static; }
+    a { color: #000; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; word-break: break-all; }
+    .caveat { border-left-color: #000; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>{{GOAL}} — Your Learning Path</h1>
+
+  <h2>Overview</h2>
+  <!-- Short paragraph, then the facts card. -->
+  <div class="facts">
+    <div><span class="label">Duration</span><span class="value">{{WEEKS}} weeks</span></div>
+    <div><span class="label">Weekly time</span><span class="value">{{HOURS}} h</span></div>
+    <div><span class="label">Total cost</span><span class="value">{{COST}}</span></div>
+    <div><span class="label">Starting level</span><span class="value">{{LEVEL}}</span></div>
+  </div>
+
+  <h2>Before You Start</h2>
+  <h2>Your Path Week by Week</h2>
+  <div class="scroll"><table class="schedule"><!-- week | focus | sessions | hours --></table></div>
+
+  <h2>Modules</h2>
+  <!-- One <section class="module"> per module. -->
+
+  <h2>Checkpoints and Progress</h2>
+  <!-- <div class="rubric"> with .band.not-yet / .band.continue / .band.solid -->
+
+  <h2>Resources</h2>
+  <!-- <ul class="resources"> grouped by module -->
+
+  <h2>Time and Cost</h2>
+  <div class="scroll"><table class="totals"><!-- numbers right-aligned via class="num" --></table></div>
+
+  <h2>What Comes Next</h2>
+
+  <footer>Generated {{DATE}}. Links were checked when this plan was built; if one has moved, search for the title.</footer>
+
+</main>
+</body>
+</html>

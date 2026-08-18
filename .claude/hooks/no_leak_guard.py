@@ -40,6 +40,20 @@ from wfstate import (  # noqa: E402
 REQUIRED_KEYS = ("artifact", "owner", "run_id", "status", "attempt", "inputs", "generated")
 REQUIRED_SECTIONS = ("## Summary", "## Findings", "## Sources", "## Open Questions")
 
+# The learner-facing document's fixed skeleton. Enforcing it here is what makes two
+# runs on the same input structurally comparable — a promise in a prompt would drift.
+DOCUMENT_PATH = "output/learning-path.md"
+DOCUMENT_SECTIONS = (
+    "## Overview",
+    "## Before You Start",
+    "## Your Path Week by Week",
+    "## Modules",
+    "## Checkpoints and Progress",
+    "## Resources",
+    "## Time and Cost",
+    "## What Comes Next",
+)
+
 # Literals that must never reach a learner-facing document.
 LEAK_LITERALS = ("artifacts/", "workflow-state.json", "approval.json", "pipeline.json", ".claude/")
 
@@ -143,6 +157,23 @@ def main() -> None:
                     f"'{rel}' has its sections out of order. Required order: "
                     f"{' → '.join(REQUIRED_SECTIONS)}."
                 )
+
+    # ------------------------------------------------ final document structure
+    if rel == DOCUMENT_PATH and is_full_write and content:
+        positions = [content.find(section) for section in DOCUMENT_SECTIONS]
+        absent = [s for s, p in zip(DOCUMENT_SECTIONS, positions) if p == -1]
+        if absent:
+            deny(
+                f"'{rel}' is missing required section(s): {', '.join(absent)}. The learner-"
+                "facing document uses a fixed skeleton so that repeated runs on the same "
+                "input stay comparable. Required order:\n  "
+                + "\n  ".join(DOCUMENT_SECTIONS)
+            )
+        if positions != sorted(positions):
+            deny(
+                f"'{rel}' has its sections out of order. Required order:\n  "
+                + "\n  ".join(DOCUMENT_SECTIONS)
+            )
 
     # -------------------------------------------------------------------- leaks
     if rel.startswith("output/") and content:
