@@ -57,6 +57,21 @@ If `claude mcp list` shows a server failing to start, the usual cause is that MC
 were not launched from the project root, so the relative paths in `.mcp.json` did not
 resolve. Replace them with absolute paths to `.venv/bin/`.
 
+### Known issues
+
+**`search_wikipedia` returns no results.** In the current `wikipedia-mcp` release the
+search tool answers every query with `"status": "no_results"`, while `get_summary` and
+`get_article` work normally against exact article titles. This is upstream, not a
+configuration problem, and it does not block the workflow: the two agents that use
+Wikipedia are instructed to go straight to titles they can name, and explicitly told not
+to read an empty search as evidence that a field has no standard structure. If a future
+release fixes it, nothing here needs changing.
+
+**Newly added components need a restart.** Claude Code registers subagents, MCP servers
+and hooks at session start. After a fresh clone — or after editing anything in
+`.claude/agents/`, `.claude/hooks/` or `.mcp.json` — restart Claude Code before running
+the workflow, or the agent types will not resolve and the hooks will not fire.
+
 ## Running
 
 ```bash
