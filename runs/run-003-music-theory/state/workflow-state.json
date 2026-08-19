@@ -1,9 +1,9 @@
 {
   "run_id": "run-003-music-theory",
   "schema_version": 1,
-  "status": "running",
+  "status": "awaiting_approval",
   "created_at": "2026-08-18T12:02:44Z",
-  "updated_at": "2026-08-19T03:54:41Z",
+  "updated_at": "2026-08-19T04:11:12Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "reading-curator"
@@ -72,18 +72,20 @@
       "stale_cause": "assessment-designer"
     },
     "validator": {
-      "status": "stale",
-      "attempts": 1,
+      "status": "done",
+      "attempts": 2,
       "artifact": "artifacts/validation-report.md",
-      "digest": "sha256:c067cac1c7e9a5c15c8cffc7aca963e7d07d408c553c33af577a63add1abe4bb",
-      "updated_at": "2026-08-18T21:34:39Z",
+      "digest": "sha256:aadaa3a78059d25469b42112b0d98f9193dc80dada358fbb96d7987c07a2553f",
+      "updated_at": "2026-08-19T04:01:45Z",
       "stale_since": "2026-08-18T21:39:52Z",
       "stale_cause": "assessment-designer"
     },
     "learning-path-builder": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "output/learning-path.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "output/learning-path.md",
+      "digest": "sha256:063a4542291120c3e4f809df0dc7d59ab6b4c2edbfe3ef4354d90dbcb511ea80",
+      "updated_at": "2026-08-19T04:09:57Z"
     },
     "html-builder": {
       "status": "pending",
@@ -93,17 +95,20 @@
   },
   "gates": {
     "G5": {
-      "status": "fail",
-      "owner": "assessment-designer",
-      "finding": "assessments.md promises cumulative reviews after Modules 3, 6 and 9 but Findings contains no Module 6 review",
-      "at": "2026-08-18T21:35:15Z"
+      "status": "pass",
+      "at": "2026-08-19T04:06:17Z"
+    },
+    "_summary": {
+      "status": "pass",
+      "at": "2026-08-19T04:06:17Z"
     }
   },
   "approval": {
     "status": "pending",
     "digest": null,
     "decided_at": null,
-    "feedback": []
+    "feedback": [],
+    "requested_digest": "sha256:063a4542291120c3e4f809df0dc7d59ab6b4c2edbfe3ef4354d90dbcb511ea80"
   },
   "retry_limit": 3,
   "history": [
@@ -220,6 +225,22 @@
       "step": "schedule-planner",
       "artifact": "artifacts/schedule.md",
       "attempt": 2,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T04:01:45Z",
+      "event": "artifact_written",
+      "step": "validator",
+      "artifact": "artifacts/validation-report.md",
+      "attempt": 2,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T04:09:57Z",
+      "event": "artifact_written",
+      "step": "learning-path-builder",
+      "artifact": "output/learning-path.md",
+      "attempt": 1,
       "invalidated": []
     }
   ]

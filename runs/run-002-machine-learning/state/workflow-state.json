@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T11:58:50Z",
-  "updated_at": "2026-08-19T03:52:57Z",
+  "updated_at": "2026-08-19T04:09:56Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "project-curator"
@@ -33,11 +33,11 @@
     },
     "curator": {
       "status": "done",
-      "attempts": 2,
+      "attempts": 3,
       "artifact": "artifacts/resources.md",
-      "digest": "sha256:fd3f8bf39166a894e7265a9271c77456940614a2faebee7a1c0e7cad55ae46cf",
-      "updated_at": "2026-08-18T21:42:59Z",
-      "stale_cause": "G1,G8"
+      "digest": "sha256:31e5eb347418291ded3732e327d43496d4e909263040836d8a4fc73e72dcf963",
+      "updated_at": "2026-08-19T04:04:35Z",
+      "stale_cause": "G8 attempt 3 of 3"
     },
     "exercise-designer": {
       "status": "done",
@@ -55,29 +55,29 @@
     },
     "schedule-planner": {
       "status": "done",
-      "attempts": 2,
+      "attempts": 3,
       "artifact": "artifacts/schedule.md",
-      "digest": "sha256:07b9c9cc7f38bc131a0b88a3e34ad3d096e58ba96ad796001a44205c6aeec395",
-      "updated_at": "2026-08-18T21:46:10Z",
-      "stale_since": "2026-08-18T21:42:59Z",
+      "digest": "sha256:b63b9498bc01d12cdfc3ef1b3a992999aabcfe47a16ce8410fdc117628f89fce",
+      "updated_at": "2026-08-19T04:08:50Z",
+      "stale_since": "2026-08-19T04:04:35Z",
       "stale_cause": "curator"
     },
     "effort-budget-aggregator": {
       "status": "done",
-      "attempts": 2,
+      "attempts": 3,
       "artifact": "artifacts/effort-budget.md",
-      "digest": "sha256:843f221737b55a4f0e3b13129b1ca8d9c12b6cf0679d30425bb1deeb83c475bb",
-      "updated_at": "2026-08-18T21:46:49Z",
-      "stale_since": "2026-08-18T21:42:59Z",
+      "digest": "sha256:97e2946a54008ec1a7786561954890cd7432c938bd38b25a1f2a1639638a0587",
+      "updated_at": "2026-08-19T04:09:56Z",
+      "stale_since": "2026-08-19T04:04:35Z",
       "stale_cause": "curator"
     },
     "validator": {
-      "status": "done",
+      "status": "stale",
       "attempts": 2,
       "artifact": "artifacts/validation-report.md",
       "digest": "sha256:83255737cf673669b90734e41e33735218683cf371266fd06681a2168ef334c8",
       "updated_at": "2026-08-19T03:52:57Z",
-      "stale_since": "2026-08-18T21:42:59Z",
+      "stale_since": "2026-08-19T04:04:35Z",
       "stale_cause": "curator"
     },
     "learning-path-builder": {
@@ -101,8 +101,8 @@
     "G8": {
       "status": "fail",
       "owner": "curator",
-      "finding": "interactive ratio is 10/17 (58.8%), not the claimed 70.6%; two sklearn examples run passively on demo data",
-      "at": "2026-08-18T21:35:15Z"
+      "finding": "Learn Pandas (Module 1) is a guided read-along, not graded work; corrected ratio 11/17 (64.7%)",
+      "at": "2026-08-19T03:57:58Z"
     }
   },
   "approval": {
@@ -234,6 +234,41 @@
       "step": "validator",
       "artifact": "artifacts/validation-report.md",
       "attempt": 2,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T03:57:58Z",
+      "event": "mark",
+      "step": "curator",
+      "status": "failed",
+      "reason": "G8 attempt 3 of 3"
+    },
+    {
+      "at": "2026-08-19T04:04:35Z",
+      "event": "artifact_written",
+      "step": "curator",
+      "artifact": "artifacts/resources.md",
+      "attempt": 3,
+      "invalidated": [
+        "effort-budget-aggregator",
+        "schedule-planner",
+        "validator"
+      ]
+    },
+    {
+      "at": "2026-08-19T04:08:50Z",
+      "event": "artifact_written",
+      "step": "schedule-planner",
+      "artifact": "artifacts/schedule.md",
+      "attempt": 3,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T04:09:56Z",
+      "event": "artifact_written",
+      "step": "effort-budget-aggregator",
+      "artifact": "artifacts/effort-budget.md",
+      "attempt": 3,
       "invalidated": []
     }
   ]

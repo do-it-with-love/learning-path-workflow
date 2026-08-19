@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T11:56:59Z",
-  "updated_at": "2026-08-19T03:57:23Z",
+  "updated_at": "2026-08-19T04:10:37Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "video-curator"
@@ -33,11 +33,11 @@
     },
     "curator": {
       "status": "done",
-      "attempts": 2,
+      "attempts": 3,
       "artifact": "artifacts/resources.md",
-      "digest": "sha256:68257178c9ac2c95b7ef8748472c74d991c6be872b7307959b983b18b4738915",
-      "updated_at": "2026-08-18T21:45:44Z",
-      "stale_cause": "G7,G8"
+      "digest": "sha256:57dc1940207a3bde53d6ae703d47aaf25accae34654b14f0b2ab2f2c2297cc0a",
+      "updated_at": "2026-08-19T04:10:37Z",
+      "stale_cause": "G8 attempt 3 of 3"
     },
     "exercise-designer": {
       "status": "done",
@@ -54,30 +54,30 @@
       "updated_at": "2026-08-18T12:17:39Z"
     },
     "schedule-planner": {
-      "status": "done",
+      "status": "stale",
       "attempts": 2,
       "artifact": "artifacts/schedule.md",
       "digest": "sha256:95e466b9daa2913056a4041bd9013c6a7c83ea63e66d2a1e9a07fe3fa9262d36",
       "updated_at": "2026-08-18T21:50:27Z",
-      "stale_since": "2026-08-18T21:43:55Z",
+      "stale_since": "2026-08-19T04:10:37Z",
       "stale_cause": "curator"
     },
     "effort-budget-aggregator": {
-      "status": "done",
+      "status": "stale",
       "attempts": 2,
       "artifact": "artifacts/effort-budget.md",
       "digest": "sha256:d9927a5b983b82efecb5f47fc25767eeaea98904a5b7a4d97ecab2e7e0c8f112",
       "updated_at": "2026-08-18T21:50:19Z",
-      "stale_since": "2026-08-18T21:43:55Z",
+      "stale_since": "2026-08-19T04:10:37Z",
       "stale_cause": "curator"
     },
     "validator": {
-      "status": "done",
+      "status": "stale",
       "attempts": 2,
       "artifact": "artifacts/validation-report.md",
       "digest": "sha256:793d617e16111c2b3d85b0c47f86de89329515b326cddfc4b97be4df1f3be0d4",
       "updated_at": "2026-08-19T03:51:42Z",
-      "stale_since": "2026-08-18T21:43:55Z",
+      "stale_since": "2026-08-19T04:10:37Z",
       "stale_cause": "curator"
     },
     "learning-path-builder": {
@@ -250,6 +250,25 @@
       "reason": "attempt counter over-counted a double write within one dispatch",
       "changes": [
         "curator: 3 -> 2"
+      ]
+    },
+    {
+      "at": "2026-08-19T03:57:58Z",
+      "event": "mark",
+      "step": "curator",
+      "status": "failed",
+      "reason": "G8 attempt 3 of 3"
+    },
+    {
+      "at": "2026-08-19T04:10:37Z",
+      "event": "artifact_written",
+      "step": "curator",
+      "artifact": "artifacts/resources.md",
+      "attempt": 3,
+      "invalidated": [
+        "effort-budget-aggregator",
+        "schedule-planner",
+        "validator"
       ]
     }
   ]
