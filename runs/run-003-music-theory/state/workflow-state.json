@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T12:02:44Z",
-  "updated_at": "2026-08-18T21:45:52Z",
+  "updated_at": "2026-08-19T03:54:41Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "reading-curator"
@@ -54,11 +54,11 @@
       "stale_cause": "G5"
     },
     "schedule-planner": {
-      "status": "stale",
-      "attempts": 1,
+      "status": "done",
+      "attempts": 2,
       "artifact": "artifacts/schedule.md",
-      "digest": "sha256:13a1928b156bace2c95b637273345c651c45d0d9fb68813789e6f7934089eeda",
-      "updated_at": "2026-08-18T16:33:43Z",
+      "digest": "sha256:8eeb763153329f752becf37dd643a4a4d7f4543ed45ddd0ddd8f54b7af7d3657",
+      "updated_at": "2026-08-19T03:54:41Z",
       "stale_since": "2026-08-18T21:39:52Z",
       "stale_cause": "assessment-designer"
     },
@@ -211,6 +211,14 @@
       "event": "artifact_written",
       "step": "effort-budget-aggregator",
       "artifact": "artifacts/effort-budget.md",
+      "attempt": 2,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T03:54:41Z",
+      "event": "artifact_written",
+      "step": "schedule-planner",
+      "artifact": "artifacts/schedule.md",
       "attempt": 2,
       "invalidated": []
     }

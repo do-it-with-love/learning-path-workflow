@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T11:56:59Z",
-  "updated_at": "2026-08-18T21:50:27Z",
+  "updated_at": "2026-08-19T03:57:23Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "video-curator"
@@ -33,7 +33,7 @@
     },
     "curator": {
       "status": "done",
-      "attempts": 3,
+      "attempts": 2,
       "artifact": "artifacts/resources.md",
       "digest": "sha256:68257178c9ac2c95b7ef8748472c74d991c6be872b7307959b983b18b4738915",
       "updated_at": "2026-08-18T21:45:44Z",
@@ -72,11 +72,11 @@
       "stale_cause": "curator"
     },
     "validator": {
-      "status": "stale",
-      "attempts": 1,
+      "status": "done",
+      "attempts": 2,
       "artifact": "artifacts/validation-report.md",
-      "digest": "sha256:3aa38f2d5d1b14e0e121c647df2b7b39e2bbafabe662f901ac126a87648a36e1",
-      "updated_at": "2026-08-18T21:34:05Z",
+      "digest": "sha256:793d617e16111c2b3d85b0c47f86de89329515b326cddfc4b97be4df1f3be0d4",
+      "updated_at": "2026-08-19T03:51:42Z",
       "stale_since": "2026-08-18T21:43:55Z",
       "stale_cause": "curator"
     },
@@ -101,8 +101,8 @@
     "G8": {
       "status": "fail",
       "owner": "curator",
-      "finding": "video ratio is 18/26 (69.2%), below the 70% floor; curator claimed 20/26 (76.9%)",
-      "at": "2026-08-18T21:35:00Z"
+      "finding": "genuine video ratio is 17/27 (62.96%), worse than attempt 1; four LightSpeed pages labelled video have an empty video heading and only an MP3 player",
+      "at": "2026-08-19T03:55:55Z"
     }
   },
   "approval": {
@@ -235,6 +235,22 @@
       "artifact": "artifacts/schedule.md",
       "attempt": 2,
       "invalidated": []
+    },
+    {
+      "at": "2026-08-19T03:51:42Z",
+      "event": "artifact_written",
+      "step": "validator",
+      "artifact": "artifacts/validation-report.md",
+      "attempt": 2,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T03:57:23Z",
+      "event": "recount",
+      "reason": "attempt counter over-counted a double write within one dispatch",
+      "changes": [
+        "curator: 3 -> 2"
+      ]
     }
   ]
 }

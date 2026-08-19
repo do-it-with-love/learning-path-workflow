@@ -74,9 +74,17 @@ def main() -> None:
         steps = state.setdefault("steps", {})
         entry = steps.setdefault(step, {"status": "pending", "attempts": 0})
 
-        # One write per dispatch is the rule (see CLAUDE.md), so writes are the
-        # honest measure of attempts.
-        entry["attempts"] = int(entry.get("attempts", 0)) + 1
+        # An attempt is a *production* of the artifact, not a write of it. Only
+        # count when the step was not already done: a step that rewrites its own
+        # artifact twice inside one dispatch is still one attempt.
+        #
+        # The earlier version counted every write and relied on a prompt telling
+        # agents to write exactly once. That is exactly the kind of instruction
+        # this layer exists to not depend on — an agent that revised its own file
+        # burned a retry it had not used, and could be blocked while attempts
+        # genuinely remained.
+        if entry.get("status") != "done":
+            entry["attempts"] = int(entry.get("attempts", 0)) + 1
         entry["status"] = "done"
         entry["artifact"] = rel
         entry["digest"] = digest

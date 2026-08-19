@@ -282,8 +282,9 @@ def test_state(tmp: Path) -> None:
     curriculum.write_text(VALID_ARTIFACT.replace("Six modules.", "Five modules."))
     run_hook("post_write_state.py", payload)
     state = json.loads((run / "state" / "workflow-state.json").read_text())
-    check("second write increments attempts",
-          state["steps"]["curriculum-architect"]["attempts"] == 2)
+    check("rewriting a done artifact does not inflate attempts",
+          state["steps"]["curriculum-architect"]["attempts"] == 1,
+          f"got {state['steps']['curriculum-architect']['attempts']}")
     check("direct dependent marked stale",
           state["steps"]["schedule-planner"]["status"] == "stale")
     check("transitive dependent marked stale",
@@ -296,6 +297,38 @@ def test_state(tmp: Path) -> None:
         "tool_input": {"file_path": "/etc/passwd", "content": "x"},
     })
     check("non-run paths ignored", err == "", err)
+
+    # Regression: an agent that revises its own artifact inside one dispatch must
+    # not burn a retry. Counting raw writes once blocked a run that still had an
+    # attempt left, which is why attempts now track productions, not writes.
+    print("\npost_write_state — one dispatch is one attempt")
+    run = make_run(tmp, "run-double")
+    art = run / "artifacts" / "curriculum.md"
+    payload = {
+        "hook_event_name": "PostToolUse", "tool_name": "Write",
+        "tool_input": {"file_path": str(art), "content": VALID_ARTIFACT},
+    }
+    art.write_text(VALID_ARTIFACT)
+    run_hook("post_write_state.py", payload)
+    art.write_text(VALID_ARTIFACT.replace("Six modules.", "Six modules, revised."))
+    run_hook("post_write_state.py", payload)
+    art.write_text(VALID_ARTIFACT.replace("Six modules.", "Six modules, again."))
+    run_hook("post_write_state.py", payload)
+
+    state = json.loads((run / "state" / "workflow-state.json").read_text())
+    entry = state["steps"]["curriculum-architect"]
+    check("three writes in one dispatch count as one attempt",
+          entry["attempts"] == 1, f"got {entry['attempts']}")
+
+    # A genuine retry — the coordinator marks the step failed first — does count.
+    entry["status"] = "failed"
+    (run / "state" / "workflow-state.json").write_text(json.dumps(state, indent=2))
+    art.write_text(VALID_ARTIFACT.replace("Six modules.", "Five modules."))
+    run_hook("post_write_state.py", payload)
+    state = json.loads((run / "state" / "workflow-state.json").read_text())
+    check("a marked retry does count as a new attempt",
+          state["steps"]["curriculum-architect"]["attempts"] == 2,
+          f"got {state['steps']['curriculum-architect']['attempts']}")
 
 
 def main() -> int:

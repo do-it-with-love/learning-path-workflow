@@ -305,6 +305,75 @@ def cmd_gate(args: argparse.Namespace) -> int:
     return 0
 
 
+# ---------------------------------------------------------------------- recount
+
+
+def cmd_recount(args: argparse.Namespace) -> int:
+    """Rebuild attempt counters by replaying the run's own history log.
+
+    Repairs runs recorded before post_write_state.py stopped counting every write
+    as an attempt. This is deliberately NOT a way to reset the retry limit: it
+    derives each count from the logged events, so a step that genuinely burned
+    three dispatches still reads three afterwards.
+    """
+    run_dir = run_dir_for(args.run_id)
+    pipeline = load_pipeline(ROOT)
+
+    with state_lock(run_dir):
+        state = load_state(run_dir)
+        history = state.get("history") or []
+        if not history:
+            sys.exit("ERROR: this run has no history log; nothing to replay")
+
+        status: dict[str, str] = {name: "pending" for name in pipeline["steps"]}
+        attempts: dict[str, int] = {name: 0 for name in pipeline["steps"]}
+
+        for event in history:
+            kind = event.get("event")
+            step = event.get("step")
+            if kind == "artifact_written" and step in status:
+                if status[step] != "done":
+                    attempts[step] += 1
+                status[step] = "done"
+                for dependent in event.get("invalidated") or []:
+                    if dependent in status:
+                        status[dependent] = "stale"
+            elif kind == "mark" and step in status:
+                if event.get("status") in status.values() or event.get("status"):
+                    status[step] = event["status"]
+            elif kind == "verify":
+                for change in event.get("changes") or []:
+                    name, _, rest = change.partition(":")
+                    name = name.strip()
+                    if name in status and "->" in rest:
+                        status[name] = rest.rsplit("->", 1)[1].strip()
+
+        changed = []
+        for name, count in attempts.items():
+            entry = state.get("steps", {}).get(name)
+            if entry is None:
+                continue
+            if int(entry.get("attempts", 0)) != count:
+                changed.append(f"{name}: {entry.get('attempts')} -> {count}")
+                entry["attempts"] = count
+
+        if changed:
+            state.setdefault("history", []).append({
+                "at": utcnow(), "event": "recount",
+                "reason": args.reason or "replayed history after attempt-counting fix",
+                "changes": changed,
+            })
+            save_state(run_dir, state)
+
+    if changed:
+        print("attempt counters corrected from the history log:")
+        for line in changed:
+            print(f"  {line}")
+    else:
+        print("attempt counters already match the history log")
+    return 0
+
+
 # -------------------------------------------------------------- request approval
 
 
@@ -372,6 +441,9 @@ def main() -> int:
     p.add_argument("--all-pass", action="store_true")
     p.add_argument("--fail", action="append", metavar="G1=owner:finding")
     p.set_defaults(func=cmd_gate)
+
+    p = sub.add_parser("recount"); p.add_argument("run_id"); p.add_argument("--reason")
+    p.set_defaults(func=cmd_recount)
 
     p = sub.add_parser("request-approval"); p.add_argument("run_id")
     p.set_defaults(func=cmd_request_approval)
