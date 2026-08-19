@@ -3,7 +3,7 @@ artifact: validation-report
 owner: validator
 run_id: run-002-machine-learning
 status: final
-attempt: 2
+attempt: 3
 inputs:
   - artifacts/requirements.md
   - artifacts/baseline-assessment.md
@@ -13,33 +13,25 @@ inputs:
   - artifacts/assessments.md
   - artifacts/schedule.md
   - artifacts/effort-budget.md
-generated: 2026-08-19T12:00:00Z
+generated: 2026-08-19T16:00:00Z
 ---
 
 # Validation Report — Machine Learning (classical, project-based)
 
 ## Summary
 
-**1 GATE(S) FAILED.** G1 is now genuinely fixed (re-derived from scratch, not
-trusted from agreement between `resources.md`, `schedule.md`, and
-`effort-budget.md`): every module subtotal in `resources.md` attempt 2 is now an
-explicit sum of its own resource lines, the weekly totals in `schedule.md` inherit
-those correctly, and the heaviest week (Week 3) lands at 191 min against the 198 min
-ceiling. G2, G3, G4, G5, G6, G7, and G9 all pass on independently re-derived
-numbers. **G8 still fails**, on a different resource than last time: `resources.md`
-attempt 2 counts "Learn Pandas" (Module 1) as interactive/project-based, but the
-artifact's own "what the learner does" text describes its cited portion as "guided —
-... follow worked examples" and explicitly labels it a "guided read-along," not the
-"independent auto-graded application" it pairs it with — the exact passive-following
-pattern that disqualified the two resources removed in attempt 2. Recounting with
-"Learn Pandas" moved to reference gives **11/17 = 64.7%** interactive/project-based,
-5.3 points under the 70% floor, not the claimed 70.6%.
-
-**Steps to re-run: `curator` only** (fixes G8's root cause; `schedule-planner` and
-`effort-budget-aggregator` will need to re-run again via the automatic staleness
-cascade once `resources.md` changes, purely to re-confirm their totals still tie out
-— neither is expected to need a substantive rebalance since G8 is a classification
-question, not a time-budget one, but the cascade will re-run them regardless).
+**ALL GATES PASS.** No steps need re-running. This is the third and final allowed
+attempt, following `curator` attempt 3's fix to G8: rather than patch only the named
+"Learn Pandas" instance, `curator` audited all 17 attempt-2 resources for the same
+tutorial-page-credited-with-graded-work pattern, found three more instances (Module 2
+"Intro to Machine Learning," Module 7 "Cross-Validation," Module 8 "Pipelines"), and
+re-cited all four against their actual per-lesson exercise notebooks. Two two-lesson
+citations split into per-lesson ones, taking the resource count from 17 to 19. Every
+number in this report was re-derived independently from the artifacts' own itemized
+lines — not accepted from any subtotal, and not accepted merely because
+`schedule-planner` and `effort-budget-aggregator` (both attempt 3) agree with each
+other, since on this same run three artifacts once agreed on a wrong number by copying
+one bad table. All nine gates pass on this independent re-derivation.
 
 ## Findings
 
@@ -47,219 +39,208 @@ question, not a time-budget one, but the cascade will re-run them regardless).
 
 **PASS**
 
-Re-derived independently from `resources.md`'s own itemized resource lines (not
-copied from any subtotal), `exercises.md`'s practice-load table, and
-`assessments.md`'s per-checkpoint times:
+Re-derived from `resources.md` attempt 3's 19 itemized resource lines, `exercises.md`'s
+unchanged practice table, and `assessments.md`'s unchanged checkpoint times — added by
+hand, not copied from any artifact's stated subtotal:
 
-| Module/week block | Resource (min) | Practice (min) | Checkpoint (min) | Week total (min) | ≤198? |
-|---|---|---|---|---|---|
-| 1 | 60+20+6=86 | 10+15=25 | 15 | **126** | Yes |
-| 2 | 120+20=140 | 10+20=30 | 15 | **185** | Yes |
-| 3 | 120+20+6=146 | 10+20=30 | 15 | **191** | Yes |
-| 4 (+ Review 1) | 30+30=60 | 10+20=30 | 15+20=35 | **125** | Yes |
-| 5 | 120+6=126 | 10+20=30 | 15 | **171** | Yes |
-| 6 (+ Review 2) | 30+60=90 | 10+20=30 | 15+20=35 | **155** | Yes |
-| 7 | 90+30=120 | 15+15+15=45 | 20 | **185** | Yes |
-| 8 | 30+90=120 | 10+20=30 | 15 | **165** | Yes |
-| 9 (wk 9, capstone pt.1) | — | — | — | **180** | Yes |
-| 10 (wk 10, capstone pt.2) | — | — | — | **130** | Yes |
+| Week | Content | Resource (min) | Practice (min) | Checkpoint (min) | Week total | ≤198? |
+|---|---|---|---|---|---|---|
+| 1 | Module 1 | 6+30+30+20=86 | 10+15=25 | 15 | **126** | Yes |
+| 2 | Module 2 | 20+60+60=140 | 10+20=30 | 15 | **185** | Yes |
+| 3 | Module 3 | 6+120+20=146 | 10+20=30 | 15 | **191** | Yes |
+| 4 | Review 1 + Module 4 | 30+30=60 | 10+20=30 | 15+20=35 | **125** | Yes |
+| 5 | Module 5 | 6+120=126 | 10+20=30 | 15 | **171** | Yes |
+| 6 | Module 6 + Review 2 | 30+60=90 | 10+20=30 | 15+20=35 | **155** | Yes |
+| 7 | Module 7 | 90+30=120 | 15+15+15=45 | 20 | **185** | Yes |
+| 8 | Module 8 | 30+90=120 | 10+20=30 | 15 | **165** | Yes |
+| 9 | Module 9 pt.1 | — | — | — | **180** | Yes |
+| 10 | Module 9 pt.2 | — | — | — | **130** | Yes |
 
-Module 9's two-week split (180 + 130 = 310 min) matches `resources.md`'s own
-310-min (5.17h) capstone total exactly, even though `schedule.md` breaks that time
-into "build / diagnose / write-up" labels rather than the "300 build + 10 setup"
-labels `resources.md` uses — the totals reconcile.
+Sum: 126+185+191+125+171+155+185+165+180+130 = **1,613 min**, matching the grand
+total below exactly (cross-check by two independent routes).
 
-Resource-hours grand total, checked by direct addition of every module's own line:
-86+140+146+60+126+90+120+120+310 = **1,198 min = 19.97h** (matches `resources.md`'s
-stated 19.97h). Exercises: 25+30+30+30+30+30+45+30 = **250 min** (Module 9's 10 min
-excluded — both `exercises.md` and its consumers explicitly treat it as embedded in
-the capstone's own 5h, not additive; confirmed, not merely trusted). Assessments:
-15×7 + 20 + 20×2 = **165 min**. Grand total: 1,198+250+165 = **1,613 min = 26.88h**
-against 1,800 min (30h) capacity — **187 min = 3.12h = 10.4% slack**, genuine
-margin, thinner than the 15% guideline but not manufactured.
+Module-level resource sum, checked one line at a time against `resources.md`
+attempt 3's own Findings section (not its Coverage-check table): Module 1
+(30+30+20+6=86), Module 2 (20+60+60=140), Module 3 (120+20+6=146), Module 4
+(30+30=60), Module 5 (120+6=126), Module 6 (30+60=90), Module 7 (90+30=120), Module 8
+(90+30=120), Module 9 (300+10=310). Total: 86+140+146+60+126+90+120+120+310 =
+**1,198 min = 19.97h** — matches `resources.md`'s stated total exactly, and matches
+attempt 2's total exactly, confirming the four citation swaps and two line-splits
+neither dropped nor double-counted a minute. Exercises: 25+30+30+30+30+30+45+30 =
+**250 min** (Module 9's 10 min correctly excluded as embedded, not additive — both
+`exercises.md` and its consumers say so explicitly). Assessments: 7 checkpoints × 15 +
+20 (Module 7) + 2×20 (cumulative reviews) = 105+20+40 = **165 min**.
+
+Grand total: 1,198 + 250 + 165 = **1,613 min = 26.88h**, against 1,800 min (30h)
+capacity — **187 min = 3.12h = 10.4% slack** (187/1,800 = 0.1039). Genuine margin,
+thinner than the 15% guideline but arithmetically real, unchanged from attempt 2 by
+independent re-derivation from a differently-shaped (19-line, not 17-line) resource
+list — the strongest form of confirmation available.
 
 Heaviest week: **Week 3 at 191 min**, 7 min under the 198 min ceiling (96.5% of
-ceiling, 106.1% of the 180-min per-week target) — the exact week that breached the
-ceiling at 201 min in attempt 1. The fix traces correctly to `resources.md`: Module
-3's true resource-line sum is 146 min (120+20+6), not attempt 1's undercounted 126
-min or the validator's own attempt-1 correction of 156 min (which assumed the
-Logistic Regression read stayed at its original, more generous estimate — `curator`
-instead trimmed that read's own duration in this revision, a legitimate, disclosed
-choice, not a second undercount).
+ceiling). Unchanged from attempt 2, correctly, since Module 3 was not touched by this
+attempt's citation swaps.
 
 ### G2 — Deadline (≤ `horizon_weeks` = 10)
 
 **PASS** — `schedule.md` uses exactly 10 weeks; all 9 modules from `curriculum.md`
-appear (Module 9 spans Weeks 9–10 as one deliberate contiguous capstone block). 10 ≤
-10, zero weeks of margin, as `schedule.md` itself states.
+appear (Module 9 spans Weeks 9–10 as one deliberate contiguous capstone block).
+10 ≤ 10, zero weeks of margin.
 
 ### G3 — Cost (≤ `requirements.budget` = 0, free-only, hard constraint — NOT skipped)
 
-**PASS** — All 17 resources in `resources.md`/`effort-budget.md`'s money table are
-$0, independently re-summed: 17 rows × $0 = $0 ≤ $0. The Kaggle phone-verification
-question flagged unresolved in attempt 1 is now closed (websearch-verified this run:
-phone verification gates progression points/medals/public Models, not "Getting
-Started" competition submissions) — no hidden fee anywhere sampled. Titles for the
-Titanic and House Prices competition pages resolved live via WebFetch this run and
-match their citations (see Link sample); Kaggle's client-rendered pages did not
-return fee/status detail beyond the title, so this is a liveness check, not an
-independent fee re-derivation — noted in Open Questions.
+**PASS** — All 19 resources in `resources.md` attempt 3 / `effort-budget.md`'s money
+table checked individually: every one is $0, including all four resources swapped or
+split this attempt for the G8 fix (all four require only the same free Kaggle account
+already budgeted since Module 1 — no new signup, no paid tier). 19 rows × $0 = $0 ≤
+$0. The Kaggle phone-verification question (resolved in attempt 2, carried forward)
+holds: phone verification gates progression points/medals/public Models, not
+"Getting Started" competition submissions — re-confirmed present in `resources.md`'s
+Sources this attempt, dated within this run.
 
 ### G4 — Prerequisite ordering
 
-**PASS** — Unchanged from attempt 1 (`curriculum.md` was not re-run): all 9 modules'
-`Prerequisites` reference only earlier module numbers (2→1, 3→2, 4→3, 5→2, 6→5,
-7→{4,6}, 8→7, 9→{1–8}). Module 1's assumed baseline ("programming fundamentals only")
-matches exactly what `baseline-assessment.md` marks **Known**; every gap it marks
-**Absent** is taught, not assumed, starting in Module 1.
+**PASS** — `curriculum.md` was not re-run this attempt; unchanged from the version
+already validated. All 9 modules' `Prerequisites` reference only earlier module
+numbers (2→1, 3→2, 4→3, 5→2, 6→5, 7→{4,6}, 8→7, 9→{1–8}). Module 1's assumed
+baseline ("programming fundamentals only") matches exactly what `baseline-assessment.md`
+marks **Known**; every gap it marks **Absent** is taught, not assumed, starting in
+Module 1.
 
 ### G5 — Outcome coverage and per-module completeness
 
-**PASS** (full clause applies — `assessment-designer` ran). All 6 target outcomes
-map to ≥1 module. Every module 1–9 has ≥1 resource (`resources.md`: counts are
-2,2,2,2,1,2,2,2,2 — Module 5 now has exactly 1 after the OLS/Ridge removal, still
-≥1), ≥1 exercise (`exercises.md`: 2,2,2,2,2,2,3,2,1 — Module 9's capstone self-audit
-checklist counts as 1), and ≥1 assessment (`assessments.md`: one checkpoint per
-module 1–8, Module 9's assessment is explicitly the Final check).
+**PASS** (full clause applies — `assessment-designer` ran, `wants_assessments` = true).
+All 6 target outcomes map to ≥1 module (unchanged, `curriculum.md` not re-run).
+Resource counts per module, recounted from `resources.md` attempt 3's 19 lines: 3, 3,
+2, 2, 1, 2, 2, 2, 2 — all ≥1 (Module 1 and 2 gained a resource each from the citation
+splits). Exercise counts (`exercises.md`, unchanged): 2, 2, 2, 2, 2, 2, 3, 2, 1 — all
+≥1. Assessment counts (`assessments.md`, unchanged): one checkpoint per module 1–8,
+Module 9's assessment is the Final check — all ≥1.
 
 ### G6 — No duplicate resource URLs
 
-**PASS** — All 17 URLs in `resources.md` attempt 2 are distinct, checked
-individually. The Module 8 pair is a genuine G6 concern given last attempt's swap,
-and it holds up: `.../code/alexisbcook/pipelines` (Pipelines lesson) and
-`.../code/alexisbcook/exercise-categorical-variables` (the new Categorical Variables
-exercise) are different URL paths; live WebFetch confirms different page titles
-("Pipelines | Kaggle" vs. "Exercise: Categorical Variables | Kaggle" — see Link
-sample), confirming two distinct lessons, not a relabeled duplicate. The
-`#classification-metrics` / `#regression-metrics` anchor pair (Modules 4 and 6) is
-the same sanctioned same-page/different-anchor exception noted in attempt 1.
+**PASS** — All 19 URLs in `resources.md` attempt 3 checked individually; all distinct.
+The two new split-off pairs (Module 1: `exercise-creating-reading-and-writing` /
+`exercise-indexing-selecting-assigning` / `exercise-summary-functions-and-maps`;
+Module 2: `exercise-your-first-machine-learning-model` / `exercise-model-validation`)
+are five and two distinct URL paths respectively, confirmed live via WebFetch this
+round (see Link sample) — genuinely different lesson pages, not a relabeled
+duplicate. The `#classification-metrics` / `#regression-metrics` anchor pair (Modules
+4 and 6) remains the same sanctioned same-page/different-anchor exception validated in
+attempts 1 and 2.
 
 ### G7 — Citation verification
 
-**PASS** — All 17 resource lines in `resources.md` carry a `verified:` method and a
-this-run date (`2026-08-18` or `2026-08-19` — both within this run per the date
-note). Sampled 10 of 17 resource URLs via live WebFetch this round (well above the
-3-URL minimum): all 10 resolved with titles matching their citations (see Link
-sample). One limitation: Kaggle's pages are client-rendered, so WebFetch returned
-page titles but not full body content for the six Kaggle URLs sampled — sufficient
-to confirm reachability and title match (the G7 bar), insufficient to independently
-re-derive lesson-level structure claims from the fetched text alone (see Open
-Questions and the G8 finding below, which relies on `resources.md`'s own written
-description rather than fetched Kaggle page content for that reason).
+**PASS** — All 19 resource lines in `resources.md` attempt 3 carry a `verified:`
+method and a this-run date (`2026-08-18` or `2026-08-19`, both within this run per the
+date note: run began 2026-08-18, today is 2026-08-19). Sampled 6 of 19 URLs via live
+WebFetch this round, all six being the resources newly cited or swapped this
+attempt (the highest-risk set, since a repeat of the G8 bug would show up here first):
+all 6 resolved with titles explicitly beginning "Exercise:", confirming each is the
+actual graded-exercise page, not a tutorial/landing page carrying the same URL pattern
+that caused the last two failures. As in prior attempts, Kaggle's client-side
+rendering limited WebFetch to page titles rather than full body content — sufficient
+to confirm reachability and to distinguish exercise pages from tutorial pages by title
+(the G7 and G8 bar used here), insufficient to independently re-derive lesson-level
+grading mechanics from fetched text alone (see Open Questions).
 
 ### G8 — Modality match (≥70% match `preferred_modality` = project)
 
-**FAIL**
+**PASS**
 
-`resources.md` claims 12/17 (70.6%) interactive/project-based, naming exactly 5
-reference resources (Getting Started, Logistic Regression, both
-`model_evaluation.html` metrics sections, the cross-validation strategy guide).
-Applying the instructed standard — "interactive means the learner does work and gets
-feedback on THEIR work" — to every one of the 17 lines' own "what the learner does"
-text surfaces a sixth resource that the artifact's own words describe as passive:
+Recounted independently against the instructed standard — "the learner does work and
+gets feedback on THEIR work" — applied to all 19 lines' own "what the learner does"
+text, not accepted from `resources.md`'s tally:
 
-| Resource | Module | `resources.md`'s own description | Honest classification |
-|---|---|---|---|
-| Learn Pandas | 1 | "the first two lessons are **guided** — load a CSV, inspect shape/dtypes/columns, **follow worked examples**." Ramp is explicitly stated as "**guided read-along** → independent auto-graded application" — the artifact's own words place this resource *before*, and distinct from, the independent/graded step. | **Reference/passive — misclassified** |
+| # | Resource | Module | Classification | Basis |
+|---|---|---|---|---|
+| 1 | Exercise: Creating, Reading and Writing | 1 | Interactive | Auto-graded notebook, own answers checked |
+| 2 | Exercise: Indexing, Selecting & Assigning | 1 | Interactive | Auto-graded notebook |
+| 3 | Exercise: Summary Functions and Maps | 1 | Interactive | Auto-graded notebook |
+| 4 | Getting Started | 2 | Reference | Explicitly "reference, not graded" per its own text |
+| 5 | Exercise: Your First Machine Learning Model | 2 | Interactive | Auto-graded notebook |
+| 6 | Exercise: Model Validation | 2 | Interactive | Auto-graded notebook |
+| 7 | Titanic | 3 | Interactive | Graded via live public leaderboard on learner's own submission |
+| 8 | Logistic Regression (user guide) | 3 | Reference | Explicitly "reference, not graded" |
+| 9 | Classification metrics (user guide) | 4 | Reference | Explicitly "targeted read," not graded |
+| 10 | Confusion matrix example | 4 | Interactive | Runnable notebook, learner swaps in own model/data, own plot as feedback |
+| 11 | House Prices | 5 | Interactive | Graded via live public leaderboard |
+| 12 | Regression metrics (user guide) | 6 | Reference | Explicitly "targeted read," not graded |
+| 13 | Plotting Cross-Validated Predictions | 6 | Interactive | Runnable notebook, swapped to learner's own regressor/data |
+| 14 | Exercise: Cross-Validation | 7 | Interactive | Auto-graded notebook (verified this round — was mis-cited as tutorial in attempt 2) |
+| 15 | Cross-validation (user guide) | 7 | Reference | Explicitly "targeted read," strategy catalogue only |
+| 16 | Exercise: Pipelines | 8 | Interactive | Auto-graded notebook (verified this round — was mis-cited as tutorial in attempt 2) |
+| 17 | Exercise: Categorical Variables | 8 | Interactive | Auto-graded notebook |
+| 18 | Adult | 9 | Interactive | Raw dataset that *is* the capstone's own unassisted project substrate, not a mislabeled tutorial — feedback comes from the learner's own train/test scores plus `assessments.md`'s Final check, which is a distinct owning artifact, not a separate citable exercise page this line failed to cite |
+| 19 | Wine Quality | 9 | Interactive | Same basis as Adult |
 
-This is the identical disqualifying pattern already applied by `curator` itself to
-justify removing the Module 5 OLS/Ridge example ("demonstrates... a second, simpler
-dataset... no learner data, not modified") and the Module 7 underfitting example
-("runs the... example to see..."): worked/guided material the learner follows but
-does not independently apply or get graded on. By contrast, every resource this
-recount left classified interactive has explicit graded or own-data language in its
-own description (e.g. "Kaggle's exercise auto-grades," "with their own trained model
-and data swapped in," "swapped to their own regressor," "linked graded exercise").
-Learn Pandas has neither — its own graded, independent component was correctly
-identified and cited *separately* as "Exercise: Summary Functions and Maps," which
-remains correctly classified interactive.
+Interactive = 14, Reference = 5, Total = 19. **14/19 = 73.68% ≈ 73.7%**, 3.7 points
+clear of the 70.0% floor (need ≥13.3, have 14).
 
-Live WebFetch this round independently confirmed the *type* of two resources central
-to this recount: the Confusion Matrix example (Module 4) is a self-contained runnable
-notebook built around the iris dataset with a simple `.from_estimator(classifier,
-X_test, y_test, ...)` call — trivially substitutable with the learner's own Module 3
-classifier and data as `resources.md` describes, supporting that resource's
-interactive classification (unlike Learn Pandas, no equivalent live check was needed
-for the Learn Pandas finding since it rests on the artifact's own stated description,
-not a claim about the live page).
-
-Reclassifying Learn Pandas consistently with the standard applied to the two already
--removed resources: **reference = 6, interactive = 11, total = 17 → 11/17 = 64.7%** —
-5.3 points under the 70% floor, not the claimed 70.6%.
-
-**owner: curator**
-
-**fix:** With reference at 6, gate G8's floor requires interactive ≥ 0.7(interactive
-+ 6), i.e. interactive ≥ 14 — a net gain of at least 3 more genuinely interactive
-resources is needed if Learn Pandas is correctly moved to reference and nothing else
-changes. Two more targeted options: (a) replace the Learn Pandas *tutorial* citation
-for Module 1 with citations to that course's own auto-graded exercise pages for
-lessons 1 and 2 ("Exercise: Creating, Reading and Writing" and "Exercise: Indexing,
-Selecting & Assigning" both exist on Kaggle Learn per the course's standard
-tutorial-then-exercise structure) — this earns the interactive classification
-honestly for the same minutes already budgeted, without adding a new reference line;
-or (b) keep Learn Pandas as reference (an honest description of what it is) and
-source 2–3 more genuinely graded/own-data resources across the modules currently
-thinnest on interactive coverage (Module 2's "Getting Started" and Module 3's
-"Logistic Regression" reference pages are candidates for the same tutorial-to
--exercise substitution as (a), since scikit-learn's own docs have no graded
-component but Kaggle's parallel material might). Re-verify the arithmetic
-(interactive ÷ total ≥ 0.70) explicitly against the final resource list before
-resubmitting, the same way this report just did.
+Specifically checked for a repeat of the exact bug that failed this gate twice before
+— a citation pointing at a tutorial/landing page while credited with graded work that
+actually lives on a separate, uncited exercise page. Live WebFetch of the four
+resources central to attempt 3's fix (rows 1–2, 5–6 by proxy, 14, 16 above; see Link
+sample) confirms all four now resolve to pages whose titles begin "Exercise:", the
+observable signature of the actual graded page — not the "Learn X Tutorials" or bare
+lesson-name signature that flagged the bug in attempts 1–2. No fifth instance of the
+pattern was found scanning the remaining 15 lines' "what the learner does" text: every
+resource still classified reference is explicitly described in its own text as a
+"read" or "targeted read," never as carrying graded work it doesn't cite directly; the
+Module 9 dataset lines were checked against the same pattern and found structurally
+different (a raw dataset is not a tutorial mislabeling a separate exercise — it is the
+literal project substrate, with the actual assessment living correctly in a different
+artifact by design, not a miscitation).
 
 ### G9 — Level fit (no module more than one level above the assessed baseline)
 
 **PASS**, under the progressive (module-to-module) reading — see Open Questions for
 why the literal one-baseline reading cannot be the intended check. `curriculum.md`'s
-progression L0→L1→L1→L2→L2→L2→L3→L3→L3 (unchanged from attempt 1, `curriculum.md` was
-not re-run) never increases by more than one level from the immediately preceding
-module.
+progression L0→L1→L1→L2→L2→L2→L3→L3→L3 (unchanged, `curriculum.md` was not re-run)
+never increases by more than one level from the immediately preceding module.
 
 ### Structural checks
 
 | Artifact | Frontmatter ok (7 keys) | Sections ok (4, in order, non-empty) | Citations ok |
 |---|---|---|---|
-| requirements.md | Yes | Yes | Sources: "None." — no external data consumed; see Open Questions (skill-exemption-list gap, carried from attempt 1) |
+| requirements.md | Yes | Yes | Sources: "None." — no external data consumed; see Open Questions (skill-exemption-list gap, carried forward) |
 | baseline-assessment.md | Yes | Yes | Yes — 6 Wikipedia citations, `verified: mcp:wikipedia 2026-08-18` |
 | curriculum.md | Yes | Yes | Yes — 10 Wikipedia citations, `verified: mcp:wikipedia 2026-08-18` |
-| resources.md (attempt 2) | Yes | Yes | Structurally yes — all 17 lines carry `verified:` + this-run date; see G8 for the data-accuracy (not structural) finding |
+| resources.md (attempt 3) | Yes | Yes | Structurally yes — all 19 lines carry `verified:` + this-run date; see G8 for the data-accuracy finding (now passing) |
 | exercises.md (attempt 1, unchanged) | Yes | Yes | Yes — Sources: "None.", exempted |
 | assessments.md (attempt 1, unchanged) | Yes | Yes | Yes — Sources: "None.", exempted |
-| schedule.md (attempt 2) | Yes | Yes | Yes — Sources: "None.", exempted |
-| effort-budget.md (attempt 2) | Yes | Yes | Yes — Sources: "None." with an explanation, exempted |
+| schedule.md (attempt 3) | Yes | Yes | Yes — Sources: "None.", exempted |
+| effort-budget.md (attempt 3) | Yes | Yes | Yes — Sources: "None." with an explanation, exempted |
 
-`owner` fields all match `pipeline.json`. All `inputs` paths exist in this run
-(`resources.md` and `schedule.md` list `artifacts/validation-report.md` among their
-inputs — this file existed at the path when they read it, from attempt 1). No
-`output/` files exist yet, so the internal-machinery-leak check does not yet apply.
+`owner` fields all match `pipeline.json` (`resources.md`'s owner is `curator`, its
+Summary correctly names the `project-curator` variant). All `inputs` paths exist in
+this run. No `output/` files exist yet, so the internal-machinery-leak check does not
+yet apply.
 
 ### Link sample
 
 | URL | Method | Result |
 |---|---|---|
-| https://www.kaggle.com/learn/pandas | WebFetch | Resolved — "Learn Pandas Tutorials \| Kaggle," matches citation; body content not retrievable (client-rendered), title only |
-| https://www.kaggle.com/code/residentmario/exercise-summary-functions-and-maps | WebFetch | Resolved — "Exercise: Summary Functions and Maps \| Kaggle," title confirms "Exercise" (graded) type, matches citation |
-| https://www.kaggle.com/learn/intro-to-machine-learning | WebFetch | Resolved — "Learn Intro to Machine Learning Tutorials \| Kaggle," matches citation |
-| https://www.kaggle.com/code/alexisbcook/pipelines | WebFetch | Resolved — "Pipelines \| Kaggle," matches citation |
-| https://www.kaggle.com/code/alexisbcook/exercise-categorical-variables | WebFetch | Resolved — "Exercise: Categorical Variables \| Kaggle," title confirms "Exercise" type and confirms this is a distinct page/title from "Pipelines" (G6) |
-| https://www.kaggle.com/c/titanic | WebFetch | Resolved — "Titanic - Machine Learning from Disaster \| Kaggle," matches citation; live status/fee detail not retrievable beyond title (client-rendered) |
-| https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques | WebFetch | Resolved — "House Prices - Advanced Regression Techniques \| Kaggle," matches citation |
-| https://www.kaggle.com/code/alexisbcook/cross-validation | WebFetch | Resolved — "Cross-Validation \| Kaggle," matches citation |
-| https://archive.ics.uci.edu/dataset/186/wine+quality | WebFetch | Resolved — UCI Wine Quality, 4,898 instances / 11 features, CC BY 4.0, free CSV — matches citation exactly |
-| https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html | WebFetch | Resolved — confusion-matrix example built on the built-in iris dataset via `ConfusionMatrixDisplay.from_estimator(classifier, X_test, y_test, ...)`; confirms the page is a substitutable template, supporting (not contradicting) `resources.md`'s "adapted to the learner's own model" claim |
+| https://www.kaggle.com/code/residentmario/exercise-creating-reading-and-writing | WebFetch | Resolved — "Exercise: Creating, Reading and Writing \| Kaggle," title confirms graded-exercise page, matches citation |
+| https://www.kaggle.com/code/residentmario/exercise-indexing-selecting-assigning | WebFetch | Resolved — "Exercise: Indexing, Selecting & Assigning \| Kaggle," confirms graded-exercise page |
+| https://www.kaggle.com/code/dansbecker/exercise-your-first-machine-learning-model | WebFetch | Resolved — "Exercise: Your First Machine Learning Model \| Kaggle," confirms graded-exercise page |
+| https://www.kaggle.com/code/dansbecker/exercise-model-validation | WebFetch | Resolved — "Exercise: Model Validation \| Kaggle," confirms graded-exercise page |
+| https://www.kaggle.com/code/alexisbcook/exercise-cross-validation | WebFetch | Resolved — "Exercise: Cross-Validation \| Kaggle," confirms this is now the graded page (attempt 2 had cited the tutorial page `.../cross-validation` instead) |
+| https://www.kaggle.com/code/alexisbcook/exercise-pipelines | WebFetch | Resolved — "Exercise: Pipelines \| Kaggle," confirms this is now the graded page (attempt 2 had cited the tutorial page `.../pipelines` instead) |
+
+Kaggle's pages are client-rendered, so WebFetch returned page titles but not full body
+content for all six — sufficient to confirm reachability and to distinguish
+"Exercise: ..." titles from tutorial-page titles (the check both G7 and G8 need here),
+consistent with the same limitation noted in attempts 1 and 2.
 
 ## Sources
 
-- [Learn Pandas Tutorials](https://www.kaggle.com/learn/pandas) — Kaggle · verified: webfetch 2026-08-19
-- [Exercise: Summary Functions and Maps](https://www.kaggle.com/code/residentmario/exercise-summary-functions-and-maps) — Kaggle · verified: webfetch 2026-08-19
-- [Learn Intro to Machine Learning](https://www.kaggle.com/learn/intro-to-machine-learning) — Kaggle · verified: webfetch 2026-08-19
-- [Pipelines](https://www.kaggle.com/code/alexisbcook/pipelines) — Kaggle · verified: webfetch 2026-08-19
-- [Exercise: Categorical Variables](https://www.kaggle.com/code/alexisbcook/exercise-categorical-variables) — Kaggle · verified: webfetch 2026-08-19
-- [Titanic - Machine Learning from Disaster](https://www.kaggle.com/c/titanic) — Kaggle · verified: webfetch 2026-08-19
-- [House Prices - Advanced Regression Techniques](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques) — Kaggle · verified: webfetch 2026-08-19
-- [Cross-Validation](https://www.kaggle.com/code/alexisbcook/cross-validation) — Kaggle · verified: webfetch 2026-08-19
-- [Wine Quality](https://archive.ics.uci.edu/dataset/186/wine+quality) — UCI Machine Learning Repository · verified: webfetch 2026-08-19
-- [scikit-learn: Confusion Matrix example](https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html) — scikit-learn · verified: webfetch 2026-08-19
+- [Exercise: Creating, Reading and Writing](https://www.kaggle.com/code/residentmario/exercise-creating-reading-and-writing) — Kaggle · verified: webfetch 2026-08-19
+- [Exercise: Indexing, Selecting & Assigning](https://www.kaggle.com/code/residentmario/exercise-indexing-selecting-assigning) — Kaggle · verified: webfetch 2026-08-19
+- [Exercise: Your First Machine Learning Model](https://www.kaggle.com/code/dansbecker/exercise-your-first-machine-learning-model) — Kaggle · verified: webfetch 2026-08-19
+- [Exercise: Model Validation](https://www.kaggle.com/code/dansbecker/exercise-model-validation) — Kaggle · verified: webfetch 2026-08-19
+- [Exercise: Cross-Validation](https://www.kaggle.com/code/alexisbcook/exercise-cross-validation) — Kaggle · verified: webfetch 2026-08-19
+- [Exercise: Pipelines](https://www.kaggle.com/code/alexisbcook/exercise-pipelines) — Kaggle · verified: webfetch 2026-08-19
 
 ## Open Questions
 
@@ -267,25 +248,26 @@ inputs — this file existed at the path when they read it, from attempt 1). No
   module more than one level above the assessed baseline" vs. "...above the
   preceding module"). Applied the progressive reading again since the literal
   one-baseline reading fails any multi-level curriculum by construction.
-- **Kaggle's client-side rendering limited WebFetch to page titles for all 8 Kaggle
-  URLs sampled this round.** This is sufficient to confirm reachability and
-  title-match for G7, and sufficient to distinguish the Pipelines vs. Categorical
-  Variables URLs for G6, but it means the G8 finding above rests on `resources.md`'s
-  own written description of what the learner does, cross-checked for internal
-  consistency (the "guided" language applied to Learn Pandas vs. the "graded"/"own
-  data" language applied to the resources left classified interactive), not on
-  independently fetched Kaggle lesson content. If the coordinator has a way to
-  browser-render Kaggle pages, re-confirming the actual lesson 1/2 exercise
-  structure directly would strengthen this finding further.
+- **Kaggle's client-side rendering limited WebFetch to page titles for every Kaggle
+  URL sampled across all three attempts.** Sufficient to confirm reachability and to
+  tell an "Exercise: ..." page from a tutorial/landing page by title — the exact
+  distinction G8 turned on this round — but not sufficient to independently confirm
+  each notebook's internal grading mechanics from fetched text. If the coordinator has
+  a way to browser-render Kaggle pages, that would strengthen this finding further,
+  though it is no longer load-bearing for any gate verdict now that G8 passes with a
+  3.7-point margin.
 - **`requirements.md`'s "Sources: None." is still not covered by the
-  artifact-validator skill's explicit exemption list**, carried from attempt 1 — not
-  scored as a structural failure, flagged again for the skill's owner.
+  artifact-validator skill's explicit exemption list**, carried from attempts 1 and
+  2 — not scored as a structural failure, flagged again for the skill's owner.
 - **The possible double-count between Kaggle's own auto-graded exercises and
-  `exercises.md`'s bespoke practice (Modules 1, 2, 3, 5, 7, 8, up to 165 min /
-  2.75h if fully overlapping)** remains unresolved, now flagged by three artifacts
-  independently (`resources.md`, `exercises.md` via inheritance, `effort-budget.md`).
-  It does not change any gate verdict above — resolving it in the "overlap"
-  direction only creates more slack, never a shortfall — but the coordinator may
-  want `exercise-designer` to weigh in once `curator` re-runs for G8, since the
-  G8 fix (adding or reclassifying Module 1/2/3 resources) will directly touch the
-  modules this question is about.
+  `exercises.md`'s bespoke practice, now precisely located to one named exercise per
+  module (Module 1: "Exercise: Summary Functions and Maps"; Module 2: "Exercise:
+  Model Validation") per `resources.md` and `effort-budget.md`'s own attempt-3
+  analysis**, remains open and does not change any gate verdict — resolving it in the
+  "overlap" direction only creates more slack (up to 60 min for Modules 1–2 alone, up
+  to 165 min if the wider pattern across Modules 3, 5, 7 is included), never a
+  shortfall. This is a design decision for the coordinator to route to
+  `exercise-designer` if desired, not a gate failure.
+- **Slack (10.4%) is thinner than the 15% guideline** but is not a gate — G1 and G2
+  both pass with real, re-derived margin (7 min on the heaviest week, 187 min overall).
+  Noted for the coordinator's awareness, not a finding requiring action.

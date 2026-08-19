@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T11:56:59Z",
-  "updated_at": "2026-08-19T04:10:37Z",
+  "updated_at": "2026-08-19T04:16:20Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "video-curator"
@@ -63,11 +63,11 @@
       "stale_cause": "curator"
     },
     "effort-budget-aggregator": {
-      "status": "stale",
-      "attempts": 2,
+      "status": "done",
+      "attempts": 3,
       "artifact": "artifacts/effort-budget.md",
-      "digest": "sha256:d9927a5b983b82efecb5f47fc25767eeaea98904a5b7a4d97ecab2e7e0c8f112",
-      "updated_at": "2026-08-18T21:50:19Z",
+      "digest": "sha256:b559ca9959c5b87a95a0d706b6dd0e0532c5956d48998c8f2228ccc6abd7ef4b",
+      "updated_at": "2026-08-19T04:16:20Z",
       "stale_since": "2026-08-19T04:10:37Z",
       "stale_cause": "curator"
     },
@@ -270,6 +270,14 @@
         "schedule-planner",
         "validator"
       ]
+    },
+    {
+      "at": "2026-08-19T04:16:20Z",
+      "event": "artifact_written",
+      "step": "effort-budget-aggregator",
+      "artifact": "artifacts/effort-budget.md",
+      "attempt": 3,
+      "invalidated": []
     }
   ]
 }

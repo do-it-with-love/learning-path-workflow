@@ -1,9 +1,9 @@
 {
   "run_id": "run-003-music-theory",
   "schema_version": 1,
-  "status": "awaiting_approval",
+  "status": "approved",
   "created_at": "2026-08-18T12:02:44Z",
-  "updated_at": "2026-08-19T04:11:12Z",
+  "updated_at": "2026-08-19T04:20:03Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "reading-curator"
@@ -88,9 +88,11 @@
       "updated_at": "2026-08-19T04:09:57Z"
     },
     "html-builder": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "output/learning-path.html"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "output/learning-path.html",
+      "digest": "sha256:1ce3cb4cc7ff12b8b7a8d5a1d18169b45d0a975f9b5a5a3c18cadc8607bc4294",
+      "updated_at": "2026-08-19T04:20:03Z"
     }
   },
   "gates": {
@@ -104,11 +106,12 @@
     }
   },
   "approval": {
-    "status": "pending",
-    "digest": null,
-    "decided_at": null,
+    "status": "approved",
+    "digest": "sha256:063a4542291120c3e4f809df0dc7d59ab6b4c2edbfe3ef4354d90dbcb511ea80",
+    "decided_at": "2026-08-19T04:14:07Z",
     "feedback": [],
-    "requested_digest": "sha256:063a4542291120c3e4f809df0dc7d59ab6b4c2edbfe3ef4354d90dbcb511ea80"
+    "requested_digest": "sha256:063a4542291120c3e4f809df0dc7d59ab6b4c2edbfe3ef4354d90dbcb511ea80",
+    "approver": "tril2@outlook.com"
   },
   "retry_limit": 3,
   "history": [
@@ -240,6 +243,20 @@
       "event": "artifact_written",
       "step": "learning-path-builder",
       "artifact": "output/learning-path.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T04:14:07Z",
+      "event": "human_approved",
+      "digest": "sha256:063a4542291120c3e4f809df0dc7d59ab6b4c2edbfe3ef4354d90dbcb511ea80",
+      "approver": "tril2@outlook.com"
+    },
+    {
+      "at": "2026-08-19T04:20:03Z",
+      "event": "artifact_written",
+      "step": "html-builder",
+      "artifact": "output/learning-path.html",
       "attempt": 1,
       "invalidated": []
     }

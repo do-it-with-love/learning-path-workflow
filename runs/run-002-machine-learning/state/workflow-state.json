@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "running",
   "created_at": "2026-08-18T11:58:50Z",
-  "updated_at": "2026-08-19T04:09:56Z",
+  "updated_at": "2026-08-19T07:35:16Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "project-curator"
@@ -72,11 +72,11 @@
       "stale_cause": "curator"
     },
     "validator": {
-      "status": "stale",
-      "attempts": 2,
+      "status": "done",
+      "attempts": 3,
       "artifact": "artifacts/validation-report.md",
-      "digest": "sha256:83255737cf673669b90734e41e33735218683cf371266fd06681a2168ef334c8",
-      "updated_at": "2026-08-19T03:52:57Z",
+      "digest": "sha256:c4b08157be27c584c2066144b6792c1cfcd5c289b04fcbb1d6cbf08ab40a60ff",
+      "updated_at": "2026-08-19T04:17:04Z",
       "stale_since": "2026-08-19T04:04:35Z",
       "stale_cause": "curator"
     },
@@ -93,16 +93,16 @@
   },
   "gates": {
     "G1": {
-      "status": "fail",
-      "owner": "curator",
-      "finding": "resources.md coverage table undercounts Modules 2 and 3 by ~0.5h each; corrected, Week 3 hits 3.35h over the 3.30h ceiling",
-      "at": "2026-08-18T21:35:15Z"
+      "status": "pass",
+      "at": "2026-08-19T07:35:16Z"
     },
     "G8": {
-      "status": "fail",
-      "owner": "curator",
-      "finding": "Learn Pandas (Module 1) is a guided read-along, not graded work; corrected ratio 11/17 (64.7%)",
-      "at": "2026-08-19T03:57:58Z"
+      "status": "pass",
+      "at": "2026-08-19T07:35:16Z"
+    },
+    "_summary": {
+      "status": "pass",
+      "at": "2026-08-19T07:35:16Z"
     }
   },
   "approval": {
@@ -268,6 +268,14 @@
       "event": "artifact_written",
       "step": "effort-budget-aggregator",
       "artifact": "artifacts/effort-budget.md",
+      "attempt": 3,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T04:17:04Z",
+      "event": "artifact_written",
+      "step": "validator",
+      "artifact": "artifacts/validation-report.md",
       "attempt": 3,
       "invalidated": []
     }
