@@ -3,94 +3,94 @@ artifact: schedule
 owner: schedule-planner
 run_id: run-001-spanish-b1
 status: final
-attempt: 2
+attempt: 3
 inputs:
   - artifacts/requirements.md
   - artifacts/curriculum.md
   - artifacts/resources.md
   - artifacts/exercises.md
   - artifacts/assessments.md
-  - artifacts/validation-report.md
-generated: 2026-08-19T12:00:00Z
+generated: 2026-08-19T16:00:00Z
 ---
 
 # Schedule — Conversational European Spanish for Travel
 
 ## Summary
-This is a **revision** of the attempt-1 schedule, triggered because `resources.md` was
-rewritten upstream to fix gates G7 and G8 (a dead citation replaced, two resources
-correctly relabeled, one resource added). The schedule's shape is unchanged: **exactly 26
-weeks** (matching `horizon_weeks`, gate G2 satisfied with zero weeks to spare), the same
-78-session / 26-week structure driven by `exercises.md`'s fixed session counts (unchanged
-from attempt 1), and the same three-sessions-a-week pattern — two ~1.5h weekday evenings,
-one ~2h weekend block, 5h/week nominal. Re-summing the **real** hours reported by the
-revised `resources.md` + `exercises.md` (unchanged) + `assessments.md` (unchanged) gives
-**40.90 hours** of accounted content, down **0.20h** from attempt 1's 41.10h — the only
-arithmetic change, and it moves in the honest direction, not a convenient one: module 4's
-"Free Spanish Podcast 17" had its false "10 min 38 sec (confirmed)" duration corrected to
-`unknown`, so its 0.20h no longer counts toward the quantified floor. Everything else that
-changed in `resources.md` (module 5's dead citation replaced with "Directions in Spanish";
-module 6 gaining "Making Comparisons in Spanish"; "How to Order Food" correctly relabeled
-`audio`) involved resources that were already `unknown`-duration or already had no numeric
-contribution, so those changes are reflected in this schedule's session **content** but not
-its **arithmetic**. Every week still clears gate G1 with large margin — the heaviest week
-(26) uses 3.17h against the 5h budget (2.33h under the 5.5h/+10% ceiling, unchanged from
-attempt 1), and the one week whose numbers moved (week 11) only gained margin (4.10h →
-4.30h). **How unknown-duration resources are handled, stated explicitly per this attempt's
-instruction:** every resource `resources.md` marks `unknown` contributes **zero** hours to
-this schedule's quantified per-module and per-week totals — durations are never invented.
-Where an unknown-duration resource is the only new material in a session, that session's
-quantified time reflects only the recurring drill and any `exercises.md` application task,
-and the resource is scheduled as self-paced viewing "at whatever length it actually runs,"
-flagged inline. This is deliberately conservative: it means the true time spent some weeks
-will run a little higher than the table shows, not lower — and because the smallest margin
-anywhere in the path is still 2.33h against the 5.5h ceiling (week 26), that gap is
-comfortably absorbed. Speaking practice is scheduled every week without exception, because
-`exercises.md`'s recurring warm-up drill runs at the start of every session in every module.
-The schedule fits the deadline exactly (26 of 26 weeks) and does not use anywhere near the
-full weekly budget — that is flagged, not hidden.
+This is a **light revision** of the attempt-2 schedule, triggered because `resources.md`
+was rewritten a third time upstream to fix gate G8 properly this time. The curator
+established that `lightspeedspanish.co.uk` is a podcast site whose "Video for This Spanish
+Lesson" heading is often an empty template over an MP3-only player, and re-labeled or
+swapped four resources accordingly: module 3's "Beginners Spanish Podcast 16" is honestly
+relabeled `video` → `audio` and **kept in place**; modules 4, 5 and 6 each had their
+mislabeled own-site page **replaced** with a genuinely YouTube-hosted video on the same
+topic (module 4: "Spanish Lesson Early Inter 6 Reflexive Verbs"; module 5: "Spanish Lesson
+35 Abs Beginner Spanish Prepositions"; module 6: Señor Jordan's "Unequal Comparisons (part
+1)"). **All three replacement resources are `unknown` duration, exactly like the resources
+they replaced**, so this run's known-hours floor is mechanically unchanged by those three
+swaps — only the session *content* in weeks 8, 11, 13 and 16 needed updating to name the
+resource a learner will actually open. The one genuine arithmetic change this attempt is
+**module 1**: the curator also corrected a data-entry error the validator flagged —
+module 1's own Coverage-check row had stated "~2.5h" of known resource time when the
+module's own citations (a ~1.5h playlist estimate + a ~0.167h Mi Vida Loca episode) only
+ever summed to **~1.667h**. I had propagated that wrong 2.5h figure into this schedule at
+attempt 2; it is corrected here to 1.67h, which pulls module 1's total from 5.00h to
+**4.17h** and the whole path's quantified floor from 40.90h to **40.07h** (component-sum
+detail below; independently, `effort-budget.md` attempt 3 reports 40.00h using unrounded
+fractions for two other modules — see Open Questions for the reconciliation, a ~0.07h
+display-rounding gap, not a scope difference). This is the only week range whose *hours*
+change: weeks 1–3 drop from 1.33/1.83/1.83h to **1.00/1.50/1.67h**. Every other week is
+unchanged in hours from attempt 2. Every week still clears gate G1 with large margin — the
+heaviest week (26) uses 3.17h against the 5.0h budget (2.33h under the 5.5h/+10% ceiling,
+unchanged), and the smallest weekly margin anywhere in the path is still that same 2.33h.
+Unknown-duration resources still contribute **exactly zero** hours to every quantified
+total in this document — stated explicitly per instruction, and unchanged in kind from
+attempts 1–2. The 3-session weekly shape, speaking practice in every session, and
+cumulative reviews after modules 3, 6 and 9 are all unchanged. The schedule fits the
+deadline exactly (26 of 26 weeks, gate G2) and now carries slightly *more* headroom against
+the weekly budget than attempt 2 did, because the corrected module 1 figure is honest
+rather than inflated.
 
 ## Findings
 
 ### Real hours per module (the arithmetic)
 
 Resource hours are `resources.md`'s own "Approx. resource hours" figures per module (the
-**quantified** portion only — every `unknown`-duration resource contributes 0, per the
-unknown-duration handling rule stated in the Summary and repeated in Open Questions).
-Practice hours are `exercises.md`'s per-module practice-load table, taken as reported
-(unchanged from attempt 1). Checkpoint hours are `assessments.md`'s per-checkpoint minutes,
-converted to hours and taken as reported (unchanged from attempt 1).
+**quantified** portion only — every `unknown`-duration resource contributes 0). Practice
+hours are `exercises.md`'s per-module practice-load table (unchanged since attempt 1).
+Checkpoint hours are `assessments.md`'s per-checkpoint minutes converted to hours
+(unchanged since attempt 1).
 
-| Module | Resource h (resources.md, attempt 2) | Practice h (exercises.md) | Checkpoint h (assessments.md) | Total h | Changed from attempt 1? |
+| Module | Resource h (resources.md, attempt 3) | Practice h (exercises.md) | Checkpoint h (assessments.md) | Total h | Changed from attempt 2? |
 |---|---|---|---|---|---|
-| 1. Sounds, Script & Survival Basics | 2.50 | 2.17 | 0.33 (20 min) | 5.00 | no |
+| 1. Sounds, Script & Survival Basics | **1.67** | 2.17 | 0.33 (20 min) | **4.17** | **yes — corrected from 2.50, a data-entry error in `resources.md`'s own Coverage-check row now fixed; the module's citations (1.5h playlist est. + 0.167h Mi Vida Loca Ep.1) always summed to 1.667h, never 2.5h** |
 | 2. Being & Describing | 1.00 | 2.33 | 0.33 (20 min) | 3.66 | no |
-| 3. Present-Tense Action | 1.00 | 2.50 | 0.42 (25 min) | 3.92 | no |
-| 4. Daily Life & Routine | **0.00** | 2.67 | 0.33 (20 min) | **3.00** | **yes — was 0.20; "Free Spanish Podcast 17"'s duration was corrected from a false "confirmed" figure to honest `unknown`** |
-| 5. Getting Around | 3.70 | 2.75 | 0.42 (25 min) | 6.87 | no (dead citation replaced with an equally-unknown one — see Open Questions) |
-| 6. Eating, Shopping & Lodging | 0.25 | 2.58 | 0.42 (25 min) | 3.25 | no (new video added, but it is unknown-duration; audio relabel is a modality fix, not an hours fix) |
+| 3. Present-Tense Action | 1.00 | 2.50 | 0.42 (25 min) | 3.92 | no — "Podcast 16" relabeled `video`→`audio` and kept, but it carried no numeric duration either before or after, so no hour change |
+| 4. Daily Life & Routine | 0.00 | 2.67 | 0.33 (20 min) | 3.00 | no — "Free Spanish Podcast 17" (already `unknown` since attempt 2's correction) replaced by an equally `unknown`-duration YouTube video |
+| 5. Getting Around | 3.70 | 2.75 | 0.42 (25 min) | 6.87 | no — "Directions in Spanish" replaced by an equally `unknown`-duration YouTube video |
+| 6. Eating, Shopping & Lodging | 0.25 | 2.58 | 0.42 (25 min) | 3.25 | no — "Making Comparisons in Spanish" replaced by an equally `unknown`-duration YouTube video (Señor Jordan) |
 | 7. Talking About the Past | 0 (unquantified) | 2.83 | 0.33 (20 min) | 3.16 | no |
 | 8. Plans, Requests & Unexpected Situations | 0 (unquantified) | 1.92 | 0.42 (25 min) | 2.34 | no |
 | 9. Conversation Consolidation | 3.70 | 3.50 | 0.50 (30 min) | 7.70 | no |
 | Cumulative reviews (after M3, M6, M9 — 25 min each) | — | — | 1.25 (75 min) | 1.25 | no |
 | Final check (full-path assessment) | — | — | 0.75 (45 min) | 0.75 | no |
-| **Total** | **12.15** | **23.25** | **5.50 (330 min)** | **40.90** | **down 0.20 from 41.10** |
+| **Total** | **11.32** | **23.25** | **5.50 (330 min)** | **40.07** | **down 0.83h from 40.90h — module 1's correction is the only change** |
 
-Column checks: resource 2.50+1.00+1.00+**0.00**+3.70+0.25+0+0+3.70 = **12.15** (was 12.35).
+Column checks: resource **1.67**+1.00+1.00+0.00+3.70+0.25+0+0+3.70 = **11.32** (was 12.15).
 Practice 2.17+2.33+2.50+2.67+2.75+2.58+2.83+1.92+3.50 = **23.25** (matches `exercises.md`'s
-own stated total exactly, unchanged). Checkpoint
+own stated total exactly, unchanged since attempt 1). Checkpoint
 0.33+0.33+0.42+0.33+0.42+0.42+0.33+0.42+0.50+1.25+0.75 = **5.50** (unchanged). Grand total
-12.15+23.25+5.50 = **40.90h** against a 130h budget (26 weeks × 5h) — **89.10h** of headroom
-(up from 88.90h in attempt 1, because the schedule now claims 0.20h less certainty).
+11.32+23.25+5.50 = **40.07h** against a 130h budget (26 weeks × 5h) — **89.93h** of headroom
+(up from 89.10h in attempt 2, because module 1's corrected figure is 0.83h more honest).
 
 ### What changed in `resources.md` and how it was handled here
 
-| Change in `resources.md` (attempt 2) | Effect on this schedule |
+| Change in `resources.md` (attempt 3) | Effect on this schedule |
 |---|---|
-| Module 5: dead "Perfecting the Prepositions in Spanish" citation removed, replaced with "Directions in Spanish" (LightSpeed) | Both were/are `unknown` duration — **no hour change**. Week 13's session content updated to name the new resource. |
-| Module 6: new video "Making Comparisons in Spanish" (LightSpeed) added | `unknown` duration — **no hour change**. Added to week 16–17 session content as a supplementary video alongside the existing SpanishDict article, both covering the same comparatives objective. |
-| Module 6: "How to Order Food in Spanish" relabeled from ambiguous "video/podcast" to `audio` | Modality bookkeeping only (relevant to gate G8, owned by `curator`) — **no hour or session-placement change**; it was already `unknown` duration. |
-| Module 4: "Free Spanish Podcast 17" relabeled from `audio` to `video`, and its duration corrected from a false "10 min 38 sec (confirmed)" to honest `unknown` | **Hour change**: module 4's resource-hour floor drops from 0.20h to 0.00h. This is the only arithmetic change in the whole schedule — reflected in week 11 below. |
+| Module 3: "Beginners Spanish Podcast 16" relabeled `video` → `audio`, kept in place (no equal-quality video found on this exact sub-topic) | Modality bookkeeping only (relevant to gate G8, owned by `curator`) — already `unknown` duration before and after, so **no hour change**. Week 8's session text updated to describe it correctly as audio. |
+| Module 4: "Free Spanish Podcast 17" replaced with "Spanish Lesson Early Inter 6 Reflexive Verbs" (LightSpeed, YouTube) | Both `unknown` duration — **no hour change**. Week 11's session content updated to name the new resource. |
+| Module 5: "Directions in Spanish" replaced with "Spanish Lesson 35 Abs Beginner Spanish Prepositions" (LightSpeed, YouTube) | Both `unknown` duration — **no hour change**. Week 13's session content updated to name the new resource. |
+| Module 6: "Making Comparisons in Spanish" replaced with "Unequal Comparisons (part 1)" (Señor Jordan, YouTube) | Both `unknown` duration — **no hour change**. Week 16's session content updated to name the new resource. |
+| Module 1: Coverage-check subtotal corrected from a stale "~2.5h" to the reproducible "~1.667h" | **Hour change**: module 1's resource-hour floor drops from 2.50h to 1.67h — the only arithmetic change in the whole schedule this attempt, reflected in weeks 1–3 below. |
 
 ### Module → week apportionment
 
@@ -121,29 +121,32 @@ Each week: two weekday evening sessions (drills, vocabulary, shadowing — short
 retrieval-heavy) and one weekend session (new resource material, longer application/
 synthesis speaking tasks, checkpoints). Every session opens with that module's recurring
 speaking drill, so speaking practice appears in all 78 sessions across all 26 weeks. Only
-week 11 differs numerically from attempt 1; every other week below is unchanged, with weeks
-13, 16 and 17 updated in content (not hours) to reflect the revised resource list.
+weeks 1–3 differ numerically from attempt 2 (module 1's hours correction); weeks 8, 11, 13
+and 16 are updated in **content only** (not hours) to name this attempt's revised
+resources; every other week is unchanged.
 
 #### Week 1 — Module 1, wk 1/3 (Pre-A1 → A1.1)
 - Weekday A (0.25h): Drill — sound & recall warm-up (distinción pairs). Begin Language
   Transfer Track 1 (audio induction).
 - Weekday B (0.25h): Drill — pronouns/numbers/greetings recall. Finish Track 1.
-- Weekend (0.83h): LightSpeed "Absolute Beginners 4–10" playlist, opening lessons.
-- Week total: **1.33h**. No checkpoint.
+- Weekend (0.50h): LightSpeed "Absolute Beginners 4–10" playlist, opening lessons (a
+  partial slice of the ~1.5h estimated playlist; continues into week 2).
+- Week total: **1.00h** (down from 1.33h in attempt 2 — module 1's hours correction, see
+  Summary). No checkpoint.
 
 #### Week 2 — Module 1, wk 2/3
 - Weekday A (0.25h): Drill (distinción). Continue LightSpeed playlist.
 - Weekday B (0.25h): Drill (pronouns/numbers). Mi Vida Loca Ep.1 (~10 min), shadow one line.
-- Weekend (1.33h): Drill + finish LightSpeed playlist + **Application — Read-Aloud &
+- Weekend (1.00h): Drill + finish LightSpeed playlist + **Application — Read-Aloud &
   Self-Introduction role-play** (30 min, recorded).
-- Week total: **1.83h**. No checkpoint.
+- Week total: **1.50h** (down from 1.83h). No checkpoint.
 
 #### Week 3 — Module 1, wk 3/3
 - Weekday A (0.25h): Drill + review distinción word list.
 - Weekday B (0.42h): Drill + **Stretch (optional) — Alphabet Speed Spell** (10 min).
-- Weekend (1.17h): Drill + light review of module 1 resources + **Module 1 checkpoint**
+- Weekend (1.00h): Drill + light review of module 1 resources + **Module 1 checkpoint**
   (20 min: alphabet, 10 target-sound words, count 0–20, 30-sec greeting w/ vosotros).
-- Week total: **1.83h**. **Checkpoint: Module 1 check.**
+- Week total: **1.67h** (down from 1.83h). **Checkpoint: Module 1 check.**
 
 #### Week 4 — Module 2, wk 1/3 (A1.1 → A1.2)
 - Weekday A (0.25h): Drill — ser/estar & agreement warm-up.
@@ -172,8 +175,11 @@ week 11 differs numerically from attempt 1; every other week below is unchanged,
 - Week total: **0.83h**. No checkpoint.
 
 #### Week 8 — Module 3, wk 2/3
-- Weekday A (0.25h): Drill + LightSpeed question-words podcast (confirmed by WebFetch in
-  `resources.md` attempt 2 to be genuine video; unknown duration, self-paced).
+- Weekday A (0.25h): Drill + "Beginners Spanish Podcast 16: Spanish Question Words"
+  (LightSpeed) — *honestly relabeled `audio` this attempt* (the page's "Video for This
+  Spanish Lesson" heading is an empty template over an MP3 player, per `resources.md`
+  attempt 3's element-level check); unknown duration, self-paced. Kept in place — no
+  equal-quality Peninsular video on this exact sub-topic (question-word order) was found.
 - Weekday B (0.25h): Drill + "¿Qué vs Cuál?" video.
 - Weekend (0.83h): Drill + **Application — Unscripted Q&A With Yourself** (30 min, 8
   questions recorded).
@@ -190,26 +196,26 @@ week 11 differs numerically from attempt 1; every other week below is unchanged,
 
 #### Week 10 — Module 4, wk 1/3 (A1.3 → A2.1)
 - Weekday A (0.25h): Drill — routine, time & gustar warm-up.
-- Weekday B (0.15h): Drill + brief vocabulary review (module 4's resources are now, per
-  `resources.md` attempt 2, entirely unknown-duration — see Open Questions; treat this slot
-  as light self-paced viewing).
+- Weekday B (0.15h): Drill + brief vocabulary review (module 4's resources are entirely
+  unknown-duration — see Open Questions; treat this slot as light self-paced viewing).
 - Weekend (0.17h): Drill + "14 Tell Time in Spanish."
 - Week total: **0.57h**. No checkpoint.
 
-#### Week 11 — Module 4, wk 2/3 — *the one week with a numeric change this attempt*
+#### Week 11 — Module 4, wk 2/3
 - Weekday A (0.25h): Drill + "44 Verbs like Gustar."
 - Weekday B (0.33h): Drill + **Application — Narrate Your Actual Day** (20 min, first
   occurrence, recorded).
-- Weekend (**0.12h**, down from 0.32h): Drill only. "Free Spanish Podcast 17" (Daily
-  Routine) is now genuinely video (corrected from a mislabeled "audio podcast") but its
-  duration is now honestly `unknown` — the attempt-1 figure of "10 min 38 sec (confirmed)"
-  could not actually be verified (the page's player renders via JavaScript this run's tools
-  do not execute) and has been withdrawn by the curator. Watch it self-paced, at whatever
-  length it actually runs; not counted in the quantified total, the same treatment given to
-  every other unknown-duration resource in this path (e.g. modules 7 and 8 below).
-- Week total: **0.70h** (down from 0.90h in attempt 1 — the full 0.20h reduction lands
-  here, since this is where the corrected resource sits).
-- No checkpoint.
+- Weekend (0.12h): Drill only. Watch "Spanish Lesson Early Inter 6 Reflexive Verbs"
+  (LightSpeed, YouTube) — *replaces "Free Spanish Podcast 17" this attempt*: `resources.md`
+  attempt 3 found the old citation to be audio-only despite its earlier video label (the
+  same lightspeedspanish.co.uk own-site pattern flagged domain-wide this attempt). The
+  replacement is genuinely YouTube-hosted and on the same topic (reflexive verbs / daily
+  routine); its duration is `unknown`, same as the resource it replaces, so this session's
+  hour figure is unchanged from attempt 2. Watch self-paced, at whatever length it actually
+  runs; not counted in the quantified total, the same treatment given every other
+  unknown-duration resource in this path.
+- Week total: **0.70h** (unchanged from attempt 2 — content swapped, hours identical). No
+  checkpoint.
 
 #### Week 12 — Module 4, wk 3/3
 - Weekday A (0.25h): Drill + "30 Test your listening skills."
@@ -221,12 +227,12 @@ week 11 differs numerically from attempt 1; every other week below is unchanged,
 
 #### Week 13 — Module 5, wk 1/3 (A2.1)
 - Weekday A (0.25h): Drill — directions warm-up.
-- Weekday B (0.25h): Drill + **"Directions in Spanish"** (LightSpeed) — *new this
-  attempt, replacing the dead "Perfecting the Prepositions in Spanish" citation, which
-  resolved to a paid Amazon workbook page and has been removed from `resources.md`.* The
-  replacement is WebFetch-confirmed free and covers the same objective (prepositions of
-  place, imperative direction-giving); duration is `unknown`, same as the citation it
-  replaces, so this session's hour figure is unchanged.
+- Weekday B (0.25h): Drill + "Spanish Lesson 35 Abs Beginner Spanish Prepositions"
+  (LightSpeed, YouTube) — *replaces "Directions in Spanish" this attempt*: `resources.md`
+  attempt 3 found that citation to be audio-only despite its video label (same domain-wide
+  pattern). The replacement is genuinely YouTube-hosted and covers the same objective
+  (prepositions of place, imperative direction-giving); duration is `unknown`, same as the
+  citation it replaces, so this session's hour figure is unchanged.
 - Weekend (1.23h): Drill + Superbeginner Dreaming Spanish (self-paced comprehensible
   input, Spain-accent hosts).
 - Week total: **1.73h**. No checkpoint.
@@ -247,14 +253,15 @@ week 11 differs numerically from attempt 1; every other week below is unchanged,
 
 #### Week 16 — Module 6, wk 1/3 (A2.1 → A2.2)
 - Weekday A (0.25h): Drill — comparatives & polite requests warm-up.
-- Weekday B (0.25h): Drill + SpanishDict comparatives article (~15 min) + **"Making
-  Comparisons in Spanish"** (LightSpeed) — *new video resource this attempt*, watched as
-  reinforcement immediately after the article since both cover más/menos...que and
-  tan...como; duration is `unknown`, so it adds no quantified hours to this session, but is
-  a genuine additional resource, not a placeholder.
-- Weekend (0.08h): Drill + begin "How to Order Food in Spanish" lesson (now correctly
-  labeled `audio` in `resources.md` attempt 2 — it was never a video, only the label was
-  wrong; no change to what is actually being listened to or when).
+- Weekday B (0.25h): Drill + SpanishDict comparatives article (~15 min) + "01 Spanish
+  Lesson – Unequal Comparisons (part 1)" (Señor Jordan, YouTube) — *replaces "Making
+  Comparisons in Spanish" (LightSpeed own-site) this attempt*: `resources.md` attempt 3
+  found that citation to be audio-only despite its video label. Watched as reinforcement
+  immediately after the article since both cover más/menos...que and tan...como; duration
+  is `unknown`, so it adds no quantified hours to this session. Drawn from a second
+  provider (not another LightSpeed citation) to diversify module 6's sourcing.
+- Weekend (0.08h): Drill + begin "How to Order Food in Spanish" lesson (correctly labeled
+  `audio` since attempt 2 — it was never a video, only the label was wrong).
 - Week total: **0.58h**. No checkpoint.
 
 #### Week 17 — Module 6, wk 2/3
@@ -347,14 +354,14 @@ that scored "not yet" earlier in the path.
 
 Budget is `weekly_hours` = 5.0h; the G1 ceiling (no more than 10% over) is 5.5h. Margin
 below is budget minus planned; every value is positive and no week approaches the ceiling.
-Only week 11 differs from attempt 1 (0.90h → 0.70h, margin 4.10h → 4.30h); every other row
-is unchanged.
+Only weeks 1–3 differ from attempt 2 (module 1's hours correction); every other row is
+unchanged.
 
 | Week | Module(s) | Planned h | Budget h | Margin h |
 |---|---|---|---|---|
-| 1 | 1 | 1.33 | 5.0 | 3.67 |
-| 2 | 1 | 1.83 | 5.0 | 3.17 |
-| 3 | 1 (+checkpoint) | 1.83 | 5.0 | 3.17 |
+| 1 | 1 | 1.00 | 5.0 | 4.00 |
+| 2 | 1 | 1.50 | 5.0 | 3.50 |
+| 3 | 1 (+checkpoint) | 1.67 | 5.0 | 3.33 |
 | 4 | 2 | 0.83 | 5.0 | 4.17 |
 | 5 | 2 | 1.33 | 5.0 | 3.67 |
 | 6 | 2 (+checkpoint) | 1.50 | 5.0 | 3.50 |
@@ -362,7 +369,7 @@ is unchanged.
 | 8 | 3 | 1.33 | 5.0 | 3.67 |
 | 9 | 3 (+checkpoint +CR1) | 2.17 | 5.0 | 2.83 |
 | 10 | 4 | 0.57 | 5.0 | 4.43 |
-| 11 | 4 | **0.70** | 5.0 | **4.30** |
+| 11 | 4 | 0.70 | 5.0 | 4.30 |
 | 12 | 4 (+checkpoint) | 1.73 | 5.0 | 3.27 |
 | 13 | 5 | 1.73 | 5.0 | 3.27 |
 | 14 | 5 | 2.48 | 5.0 | 2.52 |
@@ -378,19 +385,22 @@ is unchanged.
 | 24 | 9 | 2.68 | 5.0 | 2.32 |
 | 25 | 9 | 3.02 | 5.0 | 1.98 |
 | 26 | 9 (+checkpoint +CR3 +final check) | 3.17 | 5.0 | 1.83 |
-| **Total** | — | **~40.89** (rounding; component sum = 40.90) | **130.0** | **~89.11** |
+| **Total** | — | **40.07** (weekly-plan sum; module-table component sum also 40.07) | **130.0** | **89.93** |
 
-No week exceeds 5.0h, let alone the 5.5h G1 ceiling; the heaviest week (26) uses 63% of
-budget and has a 2.33h margin against the 5.5h ceiling — the smallest such margin in the
-path, and unchanged from attempt 1 since week 26 was not affected by the resources.md
-revision. Gate G1: **pass, with large margin**.
+Arithmetic for the total: summing the "Planned h" column top to bottom —
+1.00+1.50+1.67+0.83+1.33+1.50+0.83+1.33+2.17+0.57+0.70+1.73+1.73+2.48+2.65+0.58+1.08+2.01
++0.50+0.92+1.75+0.92+1.42+2.68+3.02+3.17 = **40.07h**, matching the module table's grand
+total exactly. No week exceeds 5.0h, let alone the 5.5h G1 ceiling; the heaviest week (26)
+uses 63% of budget and has a 2.33h margin against the 5.5h ceiling — the smallest such
+margin anywhere in the path, unchanged from attempts 1–2 since week 26 was not touched by
+this revision. Gate G1: **pass, with large margin**.
 
 ### Deadline check
 
 Total scheduled weeks: **26**. `horizon_weeks`: **26**. 26 ≤ 26 — the path fits inside the
 deadline with **zero weeks of calendar slack** (see Open Questions on why a literal extra
 buffer week isn't structurally possible here, and how week 26 substitutes for one). This is
-unchanged from attempt 1: the module→week apportionment is driven by `exercises.md`'s
+unchanged from attempts 1–2: the module→week apportionment is driven by `exercises.md`'s
 session counts, which were not revised this attempt. Gate G2: **pass, exactly at the
 limit, not exceeded**.
 
@@ -398,35 +408,49 @@ limit, not exceeded**.
 None.
 
 ## Open Questions
-- **How unknown-duration resources are handled (restated here per this attempt's explicit
-  instruction, in addition to the Summary).** 17 of `resources.md`'s 27 resources (up from
-  15 of 26 in attempt 1) carry `unknown` individual duration — a net increase, but an
-  honest one: the curator's attempt-2 revision corrected a false "confirmed" duration
-  (module 4) to `unknown` rather than inventing new false precision. Every one of these 17
-  contributes **exactly 0 hours** to this schedule's quantified totals; none is estimated
-  or guessed. Modules 7 and 8 still have **zero** quantified resource duration at all (both
-  their resources are unknown); module 4 now joins them at zero (down from a false 0.20h).
-  Modules 2, 3, 5, 6, and 9 each carry a mix of one "(est.)" figure plus additional unknown
-  resources on top. This means the schedule's 40.90h total and ~89.1h of apparent slack
-  should be read as a **floor**, not a ceiling: actual time spent most weeks will likely run
-  somewhat higher than the table shows, especially in weeks 10–11, 19, and 22 where no
-  resource duration is quantified at all. This is safe precisely because margins are wide —
-  the smallest margin anywhere in the path is 2.33h against the 5.5h G1 ceiling (week 26)
-  and 1.83h against the 5.0h nominal budget — comfortably able to absorb generous real
-  lengths for 17 unquantified resources without any week coming close to breaching gate G1.
-  I did not close this gap by estimating; per instruction, that is `resources.md`'s data to
-  supply, not this artifact's to invent.
+- **How unknown-duration resources are handled (restated here per standing instruction).**
+  17 of `resources.md`'s 27 resources carry `unknown` individual duration this attempt
+  (unchanged count from attempt 2, though which specific resources they are has shifted:
+  the three swapped-in YouTube videos in modules 4, 5 and 6 are just as `unknown` as the
+  resources they replaced). Every one of these 17 contributes **exactly 0 hours** to this
+  schedule's quantified totals; none is estimated or guessed. Modules 7 and 8 still have
+  **zero** quantified resource duration at all; module 4 remains at zero (unchanged since
+  attempt 2's correction). This means the schedule's 40.07h total and ~89.9h of apparent
+  slack should be read as a **floor**, not a ceiling: actual time spent most weeks will
+  likely run somewhat higher than the table shows, especially in weeks 10–11, 19, and 22.
+  This is safe precisely because margins are wide — the smallest margin anywhere in the
+  path is 2.33h against the 5.5h G1 ceiling (week 26) — comfortably able to absorb generous
+  real lengths for 17 unquantified resources without any week coming close to breaching
+  gate G1.
+- **Reconciling this schedule's 40.07h with `effort-budget.md` attempt 3's reported
+  40.00h floor.** Both describe the same underlying content; the ~0.07h gap is display
+  rounding, not a scope difference. This schedule (like attempt 2 before it) displays
+  modules 5 and 9's Mi Vida Loca compilation resource hours as 3.70h (a round figure for
+  "~220 minutes"), while a more precise unrounded conversion is 220÷60 = 3.6667h each —
+  0.0333h higher per module, 0.0666h combined, which together with a small residual
+  rounding difference in module 1's 1.667h≈1.67h display accounts for the full gap. I did
+  not silently switch this schedule's displayed figures to match `effort-budget.md`'s more
+  precise ones, because doing so would touch modules 5 and 9's session-level numbers
+  (weeks 13–15 and 24–26) for a ~2-minute difference that changes no gate outcome; both
+  figures are well inside every week's margin and inside the 130h budget either way.
+- **Module 1's correction confirms, not just repeats, what attempt 2 already suspected.**
+  Attempt 2's schedule had already built weeks 1–3's session-level pacing around the
+  playlist's actual ~1.5h estimate plus Mi Vida Loca's ~10 minutes (i.e., ~1.667h) even
+  though the module-level summary table it copied from `resources.md` stated "~2.5h" — an
+  internal inconsistency that this attempt's correction resolves by fixing the table to
+  match the sessions, not the other way around. No session content in weeks 1–3 changed;
+  only the summary arithmetic did.
 - **Module 5's reported resource figure (~3.7h) still looks wrong, not just incomplete —
-  unchanged from attempt 1.** `resources.md`'s own annotation for the Mi Vida Loca
+  unchanged from attempts 1–2.** `resources.md`'s own annotation for the Mi Vida Loca
   compilation cited in module 5 says to "watch from that segment" (Episode 3, ~10 minutes)
   for the directions/transport role-play objective — but the coverage table counts the full
   ~220-minute (22-episode) compilation length toward module 5's resource hours. This was
-  not touched in the attempt-2 revision (the curator's changes to module 5 were limited to
-  replacing the dead "Perfecting the Prepositions" citation). If corrected to the actual
-  assigned segment (~0.17h instead of 3.7h), weeks 13–15 would drop by roughly 3.5h
-  combined, further flattening an already light stretch of the path. I used the reported
-  3.7h as instructed rather than silently overriding it, but flag it again as the single
-  number in `resources.md` I'm most confident is a data-entry error.
+  not touched in the attempt-3 revision (the curator's changes to module 5 were limited to
+  the video/audio swap addressed above). If corrected to the actual assigned segment
+  (~0.17h instead of 3.7h), weeks 13–15 would drop by roughly 3.5h combined, further
+  flattening an already light stretch of the path. I used the reported 3.7h as instructed
+  rather than silently overriding it, but flag it again as the single number in
+  `resources.md` I'm most confident is a data-entry error.
 - **No literal, wholly separate buffer week exists, by structural necessity, not
   oversight.** `exercises.md`'s own module-to-week apportionment (9, 9, 9, 9, 9, 9, 9, 6, 9
   sessions ÷ the learner's fixed 3 sessions/week) sums to exactly 26 weeks — the same as
@@ -436,8 +460,8 @@ None.
   stripped of all new resource content (module 9's viewing is front-loaded into weeks
   24–25) so it functions as the de facto buffer/deadline week — consolidation, catch-up,
   the module 9 checkpoint, the cumulative review, and the final check only. Unchanged from
-  attempt 1.
-- **Minor rounding note, unchanged from attempt 1:** `assessments.md`'s summary prose
+  attempts 1–2.
+- **Minor rounding note, unchanged from attempts 1–2:** `assessments.md`'s summary prose
   states "about 5.5 hours (~325 minutes)" of total assessment time, but its own itemized
   checkpoints, cumulative reviews, and final check sum to exactly 330 minutes (5.50h). I
   used the itemized total (directly computable and verified above) rather than the
@@ -445,10 +469,11 @@ None.
 - **If the resource-hour gaps above turn out to be real** (i.e., the true per-video
   durations really are this short, and module 5's figure really is corrected downward), the
   path has even more slack than the ~15%+ a 26-week beginner plan should need. In that
-  case, the recommendation is unchanged from attempt 1: the recovered time should **not**
-  go toward additional grammar scope — `curriculum.md` deliberately excluded the imperfect
-  tense, subjunctive, and compound tenses as out of reach for the honest 130-hour budget,
-  and that reasoning does not change because resource-viewing turned out to be shorter than
-  expected. The better use, per Open Questions independently raised in `exercises.md` and
-  `assessments.md`, is a live conversation partner or tutor session near the end of the
-  path (modules 8–9) — the one gap self-study and self-scored recordings cannot close.
+  case, the recommendation is unchanged from attempts 1–2: the recovered time should
+  **not** go toward additional grammar scope — `curriculum.md` deliberately excluded the
+  imperfect tense, subjunctive, and compound tenses as out of reach for the honest 130-hour
+  budget, and that reasoning does not change because resource-viewing turned out to be
+  shorter than expected. The better use, per Open Questions independently raised in
+  `exercises.md` and `assessments.md`, is a live conversation partner or tutor session near
+  the end of the path (modules 8–9) — the one gap self-study and self-scored recordings
+  cannot close.

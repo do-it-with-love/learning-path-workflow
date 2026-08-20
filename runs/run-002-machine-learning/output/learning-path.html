@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Learning with scikit-learn — Learning Path</title>
+<style>
+  /* Light palette on bare :root; dark overrides the same tokens. */
+  :root {
+    --bg: #fbfaf8;
+    --surface: #ffffff;
+    --surface-alt: #f4f2ee;
+    --border: #ddd8d0;
+    --text: #1f1d1a;
+    --text-muted: #5f594f;
+    --accent: #7a5c2e;
+    --accent-soft: #f0e7d8;
+    --ok: #2f6b3f;
+    --warn: #8a5a12;
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 4px 12px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16150f;
+      --surface: #1e1d16;
+      --surface-alt: #262419;
+      --border: #3a372c;
+      --text: #ece8dd;
+      --text-muted: #a8a091;
+      --accent: #d9b46a;
+      --accent-soft: #2f2a1c;
+      --ok: #7fc08c;
+      --warn: #e0b062;
+      --shadow: none;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2.5rem 1.25rem 5rem;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 62rem; margin: 0 auto; }
+
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .5rem; letter-spacing: -.02em; }
+  h2 {
+    font-size: 1.35rem; margin: 3rem 0 1rem; padding-bottom: .4rem;
+    border-bottom: 2px solid var(--accent-soft);
+  }
+  h3 { font-size: 1.1rem; margin: 1.75rem 0 .5rem; }
+  h4 { font-size: .95rem; margin: 1.25rem 0 .4rem; color: var(--text-muted); }
+  p, li { margin: .5rem 0; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { text-decoration-thickness: 2px; }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .9em; background: var(--surface-alt); padding: .05rem .3rem;
+    border-radius: 4px;
+  }
+
+  /* Overview facts card */
+  .facts {
+    display: grid; gap: .75rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem; margin: 1.5rem 0; box-shadow: var(--shadow);
+  }
+  .facts div { display: flex; flex-direction: column; gap: .15rem; }
+  .facts dt, .facts .label {
+    font-size: .72rem; text-transform: uppercase; letter-spacing: .07em;
+    color: var(--text-muted);
+  }
+  .facts dd, .facts .value { margin: 0; font-size: 1.05rem; font-weight: 600; }
+
+  /* Tables: the page never scrolls sideways, the table does. */
+  .scroll { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .94rem; }
+  th, td { padding: .55rem .7rem; text-align: left; border-bottom: 1px solid var(--border); }
+  thead th {
+    position: sticky; top: 0; background: var(--surface-alt);
+    font-size: .75rem; text-transform: uppercase; letter-spacing: .05em;
+    color: var(--text-muted); border-bottom: 2px solid var(--border);
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:last-child td { border-bottom: none; }
+  tfoot td, tfoot th { font-weight: 700; border-top: 2px solid var(--border); }
+
+  /* Module cards */
+  .module {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.25rem 1.4rem; margin: 1.25rem 0; box-shadow: var(--shadow);
+  }
+  .module > h3 { margin-top: 0; }
+  .module .meta { color: var(--text-muted); font-size: .85rem; margin-bottom: .75rem; }
+  .module h4 { display: flex; align-items: center; gap: .5rem; }
+  .module h4 input[type="checkbox"] { width: 1rem; height: 1rem; flex: none; }
+
+  /* Rubric: three bands, labelled in text as well as colour */
+  .rubric { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+  .rubric .band {
+    border: 1px solid var(--border); border-radius: 8px; padding: .8rem 1rem;
+    background: var(--surface);
+  }
+  .rubric .band strong { display: block; margin-bottom: .3rem; }
+  .rubric .band.not-yet strong { color: var(--warn); }
+  .rubric .band.continue strong { color: var(--accent); }
+  .rubric .band.solid strong { color: var(--ok); }
+
+  /* Resource entries */
+  .resources { list-style: none; padding: 0; }
+  .resources li {
+    border-left: 3px solid var(--accent-soft); padding: .4rem 0 .4rem .85rem;
+    margin: .6rem 0; display: flex; gap: .6rem; align-items: flex-start;
+  }
+  .resources li input[type="checkbox"] { margin-top: .3rem; flex: none; width: 1rem; height: 1rem; }
+  .resources .detail { display: block; color: var(--text-muted); font-size: .85rem; }
+  .badge {
+    display: inline-block; padding: .05rem .45rem; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent);
+    font-size: .72rem; font-weight: 700; letter-spacing: .03em;
+  }
+
+  /* Caveats stay visible — never a footnote */
+  .caveat {
+    border-left: 4px solid var(--warn); background: var(--surface-alt);
+    padding: .8rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0;
+  }
+  .caveat strong { color: var(--warn); }
+
+  /* Tickable checklists */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { display: flex; gap: .6rem; align-items: flex-start; margin: .45rem 0; }
+  .checklist input[type="checkbox"] { margin-top: .35rem; flex: none; width: 1rem; height: 1rem; }
+
+  footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--border);
+           color: var(--text-muted); font-size: .85rem; }
+
+  @media print {
+    body { background: #fff; color: #000; padding: 0; font-size: 11pt; }
+    .module, .facts, .rubric .band { box-shadow: none; break-inside: avoid; }
+    h2 { break-after: avoid; }
+    thead th { position: static; }
+    a { color: #000; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; word-break: break-all; }
+    .caveat { border-left-color: #000; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Build and Evaluate Your Own Machine Learning Models — Your Learning Path</h1>
+
+  <h2>Overview</h2>
+
+  <p>By the end of this path you will be able to take a tabular dataset, split it properly,
+  train both a classification model and a regression model with scikit-learn, evaluate
+  each with the right metrics, and diagnose whether a model is overfitting or
+  underfitting before you trust its results. You'll prove all of this on a capstone
+  project where you build and evaluate a working classifier and a working regressor,
+  end to end, on your own.</p>
+
+  <p>The scope is deliberately classical and tabular: scikit-learn on rows-and-columns
+  data. Deep learning, neural networks, and non-tabular data (images, text, audio) are
+  out of scope — there's no room for them in this budget, and your stated goal doesn't
+  need them. Statistics is not taught as its own subject; the specific statistical
+  ideas you need (mean and variance, basic probability, the normal distribution) are
+  introduced exactly when a module first needs them, not gathered into a separate
+  chapter up front.</p>
+
+  <div class="caveat">
+    <p><strong>Timeline changed by agreement.</strong> You originally asked to be done in 4 weeks. At 3 hours a week that's 12 hours total,
+    against a realistic 25–30 hour minimum for this scope done properly — so this plan
+    runs 10 weeks instead, at the same 3 hours a week, with nothing cut from the original
+    goal. That trade (more weeks, same weekly effort, full scope) is the decision this
+    plan is built around.</p>
+  </div>
+
+  <div class="facts">
+    <div><span class="label">Starting point</span><span class="value">Comfortable with basic Python; no statistics or machine learning background assumed</span></div>
+    <div><span class="label">End point</span><span class="value">Can build, evaluate, and diagnose a classifier and a regressor on tabular data, independently</span></div>
+    <div><span class="label">Duration</span><span class="value">10 weeks</span></div>
+    <div><span class="label">Weekly commitment</span><span class="value">3 hours/week</span></div>
+    <div><span class="label">Total effort</span><span class="value">26.88 hours (≈ 26h 53m), against 30 hours of available time — about 10% slack</span></div>
+    <div><span class="label">Cost</span><span class="value">$0 — every resource is free</span></div>
+    <div><span class="label">Format</span><span class="value">Project-led: you learn by building and submitting real models, not by watching lectures</span></div>
+    <div><span class="label">Capstone</span><span class="value">A classifier and a regressor, built and evaluated end to end on two real datasets</span></div>
+  </div>
+
+  <p>If you only read this section: this plan is for a Python-literate beginner who wants
+  working, evaluated ML models in hand at the end of ten 3-hour weeks, spending nothing,
+  almost entirely in a web browser.</p>
+
+  <h2>Before You Start</h2>
+
+  <p><strong>Prerequisites.</strong> You need working Python fundamentals — variables, control flow,
+  functions, lists and dictionaries. You do <strong>not</strong> need any prior statistics or machine
+  learning exposure; this plan assumes zero on both and builds them in as you go. You
+  also don't need prior experience loading or manipulating tabular data (no pandas/numpy
+  assumed) — that's covered from the first session.</p>
+
+  <div class="caveat">
+    <p><strong>What to install.</strong> Nothing, in practice. Every resource in this plan runs in a
+    browser: Kaggle's notebook environment, and scikit-learn's own documentation pages,
+    which offer zero-install "run this" links (Binder or JupyterLite) for every runnable
+    example. The one thing to set up is a <strong>free Kaggle account</strong> (email signup, about 6
+    minutes) — you'll need it starting in Week 1 and will use it throughout. Two modules
+    (Weeks 3 and 5) also have you join a Kaggle competition to submit predictions; despite
+    Kaggle's phone-verification requirement for some account features (medals, prizes,
+    publishing public models), it does <strong>not</strong> apply to submitting predictions on the
+    "Getting Started" competitions used here, so an email-only account is enough.</p>
+  </div>
+
+  <p><strong>Confirm your starting point.</strong> This placement check exists to confirm — or correct —
+  the assumption that you're starting from true zero on statistics and ML before the
+  plan builds on it. It's self-scored and takes under 15 minutes; there's no wrong
+  outcome, only a more or less accurate starting point.</p>
+
+  <ol>
+    <li>Write a function that takes a list of numbers and returns their average.</li>
+    <li>Given <code>rows = [{"age": 25, "income": 50000}, {"age": 40, "income": 80000}, {"age": 31, "income": 62000}]</code>, write code to compute the average <code>"age"</code> across all rows.</li>
+    <li>What is the difference between the <em>mean</em> and the <em>median</em> of a dataset? Give an example of a dataset where they'd differ substantially.</li>
+    <li>If you flip a fair coin 3 times, what is the probability of getting exactly 2 heads?</li>
+    <li>In your own words: what is the difference between <em>training</em> a model and <em>testing</em> it, and why do we split data into two sets instead of using all of it for both?</li>
+    <li>What does it mean for a model to "overfit" its training data?</li>
+    <li>Have you ever used scikit-learn, pandas, or numpy? Describe what you did — or answer "never used any of these."</li>
+    <li>A classifier predicts "not spam" for every email in a test set that's 95% not-spam and 5% spam. What's its accuracy? Why might accuracy alone be misleading here?</li>
+  </ol>
+
+  <p><strong>Answer key</strong> — 1) <code>sum(nums) / len(nums)</code>. 2) <code>sum(r["age"] for r in rows) /
+  len(rows)</code> → 32.0. 3) Mean is the arithmetic average; median is the middle sorted
+  value; they diverge with outliers or skew (e.g., three salaries near $45k and one CEO
+  at $2M: the mean is pulled far above what's typical). 4) 3/8 = 0.375. 5) Training fits
+  the model's parameters on known data; testing checks it on data it hasn't seen, to
+  estimate real-world performance rather than memorization. 6) The model has fit the
+  training data's noise too closely, so it performs well on training data but poorly on
+  new data. 7) Any concrete description counts as partial credit; "never used any of
+  these" is the expected answer. 8) 95% accuracy — misleading because the classifier
+  catches zero actual spam; precision and recall on the spam class would reveal the true
+  (poor) performance accuracy alone hides.</p>
+
+  <p><strong>Score yourself:</strong> 0–2 correct confirms the assumed zero baseline — start Week 1
+  exactly as written. 3–5 correct means some prior exposure has likely happened since you
+  described your background — start Week 1 anyway, but expect some of it to move faster
+  than expected. 6–8 correct suggests you're already a level above where this plan
+  starts (closer to understanding the supervised-learning paradigm conceptually) — the
+  early weeks' statistics and tooling on-ramp may feel redundant; you can move through
+  Weeks 1–2 faster than the schedule below assumes.</p>
+
+  <h2>Your Path Week by Week</h2>
+
+  <div class="scroll">
+  <table class="schedule">
+    <thead>
+      <tr>
+        <th scope="col">Done</th>
+        <th scope="col" class="num">Week</th>
+        <th scope="col">Focus</th>
+        <th scope="col">Sessions</th>
+        <th scope="col" class="num">Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><input type="checkbox"></td><td class="num">1</td><td>Module 1 — Tabular data &amp; descriptive statistics</td><td>Weekend (96 min) + weekday (30 min)</td><td class="num">2.10h</td></tr>
+      <tr><td><input type="checkbox"></td><td class="num">2</td><td>Module 2 — The supervised learning workflow, your first model</td><td>Weekend (140 min) + weekday (45 min)</td><td class="num">3.08h</td></tr>
+      <tr><td><input type="checkbox"></td><td class="num">3</td><td>Module 3 — Classification I: predicting categories</td><td>Weekend (146 min) + weekday (45 min)</td><td class="num">3.18h (heaviest week)</td></tr>
+      <tr><td><input type="checkbox"></td><td class="num">4</td><td>Cumulative review 1 (Modules 1–3) + Module 4 — Evaluating classifiers</td><td>Weekend (70 min) + weekday (55 min)</td><td class="num">2.08h (light recovery week)</td></tr>
+      <tr><td><input type="checkbox"></td><td class="num">5</td><td>Module 5 — Regression I: predicting numbers</td><td>Weekend (126 min) + weekday (45 min)</td><td class="num">2.85h</td></tr>
+      <tr><td><input type="checkbox"></td><td class="num">6</td><td>Module 6 — Evaluating regressors + Cumulative review 2 (Modules 4–6)</td><td>Weekend (90 min) + weekday (65 min)</td><td class="num">2.58h</td></tr>
+      <tr><td><input type="checkbox"></td><td class="num">7</td><td>Module 7 — Overfitting, underfitting &amp; generalization</td><td>Weekend (135 min) + weekday (50 min)</td><td class="num">3.08h</td></tr>
+      <tr><td><input type="checkbox"></td><td class="num">8</td><td>Module 8 — Feature engineering &amp; preparing real data</td><td>Weekend (120 min) + weekday (45 min)</td><td class="num">2.75h</td></tr>
+      <tr><td><input type="checkbox"></td><td class="num">9</td><td>Capstone, part 1 — classifier (Adult dataset)</td><td>Weekend (130 min) + weekday (50 min)</td><td class="num">3.00h</td></tr>
+      <tr><td><input type="checkbox"></td><td class="num">10</td><td>Capstone, part 2 — regressor (Wine Quality dataset) + write-up</td><td>Weekend (90 min) + weekday (40 min)</td><td class="num">2.17h (largest single-week margin)</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td></td><th colspan="3" scope="row">Total</th><td class="num">26.88h of 30h available (10.4% slack)</td></tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <p>A few things worth knowing about this shape: Week 3 is the heaviest week in the plan
+  (3.18h, driven by the Titanic competition submission) but still comes in under the
+  built-in tolerance for a busy week. Week 4 is deliberately light, giving you a recovery
+  week right after two weeks that ran close to the ceiling. The capstone spans two full
+  weeks (9–10) as one uninterrupted block rather than being squeezed alongside anything
+  else.</p>
+
+  <h2>Modules</h2>
+
+  <section class="module">
+    <h3>Module 1 — Working with Tabular Data &amp; Descriptive Statistics (Week 1, 2.10h)</h3>
+    <p class="meta">Week 1 · 2.10h</p>
+
+    <h4>What it covers</h4>
+    <p>This is where you go from "knows Python" to "can work with a real
+    dataset." You'll load a CSV into a pandas DataFrame, inspect its shape, columns, and
+    data types, and compute — and actually understand — the mean, variance, and standard
+    deviation of a numeric column. This is also where the statistics on-ramp begins: mean
+    and variance land here because you can't describe or summarize any dataset without
+    them, and nothing later in the plan can wait for a separate statistics unit.</p>
+
+    <h4>Objectives</h4>
+    <p>Load a CSV into a DataFrame and inspect its shape, columns, and
+    dtypes. Compute and interpret mean, variance, and standard deviation for numeric
+    columns. Identify categorical vs. numeric columns and produce a simple summary table.</p>
+
+    <h4>What to work through</h4>
+    <p>Three short Kaggle Learn exercise notebooks, each graded as
+    you go, each building directly on the last: <em>Creating, Reading and Writing</em> (build and
+    load DataFrames by hand and from a CSV, 30 min), <em>Indexing, Selecting &amp; Assigning</em>
+    (select rows and columns with <code>loc</code>/<code>iloc</code> and boolean masks on a real dataset, 30
+    min), and <em>Summary Functions and Maps</em> (independently compute <code>.describe()</code>, <code>.mean()</code>,
+    <code>.std()</code>, and related summary functions, 20 min). Each notebook opens with a short
+    recap and then a series of graded questions checked immediately, with hints and a full
+    solution if you get stuck — the difficulty ramps across the three notebooks rather than
+    within any one of them.</p>
+
+    <h4>What to practise</h4>
+    <p>Two short exercises: a 10-minute drill where you hand-compute the
+    mean, variance, and standard deviation of 10 rows from a numeric column and check your
+    work against pandas' own <code>.mean()</code>/<code>.var()</code>/<code>.std()</code> (if variance doesn't match, you
+    likely divided by n instead of n−1 — pandas uses the sample definition by default); and
+    a 15-minute application where you profile an entire dataset — mean/std/min/max for
+    every numeric column, unique-value counts for every categorical column — and write one
+    sentence per column on whether it looks useful for prediction or looks like noise.
+    This dataset-profiling habit carries forward into every later module.</p>
+
+    <h4><input type="checkbox"> How you'll know it landed</h4>
+    <p>A 15-minute check: load a dataset, compute descriptive
+    statistics by hand and cross-check them against <code>.describe()</code>, and write a genuinely
+    specific interpretation sentence per numeric column (not "this shows some variation,"
+    but something anchored to actual units, like "a spread of $12,000 around a mean of
+    $50,000 is wide"). If your hand-computed numbers don't match <code>.describe()</code>, that's a
+    mechanical error worth fixing before you move on — it will otherwise resurface as
+    confusing evaluation numbers much later.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 2 — The Supervised Learning Workflow: Your First Model (Week 2, 3.08h)</h3>
+    <p class="meta">Week 2 · 3.08h</p>
+
+    <h4>What it covers</h4>
+    <p>Your first fitted model. You'll learn why data gets split into a
+    training set and a test set, and you'll run the complete <code>fit</code>/<code>predict</code>/<code>score</code>
+    workflow that every later module builds on.</p>
+
+    <h4>Objectives</h4>
+    <p>Explain the difference between training and testing a model, and why
+    data is split into two sets. Perform a train/test split with <code>train_test_split</code>. Fit a
+    scikit-learn model end to end and report its score.</p>
+
+    <h4>What to work through</h4>
+    <p>Start with scikit-learn's own <em>Getting Started</em> walkthrough
+    (20 min) — a quick, non-graded read that shows you the shape of the <code>fit</code>/<code>predict</code>/
+    <code>score</code> API before you touch it yourself. Then two graded Kaggle exercises: <em>Your First
+    Machine Learning Model</em> (select features, fit a decision tree model, generate
+    predictions, 60 min) and <em>Model Validation</em> (perform a <code>train_test_split</code> and compute
+    mean absolute error on data the model never saw, 60 min) — the second of these is where
+    the module's core lesson actually lands: training performance is not the same as real
+    performance.</p>
+
+    <h4>What to practise</h4>
+    <p>A 10-minute drill where you run <code>train_test_split</code> three times
+    with three different random seeds on the same data and see how much the score moves
+    (if all three scores are identical, you forgot to change the seed) — a concrete look at
+    why a single split is a noisy estimate. Then a 20-minute application: fit a model with
+    no tuning, report the test score alongside the split proportions and a one-sentence
+    judgment on whether you'd trust that score to generalize. This exact model and split
+    becomes what you compare against in Modules 4 and 7.</p>
+
+    <h4><input type="checkbox"> How you'll know it landed</h4>
+    <p>A 15-minute check: split, fit, and report scores on
+    <em>both</em> the train and test sets, then explain in two or three sentences why the model
+    isn't scored on the data it was trained on. If you also notice how big the train/test
+    gap is and venture a guess about what a much bigger gap would mean, you're already
+    planting the seed for Module 7's diagnosis.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 3 — Classification I: Predicting Categories (Week 3, 3.18h)</h3>
+    <p class="meta">Week 3 · 3.18h</p>
+
+    <h4>What it covers</h4>
+    <p>Your first real classification model, with the strongest feedback
+    loop in the whole plan: a live public leaderboard. This is also where basic probability
+    enters — you need just enough of it to read what <code>predict_proba</code> is actually telling
+    you.</p>
+
+    <h4>Objectives</h4>
+    <p>Train a classification model with scikit-learn. Understand enough basic
+    probability to read <code>predict_proba</code> output. Generate both class predictions and
+    predicted probabilities and explain how they differ.</p>
+
+    <h4>What to work through</h4>
+    <p>The <em>Titanic – Machine Learning from Disaster</em> competition
+    (120 min plus a 6-minute join step): train a classifier, generate both predictions and
+    predicted probabilities, and submit for a leaderboard score — real, comparative,
+    immediate feedback the moment you submit. Pair it with a short, targeted read on
+    scikit-learn's logistic regression documentation (20 min) on what a predicted
+    probability actually represents.</p>
+
+    <h4>What to practise</h4>
+    <p>A 10-minute drill: hand-count the relative frequency of each
+    class in a small 10-row sample, then compare that naive guess to what a trained
+    model's <code>predict_proba</code> actually outputs on those same rows — and explain, for at
+    least two rows, why the model's answer differs from the plain base rate. Then a
+    20-minute application on a second dataset: print <code>predict</code> and <code>predict_proba</code>
+    side by side for five rows, and find one confident prediction and one near-50/50
+    prediction.</p>
+
+    <h4><input type="checkbox"> How you'll know it landed</h4>
+    <p>A 15-minute check: confirm that <code>predict()</code> and
+    <code>predict_proba()</code> agree on all five rows you inspect (the predicted class must always
+    be the one with the higher probability — if it isn't, something's broken, not just
+    imperfect), correctly tell a confident prediction from a coin-flip one, and write a
+    sentence on what a near-50/50 probability means about the model's confidence.</p>
+  </section>
+
+  <section class="module">
+    <h3>Cumulative Review 1 (Week 4, 20 min)</h3>
+    <p class="meta">Week 4 · 20 min</p>
+    <p>Before diving into evaluation, a short retrieval pass covering Modules 1–3, done from
+    memory and checked against a worked answer key: recall the four steps of the
+    supervised workflow in order, hand-compute a mean and variance, and correctly read a
+    <code>predict_proba</code> output. A slip or two that you catch yourself is fine; two or more
+    misses is worth revisiting Module 1's statistics section and Module 2's workflow
+    summary before continuing.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 4 — Evaluating Classifiers (Week 4, part of a light 2.08h week)</h3>
+    <p class="meta">Week 4 · part of a light 2.08h week</p>
+
+    <h4>What it covers</h4>
+    <p>Moving beyond "did it work" to "how well, and is that the right
+    question." This is where accuracy, precision, and recall enter, and where you meet the
+    accuracy paradox directly.</p>
+
+    <h4>Objectives</h4>
+    <p>Compute accuracy, precision, and recall with scikit-learn's <code>metrics</code>
+    module. Construct and read a confusion matrix. Explain why accuracy alone can mislead
+    on an imbalanced dataset.</p>
+
+    <h4>What to work through</h4>
+    <p>A targeted read on scikit-learn's classification-metrics
+    documentation for the definitions (30 min), then the confusion-matrix example notebook
+    — run <strong>with your own Module 3 model and data swapped in</strong> (30 min) — so the matrix
+    you read is your own, not a stock example.</p>
+
+    <h4>What to practise</h4>
+    <p>A 10-minute drill: write out a small confusion matrix by hand
+    from 10 predictions you invent yourself, compute accuracy/precision/recall by hand,
+    then verify against scikit-learn's own functions (if precision and recall come out
+    swapped, remember: precision divides by predicted-positive count, recall by
+    actual-positive count — the single most common mix-up). Then a 20-minute synthesis
+    exercise: deliberately make your Module 3 dataset imbalanced, retrain, recompute the
+    same three metrics, and defend in writing which metric actually represents whether the
+    model is useful.</p>
+
+    <h4><input type="checkbox"> How you'll know it landed</h4>
+    <p>A 15-minute check: compute all four numbers (accuracy,
+    precision, recall, confusion matrix) on a genuinely imbalanced version of your data,
+    and state which metric moved the most and why accuracy alone would have misled you.
+    This module's metrics are load-bearing for Module 7's overfitting diagnosis, so don't
+    carry an unresolved misunderstanding of the accuracy paradox forward.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 5 — Regression I: Predicting Numbers (Week 5, 2.85h)</h3>
+    <p class="meta">Week 5 · 2.85h</p>
+
+    <h4>What it covers</h4>
+    <p>Your first regression model, with the same leaderboard-driven
+    feedback loop as Module 3, on a numeric target instead of a category.</p>
+
+    <h4>Objectives</h4>
+    <p>Train a regression model with scikit-learn. Distinguish a regression
+    target from a classification target and pick the matching estimator. Generate
+    predictions and compute residuals.</p>
+
+    <h4>What to work through</h4>
+    <p>The <em>House Prices – Advanced Regression Techniques</em>
+    competition (120 min plus a 6-minute join step): fit a linear regression model to
+    predict a house's sale price, generate predictions and residuals, and submit to a
+    leaderboard that reports RMSE on unseen data immediately.</p>
+
+    <h4>What to practise</h4>
+    <p>A 10-minute drill: hand-compute predicted values and residuals
+    (prediction minus actual) for 10 rows and verify against code — watch the sign
+    convention carefully, since a flipped sign here will confuse every later residual
+    discussion. Then a 20-minute application on a second regression dataset: build a table
+    of actual vs. predicted vs. residual for 10 rows and identify the single worst
+    prediction.</p>
+
+    <h4><input type="checkbox"> How you'll know it landed</h4>
+    <p>A 15-minute check: report five residuals with
+    consistent signing, then correctly classify three short scenarios ("predict a house's
+    price," "predict whether an email is spam," "predict tomorrow's high temperature") as
+    regression or classification with the matching estimator type named. A sign error here
+    will make every MAE/RMSE comparison in Module 6 nonsensical, so it's worth getting
+    right before moving on.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 6 — Evaluating Regressors (Week 6, 2.58h)</h3>
+    <p class="meta">Week 6 · 2.58h</p>
+
+    <h4>What it covers</h4>
+    <p>The regression counterpart to Module 4: turning residuals into
+    proper error metrics, and the point where the normal distribution enters — just enough
+    of it to judge whether a set of residuals looks typical or unusual.</p>
+
+    <h4>Objectives</h4>
+    <p>Compute MAE and RMSE and interpret them in the target's own units.
+    Understand, at an introductory level, what a normal distribution is and use it to judge
+    residual spread. Compare two regression models with a consistent error metric.</p>
+
+    <h4>What to work through</h4>
+    <p>A targeted read on scikit-learn's regression-metrics
+    documentation (30 min), then the cross-validated-predictions example notebook — run
+    <strong>with your own Module 5 regressor and data swapped in</strong> (60 min) — producing an
+    actual-vs-predicted plot and a residual plot on your own results.</p>
+
+    <h4>What to practise</h4>
+    <p>A 10-minute drill: using the 10 residuals you saved from Module
+    5, hand-compute MAE and RMSE and verify against scikit-learn's own metric functions
+    (if RMSE comes out smaller than MAE, that's an arithmetic error — RMSE is always ≥ MAE,
+    since squaring punishes large errors more). Then a 20-minute synthesis exercise: train
+    a second, different regressor on the same data, compare MAE/RMSE for both, and check
+    whether the better model's residuals look roughly symmetric around zero or show a skew
+    or outlier.</p>
+
+    <h4><input type="checkbox"> How you'll know it landed</h4>
+    <p>A 15-minute check: report MAE and RMSE for two models in
+    the target's actual units (not bare numbers), identify which model wins, and assess
+    whether the residual spread looks centered.</p>
+  </section>
+
+  <section class="module">
+    <h3>Cumulative Review 2 (Week 6, 20 min)</h3>
+    <p class="meta">Week 6 · 20 min</p>
+    <p>A second retrieval pass, covering Modules 4–6: compute accuracy/precision/recall from a
+    given confusion matrix, compute MAE/RMSE from given actual and predicted values, and
+    state the difference between <code>predict()</code> and <code>predict_proba()</code> — all from memory,
+    checked against a worked answer key. A realistic bar at this point in your first
+    exposure to ML is "one self-corrected slip," not a clean unaided pass — expect and
+    accept the occasional arithmetic wobble.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 7 — Overfitting, Underfitting &amp; Generalization (Week 7, 3.08h)</h3>
+    <p class="meta">Week 7 · 3.08h</p>
+
+    <h4>What it covers</h4>
+    <p>This is the single most valuable experience in the whole plan.
+    You'll deliberately train a model that's too flexible for its own good and watch its
+    training and test scores pull apart — and only then read about <em>why</em>. Seeing the gap
+    open, before anyone explains bias-variance to you, is what stops a beginner from
+    shipping a model that scores 99% on training data and predicts nothing useful in the
+    real world.</p>
+
+    <h4>Objectives</h4>
+    <p>Explain the bias–variance tradeoff and connect it to overfitting and
+    underfitting. Diagnose over/underfitting using the train/test gap or cross-validation.
+    Apply k-fold cross-validation and explain why it's more reliable than a single split.
+    Apply at least one concrete mitigation to an overfitting model.</p>
+
+    <h4>What to work through</h4>
+    <p>The <em>Cross-Validation</em> exercise notebook (90 min, graded):
+    apply cross-validation to one of your own earlier models and compare the
+    cross-validated score to the single-split score you already recorded, so the gap is
+    visible on your own results, not an abstract example. Then a targeted read on
+    scikit-learn's cross-validation strategy catalogue (30 min) to pick the right strategy
+    (<code>StratifiedKFold</code> for a classifier, plain <code>KFold</code> for a regressor).</p>
+
+    <h4>What to practise</h4>
+    <p>First, a 15-minute drill — and do this <em>before</em> re-reading any
+    explanation: train two versions of the same model type, one deliberately too flexible
+    (an unconstrained decision tree, or k-NN with a single neighbor) and one much simpler.
+    Print train and test accuracy for both side by side. You should see the flexible
+    model's train accuracy sit far above its test accuracy — a real, visible gap — while
+    the simple model's two numbers stay close together. If you don't see a gap, push the
+    flexible model further (deeper tree, fewer neighbors) until you do; the point is to
+    reliably produce the symptom, not just read about it. Then a 15-minute application
+    running cross-validation on your own Module 3 and Module 5 models, and a 15-minute
+    synthesis exercise where you apply exactly one mitigation (limit depth, increase k, or
+    add regularization) to the overfit model from the drill and confirm the gap visibly
+    shrinks.</p>
+
+    <div class="caveat">
+      <h4><input type="checkbox"> How you'll know it landed — and why this one matters more than the others</h4>
+      <p>A
+      20-minute check, and the one checkpoint in this plan that's a hard stop rather than a
+      recommendation: produce a deliberately overfit model and a reasonably fit one, report
+      train and test scores for both, and — before doing anything else — answer in writing
+      <em>which model you'd ship, and why</em>. If your answer is "the one with the higher training
+      score," that's the exact failure this checkpoint exists to catch, and the honest
+      instruction is: don't move on to Module 8 yet. Re-read the bias-variance material,
+      redo the paired comparison using a worked example until "higher training score plus a
+      big gap means worse, not better" feels unambiguous, then retry with your own data. Every
+      other checkpoint in this plan can tolerate a rough pass forward — this one can't.</p>
+    </div>
+  </section>
+
+  <section class="module">
+    <h3>Module 8 — Feature Engineering &amp; Preparing Real Data (Week 8, 2.75h)</h3>
+    <p class="meta">Week 8 · 2.75h</p>
+
+    <h4>What it covers</h4>
+    <p>Real datasets are messy — missing values, categorical columns,
+    features on wildly different scales — and this module is where you learn to handle
+    that properly, chained into a single reusable pipeline, right before you need that
+    skill for the capstone.</p>
+
+    <h4>Objectives</h4>
+    <p>Handle missing values and encode categorical variables with
+    scikit-learn's preprocessing tools. Apply feature scaling and know when it matters.
+    Build a scikit-learn <code>Pipeline</code> that chains preprocessing and a model together.</p>
+
+    <h4>What to work through</h4>
+    <p>Two graded exercises, done in this order: <em>Exercise:
+    Categorical Variables</em> (compare drop/ordinal/one-hot encoding and see which produces
+    the lowest error, 30 min), then <em>Exercise: Pipelines</em> (chain imputation, encoding, and
+    scaling into a single <code>Pipeline</code> object on data with real missing values, 90 min).</p>
+
+    <h4>What to practise</h4>
+    <p>A 10-minute drill: fill 2–3 missing values in a tiny table by
+    hand two ways — column mean and column median — and verify against scikit-learn's
+    <code>SimpleImputer</code>. Then a 20-minute application: build a full <code>Pipeline</code> on a genuinely
+    messy dataset (missing values and categorical columns together) and confirm it handles
+    new, raw test rows with a single <code>.predict()</code> call and no manual preprocessing step
+    snuck in outside the pipeline — which would otherwise leak information from your test
+    set into training.</p>
+
+    <h4><input type="checkbox"> How you'll know it landed</h4>
+    <p>A 15-minute check: confirm your <code>Pipeline</code> runs
+    end-to-end on new raw data, correctly identify which model types actually need scaling
+    (distance-based and regularized models, generally not tree-based ones), and be able to
+    explain in one sentence why keeping preprocessing inside the pipeline — rather than
+    doing it once on the whole dataset before splitting — avoids leaking test-set
+    information into training. A leaking or broken pipeline here would quietly invalidate
+    the capstone's evaluation, so it's worth getting solid before Week 9.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 9 — Capstone: Build and Evaluate a Classifier and a Regressor (Weeks 9–10, 5.17h)</h3>
+    <p class="meta">Weeks 9–10 · 5.17h</p>
+
+    <h4>What it covers</h4>
+    <p>Everything from Modules 1–8, recombined without a lesson holding
+    your hand. You'll run the full workflow twice, unassisted, on two real datasets: split,
+    train, evaluate, and diagnose over/underfitting for a classifier, then do the same for
+    a regressor.</p>
+
+    <h4>Objectives</h4>
+    <p>Complete an end-to-end classification workflow — split, train,
+    evaluate with accuracy/precision/recall, diagnose over/underfitting — on the Adult
+    dataset. Complete an end-to-end regression workflow — split, train, evaluate with
+    MAE/RMSE, diagnose over/underfitting — on the Wine Quality dataset. Document the
+    pipeline, results, and at least one applied mitigation for each.</p>
+
+    <div class="caveat">
+      <h4>What to work through</h4>
+      <p>Two UCI datasets, both free CSV downloads: <strong>Adult</strong>
+      (48,842 rows, 14 features, classification target: income above or below $50K) in Week
+      9, and <strong>Wine Quality</strong> (4,898 rows, 11 features, regression target: a 0–10 quality
+      score) in Week 10. One thing worth knowing going in: Adult is roughly ten times larger
+      than Wine Quality. Both train in seconds on any modern machine, so this isn't a
+      runtime problem — but if you're working in a constrained browser session, Adult will
+      feel noticeably slower to load, explore, and plot than Wine Quality. That's why Week 9
+      carries more time than Week 10. If you'd rather have symmetric effort across both
+      halves, you can subsample Adult down to a few thousand rows without losing anything the
+      capstone needs.</p>
+    </div>
+
+    <h4>What to practise</h4>
+    <p>A short self-audit checklist, filled in at the start and revisited
+    as you go rather than only at the end: dataset chosen, split performed and reproducible,
+    model fit, evaluation metrics computed, train/test gap checked, at least one mitigation
+    applied if a gap was found, one paragraph written up per model. This doesn't add build
+    time — it directs the 5-hour build you're already doing.</p>
+
+    <h4><input type="checkbox"> How you'll know it landed</h4>
+    <p>There's no leaderboard here (both datasets are static,
+    not live competitions), so the check is a checklist you mark against your own capstone
+    work — see <strong>Checkpoints and Progress</strong> below for the full final check, which is the
+    actual assessment for this module and ties directly back to your original goal.</p>
+  </section>
+
+  <h2>Checkpoints and Progress</h2>
+
+  <p>Every module above ends with a short, self-scored check, graded against one of three
+  bands: <strong>not yet</strong> (something's mechanically wrong or a key idea hasn't landed —
+  revisit the specific material named in that module before continuing), <strong>good enough
+  to continue</strong> (the realistic bar for most people working through this for the first
+  time — move on), or <strong>solid</strong> (you've gone a step beyond the minimum). Checkpoints are
+  short by design — 15 minutes each, with one deliberate exception below — and every one
+  is checked against something concrete: a library function's own output, a hand
+  computation, or a fixed worked example with a known answer, not an open-ended
+  self-assessment.</p>
+
+  <div class="rubric">
+    <div class="band not-yet">
+      <strong>Not yet</strong>
+      <p>Something's mechanically wrong or a key idea hasn't landed — revisit the specific material named in that module before continuing.</p>
+    </div>
+    <div class="band continue">
+      <strong>Good enough to continue</strong>
+      <p>The realistic bar for most people working through this for the first time — move on.</p>
+    </div>
+    <div class="band solid">
+      <strong>Solid</strong>
+      <p>You've gone a step beyond the minimum.</p>
+    </div>
+  </div>
+
+  <div class="caveat">
+    <p><strong>One hard gate.</strong> Module 7's checkpoint (20 minutes, not 15) is the one exception to
+    "move on with a rough pass": if you catch yourself preferring the model with the higher
+    training score without checking the test score, don't proceed to Module 8. That
+    specific mistake — mistaking memorization for skill — is the one this whole plan is
+    built to prevent, so it's worth the extra five minutes and the willingness to redo it.</p>
+  </div>
+
+  <p><strong>Two cumulative reviews.</strong> After Module 3 and after Module 6, a 20-minute retrieval
+  pass checks whether earlier material is sticking, not just the material you just
+  finished. A third pass would normally fall after Module 9, but it's folded into the
+  final check instead, since the capstone already touches every skill from Modules 1–8.</p>
+
+  <p><strong>The final check.</strong> This is where the plan closes the loop with your original goal:
+  "build and evaluate my own machine learning models." It isn't time-boxed to 15 minutes,
+  because it's the deliverable the entire plan was built to produce. For each of your two
+  capstone models, confirm:</p>
+
+  <ol>
+    <li><strong>Held-out data.</strong> The reported metrics come from a test set that was never touched
+    during fitting — not training accuracy, not training error.</li>
+    <li><strong>The right metric for the task.</strong> Accuracy/precision/recall for the classifier
+    (not MAE/RMSE); MAE or RMSE for the regressor (not accuracy). If your classification
+    data is imbalanced, precision or recall — not raw accuracy — is the number that
+    actually matters.</li>
+    <li><strong>A stated baseline.</strong> Compute a naive baseline — a majority-class predictor for the
+    classifier, a mean-prediction for the regressor — and explicitly compare your
+    trained model against it in writing, even if the honest answer is "doesn't beat it,
+    because Y."</li>
+    <li><strong>A checked train/test gap</strong>, with at least one mitigation applied and shown if a
+    gap was found.</li>
+    <li><strong>At least one specific place in your write-up</strong> where mean/variance, basic
+    probability, or the idea of a "typical" residual spread was used to interpret your
+    data or your model's output — the statistics you picked up along the way, actually
+    applied.</li>
+  </ol>
+
+  <p>For most people finishing this plan for the first time, landing on "good enough to
+  continue" across the board — both models trained and properly evaluated, a baseline
+  stated and honestly compared against, the gap checked — is the realistic and expected
+  outcome, not a shortfall. If any item is missing, the fix points back to the module
+  that owns it: classifier metrics to Module 4's worked example, regressor metrics to
+  Module 6's, the overfitting check to Module 7's (non-negotiable, given that module's
+  hard gate).</p>
+
+  <p><strong>Two honest limits of self-assessment</strong>, worth knowing rather than being surprised by:
+  judging whether cross-validation is warranted on a genuinely new problem — beyond the
+  fixed scenarios these checks can pre-answer — is a judgment call self-checking can't
+  fully validate; and a written explanation (like "explain the bias-variance tradeoff in
+  your own words") can sound plausible while resting on a subtly wrong mental model, in a
+  way a self-review won't always catch. If you want a second opinion on either, a study
+  partner, an ML forum, or anyone with more experience is worth the conversation —
+  nothing in this plan requires it, but nothing in it replaces it either.</p>
+
+  <h2>Resources</h2>
+
+  <p>Every resource below is free and runs in a browser — no local installation is
+  required anywhere in this plan.</p>
+
+  <h3>Module 1 — Working with Tabular Data &amp; Descriptive Statistics</h3>
+  <ul class="resources">
+    <li><input type="checkbox"><span>
+      <a href="https://www.kaggle.com/code/residentmario/exercise-creating-reading-and-writing">Exercise: Creating, Reading and Writing</a>
+      <span class="detail">Kaggle Learn (Pandas course) · 2026 · interactive auto-graded exercise notebook · ~30 min · <span class="badge">free</span> · verified: webfetch 2026-08-19</span>
+    </span></li>
+    <li><input type="checkbox"><span>
+      <a href="https://www.kaggle.com/code/residentmario/exercise-indexing-selecting-assigning">Exercise: Indexing, Selecting &amp; Assigning</a>
+      <span class="detail">Kaggle Learn (Pandas course) · 2026 · interactive auto-graded exercise notebook · ~30 min · <span class="badge">free</span> · verified: webfetch 2026-08-19</span>
+    </span></li>
+    <li><input type="checkbox"><span>
+      <a href="https://www.kaggle.com/code/residentmario/exercise-summary-functions-and-maps">Exercise: Summary Functions and Maps</a>
+      <span class="detail">Kaggle Learn (Pandas course) · 2026 · interactive auto-graded exercise notebook · ~20 min · <span class="badge">free</span> · verified: webfetch 2026-08-19</span>
+    </span></li>
+  </ul>
+
+  <h3>Module 2 — The Supervised Learning Workflow: Your First Model</h3>
+  <ul class="resources">
+    <li><input type="checkbox"><span>
+      <a href="https://scikit-learn.org/stable/getting_started.html">Getting Started</a>
+      <span class="detail">scikit-learn · 2026 (v1.9) · documentation walkthrough with runnable code · ~20 min · <span class="badge">free</span> · verified: webfetch 2026-08-18</span>
+    </span></li>
+    <li><input type="checkbox"><span>
+      <a href="https://www.kaggle.com/code/dansbecker/exercise-your-first-machine-learning-model">Exercise: Your First Machine Learning Model</a>
+      <span class="detail">Kaggle Learn (Intro to Machine Learning) · 2026 · interactive auto-graded exercise notebook · ~60 min · <span class="badge">free</span> · verified: webfetch 2026-08-19</span>
+    </span></li>
+    <li><input type="checkbox"><span>
+      <a href="https://www.kaggle.com/code/dansbecker/exercise-model-validation">Exercise: Model Validation</a>
+      <span class="detail">Kaggle Learn (Intro to Machine Learning) · 2026 · interactive auto-graded exercise notebook · ~60 min · <span class="badge">free</span> · verified: webfetch 2026-08-19</span>
+    </span></li>
+  </ul>
+
+  <h3>Module 3 — Classification I: Predicting Categories</h3>
+  <ul class="resources">
+    <li><input type="checkbox"><span>
+      <a href="https://www.kaggle.com/c/titanic">Titanic - Machine Learning from Disaster</a>
+      <span class="detail">Kaggle Competitions · 2026 (rolling, no end date) · competition with leaderboard · ~120 min for a first working submission · <span class="badge">free</span> · verified: websearch 2026-08-18</span>
+    </span></li>
+    <li><input type="checkbox"><span>
+      <a href="https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression">Logistic Regression</a>
+      <span class="detail">scikit-learn · 2026 (v1.9) · user guide · ~20 min · <span class="badge">free</span> · verified: webfetch 2026-08-18</span>
+    </span></li>
+  </ul>
+
+  <h3>Module 4 — Evaluating Classifiers</h3>
+  <ul class="resources">
+    <li><input type="checkbox"><span>
+      <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics">Metrics and scoring — classification metrics</a>
+      <span class="detail">scikit-learn · 2026 (v1.9) · user guide · ~30 min · <span class="badge">free</span> · verified: webfetch 2026-08-18</span>
+    </span></li>
+    <li><input type="checkbox"><span>
+      <a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html">Confusion matrix example</a>
+      <span class="detail">scikit-learn · 2026 (v1.9) · runnable example (Binder / JupyterLite), adapted to your own model and data · ~30 min · <span class="badge">free</span> · verified: webfetch 2026-08-18</span>
+    </span></li>
+  </ul>
+
+  <h3>Module 5 — Regression I: Predicting Numbers</h3>
+  <ul class="resources">
+    <li><input type="checkbox"><span>
+      <a href="https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques">House Prices - Advanced Regression Techniques</a>
+      <span class="detail">Kaggle Competitions · 2026 (rolling, no end date) · competition with leaderboard, RMSE-scored · ~120 min for a first working submission · <span class="badge">free</span> · verified: websearch 2026-08-18</span>
+    </span></li>
+  </ul>
+
+  <h3>Module 6 — Evaluating Regressors</h3>
+  <ul class="resources">
+    <li><input type="checkbox"><span>
+      <a href="https://scikit-learn.org/stable/modules/model_evaluation.html#regression-metrics">Metrics and scoring — regression metrics</a>
+      <span class="detail">scikit-learn · 2026 (v1.9) · user guide · ~30 min · <span class="badge">free</span> · verified: webfetch 2026-08-18</span>
+    </span></li>
+    <li><input type="checkbox"><span>
+      <a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_cv_predict.html">Plotting Cross-Validated Predictions</a>
+      <span class="detail">scikit-learn · 2026 (v1.9) · runnable example (Binder / JupyterLite), adapted to your own regressor · ~60 min · <span class="badge">free</span> · verified: webfetch 2026-08-18</span>
+    </span></li>
+  </ul>
+
+  <h3>Module 7 — Overfitting, Underfitting &amp; Generalization</h3>
+  <ul class="resources">
+    <li><input type="checkbox"><span>
+      <a href="https://www.kaggle.com/code/alexisbcook/exercise-cross-validation">Exercise: Cross-Validation</a>
+      <span class="detail">Kaggle Learn (Intermediate Machine Learning) · 2026 · interactive auto-graded exercise notebook · ~90 min · <span class="badge">free</span> · verified: webfetch 2026-08-19</span>
+    </span></li>
+    <li><input type="checkbox"><span>
+      <a href="https://scikit-learn.org/stable/modules/cross_validation.html">Cross-validation: evaluating estimator performance</a>
+      <span class="detail">scikit-learn · 2026 (v1.9) · user guide, cross-validation strategy catalogue · ~30 min · <span class="badge">free</span> · verified: webfetch 2026-08-18</span>
+    </span></li>
+  </ul>
+
+  <h3>Module 8 — Feature Engineering &amp; Preparing Real Data</h3>
+  <ul class="resources">
+    <li><input type="checkbox"><span>
+      <a href="https://www.kaggle.com/code/alexisbcook/exercise-categorical-variables">Exercise: Categorical Variables</a>
+      <span class="detail">Kaggle Learn (Intermediate Machine Learning) · 2026 · interactive auto-graded exercise notebook · ~30 min · <span class="badge">free</span> · verified: webfetch 2026-08-19</span>
+    </span></li>
+    <li><input type="checkbox"><span>
+      <a href="https://www.kaggle.com/code/alexisbcook/exercise-pipelines">Exercise: Pipelines</a>
+      <span class="detail">Kaggle Learn (Intermediate Machine Learning) · 2026 · interactive auto-graded exercise notebook · ~90 min · <span class="badge">free</span> · verified: webfetch 2026-08-19</span>
+    </span></li>
+  </ul>
+
+  <h3>Module 9 — Capstone: Build and Evaluate a Classifier and a Regressor</h3>
+  <ul class="resources">
+    <li><input type="checkbox"><span>
+      <a href="https://archive.ics.uci.edu/dataset/2/adult">Adult</a>
+      <span class="detail">UCI Machine Learning Repository · 1996 data, page current 2026 · dataset (CSV, CC BY 4.0) · 48,842 instances / 14 features, classification target (income above/below $50K) · <span class="badge">free</span> · verified: webfetch 2026-08-18</span>
+    </span></li>
+    <li><input type="checkbox"><span>
+      <a href="https://archive.ics.uci.edu/dataset/186/wine+quality">Wine Quality</a>
+      <span class="detail">UCI Machine Learning Repository · 2009 data, page current 2026 · dataset (CSV, CC BY 4.0) · 4,898 instances / 11 features, regression target (quality score 0–10) · <span class="badge">free</span> · verified: webfetch 2026-08-18</span>
+    </span></li>
+  </ul>
+
+  <h2>Time and Cost</h2>
+
+  <p><strong>Totals.</strong> 26.88 hours of real work (19.97h of resources, 4.17h of hands-on practice,
+  2.75h of checkpoints) against 30 hours of available time over 10 weeks at 3 hours/week
+  — <strong>187 minutes (3.12 hours, about 10.4%) of slack</strong>. That's comfortable, not
+  generous: closer to a 10% cushion than the roughly 15% you'd want for real breathing
+  room. If a week runs long, the built-in cushion is thin, so treat the schedule above as
+  close to the real ceiling rather than as padded.</p>
+
+  <div class="scroll">
+  <table class="totals">
+    <thead>
+      <tr><th scope="col">Category</th><th scope="col" class="num">Hours</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Resources</td><td class="num">19.97h</td></tr>
+      <tr><td>Hands-on practice</td><td class="num">4.17h</td></tr>
+      <tr><td>Checkpoints</td><td class="num">2.75h</td></tr>
+      <tr><td>Available time (10 weeks × 3h/week)</td><td class="num">30.00h</td></tr>
+      <tr><td>Slack</td><td class="num">3.12h (10.4%)</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><th scope="row">Total effort</th><td class="num">26.88h</td></tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <p><strong>Cost: $0, entirely.</strong> Every single resource in this plan is free — no paid courses,
+  no paywalled books, no trial-only platforms. This plan <em>is</em> the free-only version;
+  there's no paid tier to strip out and nothing you'd be missing by not paying. What a
+  paid alternative would typically add — smoother pacing, human feedback on judgment
+  calls, a certificate — isn't required by any of your original goals, all of which are
+  met here through Kaggle's auto-graded exercises and leaderboards, scikit-learn's own
+  documentation and runnable examples, and two free public datasets.</p>
+
+  <p><strong>Setup cost, in total: about 28 minutes.</strong> One free Kaggle account (6 minutes, first
+  needed in Week 1), two competition-join steps (6 minutes each, Weeks 3 and 5), and two
+  plain CSV downloads (10 minutes total, Weeks 9–10). Nothing requires a local Python
+  install.</p>
+
+  <h3>Worth knowing about, honestly</h3>
+
+  <div class="caveat">
+    <p><strong>Kaggle needs an account, but not a phone number for this plan.</strong> Phone
+    verification is a real Kaggle requirement, but only for earning progression points,
+    medals, or prizes, or for publishing public models — none of which this plan asks you
+    to do. Joining and submitting to the "Getting Started" competitions in Weeks 3 and 5
+    needs only an email-based account.</p>
+  </div>
+
+  <div class="caveat">
+    <p><strong>Kaggle notebooks have session limits.</strong> The capstone's 5-hour build is very likely
+    to span more than one sitting. Save or commit your notebook regularly — losing
+    unsaved capstone work is the one real risk in an otherwise low-friction setup.</p>
+  </div>
+
+  <div class="caveat">
+    <p><strong>The two capstone datasets differ a lot in size</strong> — Adult (48,842 rows) is roughly
+    ten times larger than Wine Quality (4,898 rows). Both train in seconds on any modern
+    machine, so this isn't a speed problem in absolute terms, but in a constrained
+    browser session Adult will feel noticeably slower to load and explore than Wine
+    Quality, which is why Week 9 carries more time than Week 10.</p>
+  </div>
+
+  <div class="caveat">
+    <p><strong>Two runnable examples (Modules 4 and 6) launch via Binder or JupyterLite</strong>, which
+    are known for occasional multi-minute cold starts. The time estimates for those two
+    resources don't include that startup wait, so budget a few extra minutes around them
+    if it happens.</p>
+  </div>
+
+  <div class="caveat">
+    <p><strong>A few Kaggle exercises overlap in skill with the bespoke practice in Modules 1 and
+    2</strong> — both ask you to compute summary statistics or run a train/test split, once
+    inside a graded Kaggle notebook and once in the practice exercises above. This is
+    intentional reinforcement of a first-exposure skill, not a mistake or wasted time; if
+    it starts to feel repetitive once you're comfortable, it's safe to move through the
+    bespoke practice for those two modules a little faster.</p>
+  </div>
+
+  <h2>What Comes Next</h2>
+
+  <p>This plan deliberately stops at a specific, real boundary: classical, tabular machine
+  learning with scikit-learn, evaluated properly, with one worked capstone. A few things
+  were left out on purpose, not by oversight, because none of them fit a 30-hour budget
+  and none of them were part of your original goal:</p>
+
+  <ul>
+    <li><strong>Unsupervised learning</strong> — clustering and dimensionality reduction (both present in
+    scikit-learn) are a natural next step once you're comfortable with the supervised
+    workflow this plan builds.</li>
+    <li><strong>Deep learning, neural networks, and non-tabular data</strong> — images, text, audio, and
+    time series are a substantial separate path, not an extension of this one.</li>
+    <li><strong>Ensemble methods beyond a passing mention</strong> — random forests, gradient boosting,
+    and stacking each deserve their own dedicated study once the fundamentals here are
+    solid.</li>
+    <li><strong>Systematic hyperparameter tuning</strong> — <code>GridSearchCV</code>/<code>RandomizedSearchCV</code> as a
+    dedicated skill; Module 7 only covers manual mitigation.</li>
+    <li><strong>Formal statistical inference</strong> — hypothesis testing, p-values, confidence
+    intervals. This plan teaches "just enough" statistics to use in context, not
+    statistics as its own subject.</li>
+    <li><strong>Class-imbalance remediation</strong> (SMOTE, class weighting) — Module 4 names the problem
+    through the accuracy paradox but doesn't teach a fix.</li>
+    <li><strong>Model interpretability tooling</strong> (SHAP, LIME, permutation importance), deployment
+    and MLOps, and fairness/ethics in ML as dedicated topics.</li>
+  </ul>
+
+  <p>If any of these become the next thing you want, the workflow you'll have practiced by
+  the end of this plan — split, fit, evaluate honestly, check for overfitting — is the
+  same one you'll reuse to explore them; you won't be starting over.</p>
+
+  <p>One more thing worth carrying forward: your goal now includes a working, evaluated
+  classifier and regressor built end to end. If you revisit them later with a genuinely
+  messier, self-chosen dataset, expect the cleanup work to take longer than either
+  capstone half did here — both capstone datasets are well-behaved by design, and a real
+  messy dataset is where feature engineering (Module 8's skill) gets used the hardest.</p>
+
+  <footer>Generated 2026-08-19. Links were checked when this plan was built; if one has moved, search for the title.</footer>
+
+</main>
+</body>
+</html>

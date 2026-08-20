@@ -1,9 +1,9 @@
 {
   "run_id": "run-001-spanish-b1",
   "schema_version": 1,
-  "status": "running",
+  "status": "awaiting_approval",
   "created_at": "2026-08-18T11:56:59Z",
-  "updated_at": "2026-08-19T04:16:20Z",
+  "updated_at": "2026-08-19T11:16:57Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "video-curator"
@@ -54,11 +54,11 @@
       "updated_at": "2026-08-18T12:17:39Z"
     },
     "schedule-planner": {
-      "status": "stale",
-      "attempts": 2,
+      "status": "done",
+      "attempts": 3,
       "artifact": "artifacts/schedule.md",
-      "digest": "sha256:95e466b9daa2913056a4041bd9013c6a7c83ea63e66d2a1e9a07fe3fa9262d36",
-      "updated_at": "2026-08-18T21:50:27Z",
+      "digest": "sha256:77281cf4129cf4132706c902d3366f1965984957d334bd6252f4eac26fbd0ddc",
+      "updated_at": "2026-08-19T07:41:26Z",
       "stale_since": "2026-08-19T04:10:37Z",
       "stale_cause": "curator"
     },
@@ -72,18 +72,20 @@
       "stale_cause": "curator"
     },
     "validator": {
-      "status": "stale",
-      "attempts": 2,
+      "status": "done",
+      "attempts": 3,
       "artifact": "artifacts/validation-report.md",
-      "digest": "sha256:793d617e16111c2b3d85b0c47f86de89329515b326cddfc4b97be4df1f3be0d4",
-      "updated_at": "2026-08-19T03:51:42Z",
+      "digest": "sha256:7866f4e62b67a84a1740bb557f35c15d27eebf9b0940a7783bc20d945f0cf7d8",
+      "updated_at": "2026-08-19T07:44:58Z",
       "stale_since": "2026-08-19T04:10:37Z",
       "stale_cause": "curator"
     },
     "learning-path-builder": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "output/learning-path.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "output/learning-path.md",
+      "digest": "sha256:9e6f5efb42d45c12a47db71572ee49c6f6931ca8809c7a369b3d9dc9cb9c5948",
+      "updated_at": "2026-08-19T11:16:42Z"
     },
     "html-builder": {
       "status": "pending",
@@ -93,23 +95,24 @@
   },
   "gates": {
     "G7": {
-      "status": "fail",
-      "owner": "curator",
-      "finding": "module 5 citation 'Perfecting the Prepositions in Spanish' resolves to a paid Amazon workbook promo page, not a free lesson",
-      "at": "2026-08-18T21:35:00Z"
+      "status": "pass",
+      "at": "2026-08-19T11:11:41Z"
     },
     "G8": {
-      "status": "fail",
-      "owner": "curator",
-      "finding": "genuine video ratio is 17/27 (62.96%), worse than attempt 1; four LightSpeed pages labelled video have an empty video heading and only an MP3 player",
-      "at": "2026-08-19T03:55:55Z"
+      "status": "pass",
+      "at": "2026-08-19T11:11:41Z"
+    },
+    "_summary": {
+      "status": "pass",
+      "at": "2026-08-19T11:11:41Z"
     }
   },
   "approval": {
     "status": "pending",
     "digest": null,
     "decided_at": null,
-    "feedback": []
+    "feedback": [],
+    "requested_digest": "sha256:9e6f5efb42d45c12a47db71572ee49c6f6931ca8809c7a369b3d9dc9cb9c5948"
   },
   "retry_limit": 3,
   "history": [
@@ -277,6 +280,30 @@
       "step": "effort-budget-aggregator",
       "artifact": "artifacts/effort-budget.md",
       "attempt": 3,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T07:41:26Z",
+      "event": "artifact_written",
+      "step": "schedule-planner",
+      "artifact": "artifacts/schedule.md",
+      "attempt": 3,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T07:44:58Z",
+      "event": "artifact_written",
+      "step": "validator",
+      "artifact": "artifacts/validation-report.md",
+      "attempt": 3,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T11:16:42Z",
+      "event": "artifact_written",
+      "step": "learning-path-builder",
+      "artifact": "output/learning-path.md",
+      "attempt": 1,
       "invalidated": []
     }
   ]

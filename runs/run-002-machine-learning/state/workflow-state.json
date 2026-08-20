@@ -1,9 +1,9 @@
 {
   "run_id": "run-002-machine-learning",
   "schema_version": 1,
-  "status": "running",
+  "status": "approved",
   "created_at": "2026-08-18T11:58:50Z",
-  "updated_at": "2026-08-19T07:35:16Z",
+  "updated_at": "2026-08-19T11:18:45Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "project-curator"
@@ -81,14 +81,18 @@
       "stale_cause": "curator"
     },
     "learning-path-builder": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "output/learning-path.md"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "output/learning-path.md",
+      "digest": "sha256:f5437fa8b2a39bb1ea2ac3970c1442956b7e4e246b83c51859b8b12af1856692",
+      "updated_at": "2026-08-19T07:38:45Z"
     },
     "html-builder": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "output/learning-path.html"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "output/learning-path.html",
+      "digest": "sha256:28a4f0ffcebc93ee3efc0b5ee57a3236132d1b2d8094bc302b60bcddcf63c1e6",
+      "updated_at": "2026-08-19T11:18:45Z"
     }
   },
   "gates": {
@@ -106,10 +110,12 @@
     }
   },
   "approval": {
-    "status": "pending",
-    "digest": null,
-    "decided_at": null,
-    "feedback": []
+    "status": "approved",
+    "digest": "sha256:f5437fa8b2a39bb1ea2ac3970c1442956b7e4e246b83c51859b8b12af1856692",
+    "decided_at": "2026-08-19T11:13:41Z",
+    "feedback": [],
+    "requested_digest": "sha256:f5437fa8b2a39bb1ea2ac3970c1442956b7e4e246b83c51859b8b12af1856692",
+    "approver": "tril2@outlook.com"
   },
   "retry_limit": 3,
   "history": [
@@ -277,6 +283,28 @@
       "step": "validator",
       "artifact": "artifacts/validation-report.md",
       "attempt": 3,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T07:38:45Z",
+      "event": "artifact_written",
+      "step": "learning-path-builder",
+      "artifact": "output/learning-path.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-19T11:13:41Z",
+      "event": "human_approved",
+      "digest": "sha256:f5437fa8b2a39bb1ea2ac3970c1442956b7e4e246b83c51859b8b12af1856692",
+      "approver": "tril2@outlook.com"
+    },
+    {
+      "at": "2026-08-19T11:18:45Z",
+      "event": "artifact_written",
+      "step": "html-builder",
+      "artifact": "output/learning-path.html",
+      "attempt": 1,
       "invalidated": []
     }
   ]
