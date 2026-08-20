@@ -253,6 +253,75 @@ def test_approval(tmp: Path) -> None:
     shutil.rmtree(ROOT / "runs" / "run-approve", ignore_errors=True)
 
 
+def test_rejection(tmp: Path) -> None:
+    """The revision loop: reject with feedback, revise, re-request, approve.
+
+    approve.py resolves runs/ from the repo root, so this builds its run there
+    and removes it afterwards.
+    """
+    print("\napprove.py — rejection and revision loop")
+    run = ROOT / "runs" / "run-reject-test"
+    shutil.rmtree(run, ignore_errors=True)
+    for sub in ("artifacts", "output", "state"):
+        (run / sub).mkdir(parents=True)
+    (run / "state" / "workflow-state.json").write_text(
+        json.dumps({"run_id": "run-reject-test", "status": "running",
+                    "steps": {}, "approval": {"status": "pending"}}, indent=2))
+
+    md = run / "output" / "learning-path.md"
+    html = run / "output" / "learning-path.html"
+
+    def request() -> None:
+        digest = "sha256:" + __import__("hashlib").sha256(md.read_bytes()).hexdigest()
+        (run / "state" / "approval-request.json").write_text(json.dumps(
+            {"source": "output/learning-path.md", "digest": digest,
+             "requested_at": "2026-08-20T00:00:00Z"}))
+
+    def approve(*args: str) -> subprocess.CompletedProcess:
+        return subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "approve.py"), "run-reject-test", *args],
+            capture_output=True, text=True)
+
+    try:
+        md.write_text("# Plan v1\n\nToo much theory.\n")
+        request()
+
+        proc = approve("--reject", "too theory-heavy, add weekly practice")
+        check("approve.py records a rejection", proc.returncode == 0, proc.stderr.strip())
+
+        record = json.loads((run / "state" / "approval.json").read_text())
+        check("rejection status is changes_requested",
+              record["status"] == "changes_requested", str(record.get("status")))
+        check("rejection feedback is preserved",
+              record["feedback"] == "too theory-heavy, add weekly practice")
+
+        state = json.loads((run / "state" / "workflow-state.json").read_text())
+        check("run state flips to revising", state.get("status") == "revising",
+              str(state.get("status")))
+        check("feedback appended to state history",
+              bool(state["approval"].get("feedback")))
+
+        out, _ = run_hook("approval_gate_guard.py", write_payload(html, "<h1>Plan</h1>"))
+        check("render blocked while changes are requested", decision(out) == "deny")
+
+        # Revise, then re-request — the digest changes, so the human reviews the new text.
+        md.write_text("# Plan v2\n\nWeekly practice added.\n")
+        out, _ = run_hook("approval_gate_guard.py", write_payload(html, "<h1>Plan</h1>"))
+        check("revising alone does not unblock the render", decision(out) == "deny")
+
+        proc = approve()
+        check("approving a stale request is refused after revision", proc.returncode != 0)
+
+        request()
+        proc = approve()
+        check("approval succeeds after re-request", proc.returncode == 0, proc.stderr.strip())
+
+        out, _ = run_hook("approval_gate_guard.py", write_payload(html, "<h1>Plan</h1>"))
+        check("render unblocked after re-approval", decision(out) is None, f"got {out!r}")
+    finally:
+        shutil.rmtree(run, ignore_errors=True)
+
+
 def test_state(tmp: Path) -> None:
     print("\npost_write_state — attempts & cascade")
     run = make_run(tmp, "run-state")
@@ -336,6 +405,7 @@ def main() -> int:
         tmp = Path(raw)
         test_ownership(tmp)
         test_approval(tmp)
+        test_rejection(tmp)
         test_state(tmp)
 
     print(f"\n{len(PASSED)} passed, {len(FAILED)} failed")

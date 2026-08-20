@@ -192,11 +192,15 @@ def cmd_verify(args: argparse.Namespace) -> int:
                     entry["stale_cause"] = step
                     changed.append(f"{dependent}: stale via {step}")
 
-        if changed:
-            state.setdefault("history", []).append(
-                {"at": utcnow(), "event": "verify", "changes": changed}
-            )
-            save_state(run_dir, state)
+        # Log the check either way. A resume that found everything intact is
+        # exactly the evidence that completed work was not repeated, and it is
+        # invisible if only corrections are recorded.
+        state.setdefault("history", []).append(
+            {"at": utcnow(), "event": "verify",
+             "result": "corrected" if changed else "clean",
+             "changes": changed}
+        )
+        save_state(run_dir, state)
 
     if changed:
         print("state corrected against disk:")

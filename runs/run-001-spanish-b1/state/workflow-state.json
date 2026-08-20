@@ -3,7 +3,7 @@
   "schema_version": 1,
   "status": "approved",
   "created_at": "2026-08-18T11:56:59Z",
-  "updated_at": "2026-08-20T07:12:09Z",
+  "updated_at": "2026-08-20T07:29:56Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "video-curator"
@@ -322,6 +322,12 @@
       "artifact": "output/learning-path.html",
       "attempt": 1,
       "invalidated": []
+    },
+    {
+      "at": "2026-08-20T07:29:56Z",
+      "event": "verify",
+      "result": "clean",
+      "changes": []
     }
   ]
 }

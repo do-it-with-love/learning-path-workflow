@@ -35,7 +35,8 @@ That is a deliberate design constraint: a clean checkout runs with nothing to co
 ## Setup
 
 ```bash
-git clone <this-repo> && cd workflow-project
+git clone git@github.com:do-it-with-love/learning-path-workflow.git
+cd learning-path-workflow
 
 # Virtual environment for the two MCP servers.
 # The hooks deliberately do not need this — they are stdlib-only.
@@ -49,7 +50,8 @@ cp .env.example .env      # then edit OPENLIBRARY_USER_AGENT
 Verify the setup:
 
 ```bash
-python3 tests/test_hooks.py     # 28 tests, no network, no venv needed
+python3 tests/test_hooks.py     # 40 tests, no network, no venv needed
+python3 tests/test_wiring.py    # 58 tests, checks the components still agree
 claude mcp list                 # both servers should report connected
 ```
 
@@ -138,7 +140,7 @@ python3 scripts/runctl.py status <run-id>       # inspect it without starting Cl
 scripts/          runctl.py (run control) and approve.py (human approval)
 mcp-servers/      custom Open Library MCP server
 runs/             recorded runs: inputs, artifacts, state, outputs
-tests/            hook tests
+tests/            hook tests (40) and wiring tests (58)
 ```
 
 ## Architecture in one diagram
@@ -181,7 +183,8 @@ No credentials are committed anywhere in this repository or its history.
 ## Development
 
 ```bash
-python3 tests/test_hooks.py    # run after touching .claude/hooks/ or scripts/
+python3 tests/test_hooks.py     # 40 tests — hooks, approval, rejection loop
+python3 tests/test_wiring.py    # 58 tests — pipeline/agents/skills/hooks agree
 ```
 
 The hooks are the reliability layer; changing one without running the tests is how the

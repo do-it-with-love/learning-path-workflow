@@ -159,8 +159,14 @@ is never repeated.
 ## Testing
 
 ```bash
-python3 tests/test_hooks.py
+python3 tests/test_hooks.py     # 40 tests — the three hooks and the approval script
+python3 tests/test_wiring.py    # 58 tests — the declarative pieces still agree
 ```
 
-28 tests over the three hooks and the approval script, using throwaway run directories.
-No network, no venv. Run these after touching anything in `.claude/hooks/` or `scripts/`.
+Throwaway run directories, no network, no venv. Run both after touching anything in
+`.claude/hooks/`, `scripts/`, or the pipeline graph.
+
+The hook tests cover the properties the workflow claims: ownership and structure denial,
+output-leak scanning, the approval digest (including the render being blocked after a
+post-approval edit), the full rejection-and-revision loop, cascading staleness, and the
+rule that one dispatch is one attempt however many times an agent rewrites its file.
