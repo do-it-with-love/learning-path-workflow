@@ -1,9 +1,9 @@
 {
   "run_id": "run-001-spanish-b1",
   "schema_version": 1,
-  "status": "awaiting_approval",
+  "status": "approved",
   "created_at": "2026-08-18T11:56:59Z",
-  "updated_at": "2026-08-19T11:16:57Z",
+  "updated_at": "2026-08-20T07:12:09Z",
   "requirements_confirmed": true,
   "selected_agents": {
     "curator": "video-curator"
@@ -88,9 +88,11 @@
       "updated_at": "2026-08-19T11:16:42Z"
     },
     "html-builder": {
-      "status": "pending",
-      "attempts": 0,
-      "artifact": "output/learning-path.html"
+      "status": "done",
+      "attempts": 1,
+      "artifact": "output/learning-path.html",
+      "digest": "sha256:0bf2af27dc1df146f3edcd5cd688654b7b2075c811c882abdf1eb61f11060ac6",
+      "updated_at": "2026-08-20T07:12:09Z"
     }
   },
   "gates": {
@@ -108,11 +110,12 @@
     }
   },
   "approval": {
-    "status": "pending",
-    "digest": null,
-    "decided_at": null,
+    "status": "approved",
+    "digest": "sha256:9e6f5efb42d45c12a47db71572ee49c6f6931ca8809c7a369b3d9dc9cb9c5948",
+    "decided_at": "2026-08-20T07:06:39Z",
     "feedback": [],
-    "requested_digest": "sha256:9e6f5efb42d45c12a47db71572ee49c6f6931ca8809c7a369b3d9dc9cb9c5948"
+    "requested_digest": "sha256:9e6f5efb42d45c12a47db71572ee49c6f6931ca8809c7a369b3d9dc9cb9c5948",
+    "approver": "tril2@outlook.com"
   },
   "retry_limit": 3,
   "history": [
@@ -303,6 +306,20 @@
       "event": "artifact_written",
       "step": "learning-path-builder",
       "artifact": "output/learning-path.md",
+      "attempt": 1,
+      "invalidated": []
+    },
+    {
+      "at": "2026-08-20T07:06:39Z",
+      "event": "human_approved",
+      "digest": "sha256:9e6f5efb42d45c12a47db71572ee49c6f6931ca8809c7a369b3d9dc9cb9c5948",
+      "approver": "tril2@outlook.com"
+    },
+    {
+      "at": "2026-08-20T07:12:09Z",
+      "event": "artifact_written",
+      "step": "html-builder",
+      "artifact": "output/learning-path.html",
       "attempt": 1,
       "invalidated": []
     }

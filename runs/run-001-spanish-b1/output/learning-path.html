@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversational Spanish for Travel — Learning Path</title>
+<style>
+  /* Light palette on bare :root; dark overrides the same tokens. */
+  :root {
+    --bg: #fbfaf8;
+    --surface: #ffffff;
+    --surface-alt: #f4f2ee;
+    --border: #ddd8d0;
+    --text: #1f1d1a;
+    --text-muted: #5f594f;
+    --accent: #7a5c2e;
+    --accent-soft: #f0e7d8;
+    --ok: #2f6b3f;
+    --warn: #8a5a12;
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 4px 12px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16150f;
+      --surface: #1e1d16;
+      --surface-alt: #262419;
+      --border: #3a372c;
+      --text: #ece8dd;
+      --text-muted: #a8a091;
+      --accent: #d9b46a;
+      --accent-soft: #2f2a1c;
+      --ok: #7fc08c;
+      --warn: #e0b062;
+      --shadow: none;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2.5rem 1.25rem 5rem;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 62rem; margin: 0 auto; }
+
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .5rem; letter-spacing: -.02em; }
+  h2 {
+    font-size: 1.35rem; margin: 3rem 0 1rem; padding-bottom: .4rem;
+    border-bottom: 2px solid var(--accent-soft);
+  }
+  h3 { font-size: 1.1rem; margin: 1.75rem 0 .5rem; }
+  h4 { font-size: .95rem; margin: 1.25rem 0 .4rem; color: var(--text-muted); }
+  p, li { margin: .5rem 0; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { text-decoration-thickness: 2px; }
+
+  /* Overview facts card */
+  .facts {
+    display: grid; gap: .75rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem; margin: 1.5rem 0; box-shadow: var(--shadow);
+  }
+  .facts div { display: flex; flex-direction: column; gap: .15rem; }
+  .facts dt, .facts .label {
+    font-size: .72rem; text-transform: uppercase; letter-spacing: .07em;
+    color: var(--text-muted);
+  }
+  .facts dd, .facts .value { margin: 0; font-size: 1.05rem; font-weight: 600; }
+
+  /* Tables: the page never scrolls sideways, the table does. */
+  .scroll { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .94rem; }
+  th, td { padding: .55rem .7rem; text-align: left; border-bottom: 1px solid var(--border); }
+  thead th {
+    position: sticky; top: 0; background: var(--surface-alt);
+    font-size: .75rem; text-transform: uppercase; letter-spacing: .05em;
+    color: var(--text-muted); border-bottom: 2px solid var(--border);
+  }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:last-child td { border-bottom: none; }
+  tfoot td { font-weight: 700; border-top: 2px solid var(--border); }
+
+  /* Module cards */
+  .module {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.25rem 1.4rem; margin: 1.25rem 0; box-shadow: var(--shadow);
+  }
+  .module > h3 { margin-top: 0; }
+  .module .meta { color: var(--text-muted); font-size: .85rem; margin-bottom: .75rem; }
+
+  /* Rubric: three bands, labelled in text as well as colour */
+  .rubric { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); margin: .75rem 0 1.25rem; }
+  .rubric .band {
+    border: 1px solid var(--border); border-radius: 8px; padding: .8rem 1rem;
+    background: var(--surface);
+  }
+  .rubric .band strong { display: block; margin-bottom: .3rem; }
+  .rubric .band.not-yet strong { color: var(--warn); }
+  .rubric .band.continue strong { color: var(--accent); }
+  .rubric .band.solid strong { color: var(--ok); }
+  .checkpoint-block { margin: 1.5rem 0; padding-top: .5rem; border-top: 1px dashed var(--border); }
+  .checkpoint-block:first-of-type { border-top: none; }
+  .checkpoint-block h4 { margin-bottom: .5rem; }
+
+  /* Resource entries */
+  .resources { list-style: none; padding: 0; }
+  .resources li {
+    border-left: 3px solid var(--accent-soft); padding: .4rem 0 .4rem .85rem;
+    margin: .6rem 0;
+  }
+  .resources .detail { display: block; color: var(--text-muted); font-size: .85rem; }
+  .badge {
+    display: inline-block; padding: .05rem .45rem; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent);
+    font-size: .72rem; font-weight: 700; letter-spacing: .03em;
+  }
+
+  /* Caveats stay visible — never a footnote */
+  .caveat {
+    border-left: 4px solid var(--warn); background: var(--surface-alt);
+    padding: .8rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0;
+  }
+  .caveat strong { color: var(--warn); }
+
+  /* Tickable checklists */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { display: flex; gap: .6rem; align-items: flex-start; margin: .45rem 0; }
+  .checklist input[type="checkbox"] { margin-top: .35rem; flex: none; width: 1rem; height: 1rem; }
+
+  label.wk { display: flex; gap: .5rem; align-items: center; }
+  label.wk input[type="checkbox"] { flex: none; width: 1rem; height: 1rem; }
+
+  footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--border);
+           color: var(--text-muted); font-size: .85rem; }
+
+  @media print {
+    body { background: #fff; color: #000; padding: 0; font-size: 11pt; }
+    .module, .facts, .rubric .band { box-shadow: none; break-inside: avoid; }
+    h2 { break-after: avoid; }
+    thead th { position: static; }
+    a { color: #000; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .8em; word-break: break-all; }
+    .caveat { border-left-color: #000; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Conversational European Spanish for Travel — Your Learning Path</h1>
+
+  <h2>Overview</h2>
+
+  <p>You are starting from casual exposure — about 200 words, no grammar — and want to be able
+  to hold real conversations in European (Castilian) Spanish on a trip to Spain: ordering
+  food, asking directions, checking into a place to stay, and talking with people you meet
+  along the way. This path gets you there through video lessons anchored by daily speaking
+  practice, with Peninsular pronunciation and the <em>vosotros</em> form built in from week one
+  rather than added later.</p>
+
+  <div class="caveat">
+  <p>One thing to know up front, because it shapes everything else: you originally asked for
+  B1 in six months. A certified B1 typically takes 350–400 hours of study; at 5 hours a week
+  for 26 weeks you have about 130. Rather than stretch the timeline or the weekly hours, you
+  chose to keep both fixed and aim at a slightly different, still very useful target: a
+  strong A2 / B1-threshold level of <em>practical conversational competence</em> — enough to travel,
+  have real conversations, and read everyday signs and menus, without the full grammatical
+  range (or the certificate) that "B1" formally implies. That was a deliberate trade-off, not
+  a compromise you're stuck with, and it's the honest label used throughout this plan.</p>
+  </div>
+
+  <p>The videos here teach the grammar and vocabulary; the speaking practice built into every
+  module is where the ability to actually <em>use</em> Spanish forms. Watching is necessary but not
+  sufficient for your stated goal — treat the recorded exercises as the main event, not
+  optional homework.</p>
+
+  <div class="facts">
+    <div><span class="label">Starting point</span><span class="value">Absolute beginner (~200 casual words, no grammar) — pre-A1</span></div>
+    <div><span class="label">Target</span><span class="value">Strong A2 / B1-threshold conversational Spanish (European/Castilian), for travel</span></div>
+    <div><span class="label">Duration</span><span class="value">26 weeks (about 6 months)</span></div>
+    <div><span class="label">Weekly commitment</span><span class="value">5 hours/week — two short weekday sessions plus one longer weekend session</span></div>
+    <div><span class="label">Structured time</span><span class="value">About 40 hours of resource-viewing, practice and checkpoints (a floor — real time will run a little higher most weeks; see Time and Cost)</span></div>
+    <div><span class="label">Format</span><span class="value">Video-led, with a recorded speaking exercise in every single session</span></div>
+    <div><span class="label">Cost</span><span class="value">EUR 0 of your EUR 50 budget — everything cited is free</span></div>
+    <div><span class="label">Structure</span><span class="value">9 modules, 3 cumulative reviews, 1 final check against your original goal</span></div>
+  </div>
+
+  <div class="caveat">
+  <p>If you read nothing else: this plan will get you talking, not certified — and the single
+  best use of your unspent budget is a few real conversation sessions near the end (see Time
+  and Cost).</p>
+  </div>
+
+  <h2>Before You Start</h2>
+
+  <p><strong>Prerequisites.</strong> None beyond what you already have. You're starting as a true beginner —
+  no prior study assumed, and none needed.</p>
+
+  <p><strong>What to have ready.</strong></p>
+  <ul class="checklist">
+    <li><input type="checkbox"><span>A phone or computer with a working microphone. Nearly every exercise in this plan asks
+    you to record yourself and play it back — that's the core mechanism for catching your own
+    errors, so a working mic is more important here than any app or subscription.</span></li>
+    <li><input type="checkbox"><span>Somewhere to log new vocabulary as you go — a notebook or a simple spreadsheet is enough.
+    This isn't strictly required until the final check, but starting it in week 1 will make
+    that check far more meaningful than trying to reconstruct nine modules of vocabulary from
+    memory at the end.</span></li>
+  </ul>
+
+  <p><strong>Your starting point.</strong> Because you're a confirmed absolute beginner, no diagnostic test
+  was needed — your placement is asserted directly from what you reported: no functional
+  grammar, and a small set of words picked up casually (most likely everyday nouns, numbers,
+  greetings and cognates, not a taught or structured set). On the standard six-level scale
+  used for language proficiency (A1 through C2), this places you below A1 — informally
+  "pre-A1." Concretely, that means Module 1 assumes you know nothing about Spanish sounds,
+  grammar, or sentence structure, including things you might expect to have picked up
+  already: the alphabet and its sound rules, subject pronouns (especially <em>vosotros</em>, which
+  doesn't exist in the Latin American Spanish that most casual media defaults to), verb
+  conjugation, <em>ser</em> vs. <em>estar</em>, noun gender and agreement, and basic word order. If any of
+  that already feels familiar, you'll move through Module 1 faster than planned — but nothing
+  in this plan assumes it going in.</p>
+
+  <h2>Your Path Week by Week</h2>
+
+  <p>Every week runs three sessions: two short weekday sessions (drills and short practice) and
+  one longer weekend session (new material plus the week's main speaking exercise). The hours
+  below are a floor — a number of videos don't list an exact running time, so real weeks will
+  often run a bit longer than shown. Margins are wide throughout (the tightest week still has
+  well over two hours of slack against your 5-hour budget), so this is comfortable, not
+  optimistic.</p>
+
+  <div class="scroll">
+  <table class="schedule">
+    <thead>
+      <tr>
+        <th scope="col">Week</th>
+        <th scope="col">Focus</th>
+        <th scope="col" class="num">Sessions</th>
+        <th scope="col" class="num">Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><label class="wk"><input type="checkbox">1</label></td><td>Module 1 — Sounds, Script &amp; Survival Basics (begins)</td><td class="num">3</td><td class="num">1.00</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">2</label></td><td>Module 1 continues</td><td class="num">3</td><td class="num">1.50</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">3</label></td><td>Module 1 finishes — <strong>checkpoint</strong></td><td class="num">3</td><td class="num">1.67</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">4</label></td><td>Module 2 — Being &amp; Describing (begins)</td><td class="num">3</td><td class="num">0.83</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">5</label></td><td>Module 2 continues</td><td class="num">3</td><td class="num">1.33</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">6</label></td><td>Module 2 finishes — <strong>checkpoint</strong></td><td class="num">3</td><td class="num">1.50</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">7</label></td><td>Module 3 — Present-Tense Action (begins)</td><td class="num">3</td><td class="num">0.83</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">8</label></td><td>Module 3 continues</td><td class="num">3</td><td class="num">1.33</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">9</label></td><td>Module 3 finishes — <strong>checkpoint + cumulative review (Modules 1–3)</strong></td><td class="num">3</td><td class="num">2.17</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">10</label></td><td>Module 4 — Daily Life &amp; Routine (begins)</td><td class="num">3</td><td class="num">0.57</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">11</label></td><td>Module 4 continues</td><td class="num">3</td><td class="num">0.70</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">12</label></td><td>Module 4 finishes — <strong>checkpoint</strong></td><td class="num">3</td><td class="num">1.73</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">13</label></td><td>Module 5 — Getting Around (begins)</td><td class="num">3</td><td class="num">1.73</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">14</label></td><td>Module 5 continues</td><td class="num">3</td><td class="num">2.48</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">15</label></td><td>Module 5 finishes — <strong>checkpoint</strong></td><td class="num">3</td><td class="num">2.65</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">16</label></td><td>Module 6 — Eating, Shopping &amp; Lodging (begins)</td><td class="num">3</td><td class="num">0.58</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">17</label></td><td>Module 6 continues</td><td class="num">3</td><td class="num">1.08</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">18</label></td><td>Module 6 finishes — <strong>checkpoint + cumulative review (Modules 1–6)</strong></td><td class="num">3</td><td class="num">2.01</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">19</label></td><td>Module 7 — Talking About the Past (begins)</td><td class="num">3</td><td class="num">0.50</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">20</label></td><td>Module 7 continues</td><td class="num">3</td><td class="num">0.92</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">21</label></td><td>Module 7 finishes — <strong>checkpoint</strong></td><td class="num">3</td><td class="num">1.75</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">22</label></td><td>Module 8 — Plans, Requests &amp; Unexpected Situations (begins)</td><td class="num">3</td><td class="num">0.92</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">23</label></td><td>Module 8 finishes — <strong>checkpoint</strong></td><td class="num">3</td><td class="num">1.42</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">24</label></td><td>Module 9 — Conversation Consolidation (begins)</td><td class="num">3</td><td class="num">2.68</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">25</label></td><td>Module 9 continues</td><td class="num">3</td><td class="num">3.02</td></tr>
+      <tr><td><label class="wk"><input type="checkbox">26</label></td><td>Module 9 finishes — <strong>checkpoint + cumulative review (Modules 1–9) + final check</strong></td><td class="num">3</td><td class="num">3.17</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td><strong>Total</strong></td><td></td><td class="num"><strong>78 sessions</strong></td><td class="num"><strong>~40.1</strong></td></tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <p>Week 26 deliberately has no new material — all of Module 9's viewing is front-loaded into
+  weeks 24–25 so this last week is free for consolidation, catching up on anything that
+  wasn't solid yet, and the final check.</p>
+
+  <h2>Modules</h2>
+
+  <section class="module">
+    <h3>Module 1 — Sounds, Script &amp; Survival Basics</h3>
+    <div class="meta">Pre-A1 → A1.1 · Weeks 1–3</div>
+    <p>You'll learn to produce the Spanish sound system correctly — including the letters and
+    sounds with no close English equivalent (ñ, rr, j) and, critically, the Peninsular
+    <em>distinción</em> (the "th"-like sound for c/z before e/i, as in <em>cinco</em>, versus a plain "s").
+    You'll also learn the full set of subject pronouns including <em>vosotros</em>, count to 20, and
+    handle a short greeting exchange — and learn to sound out unfamiliar written Spanish using
+    letter-sound rules.</p>
+    <h4>Watch and listen:</h4>
+    <ul class="resources">
+      <li><a href="https://www.youtube.com/playlist?list=PL_7rDJ7DORb9T_CxcHYbsKNJRgLY4wAEJ">Absolute Beginners Spanish 4-10</a> — LightSpeed Spanish, alphabet, greetings and numbers, taught by a native Peninsular speaker.</li>
+      <li><a href="https://soundcloud.com/languagetransfer/complete-spanish-track-1-language-transfer-the-thinking-method">Complete Spanish, Track 1</a> — Language Transfer (audio) — foundational sound and structure induction.</li>
+      <li><a href="https://www.youtube.com/watch?v=J85JdNuCQ6I">Mi Vida Loca, Episode 1</a> — BBC's Madrid-set beginner drama, survival basics and greetings.</li>
+    </ul>
+    <p><strong>Practice:</strong> Every session opens with a 10-minute rotating warm-up — odd sessions drill
+    <em>distinción</em> word pairs by recording and comparing yourself (<em>zapato/sapo</em>, <em>cielo/seis</em>,
+    <em>perro/pero</em>); even sessions recite pronouns, count to 20, and run a greeting exchange from
+    memory. In week 2 you'll sound out an unfamiliar text aloud and record a 45–60 second
+    self-introduction using at least one <em>vosotros</em> form. An optional speed-spelling stretch
+    closes out week 3.</p>
+    <p><input type="checkbox"> <strong>Checkpoint (20 min, end of week 3).</strong> Record four things back to back: the alphabet, ten
+    words chosen to test ñ/rr/j/distinción (compared against a native clip), counting 0–20, and
+    a 30-second greeting with a <em>vosotros</em> form. You're on track if you recite fluently without
+    notes, at least 8 of 10 sounds match the native clip, and you've used <em>vosotros</em> correctly
+    at least once. If more than half the target sounds are consistently wrong, redo the drills
+    and re-shadow the native clip before moving on — this module is the foundation every later
+    checkpoint builds on. If it's <em>distinción</em> specifically that's off, you can proceed, but
+    keep practising it — it's the hardest Peninsular sound to catch by ear in your own speech.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 2 — Being &amp; Describing</h3>
+    <div class="meta">A1.1 → A1.2 · Weeks 4–6</div>
+    <p>You'll learn to choose correctly between <em>ser</em> and <em>estar</em>, apply gender and number
+    agreement when describing people and things, and introduce yourself and someone else aloud,
+    using <em>vosotros</em> where it fits.</p>
+    <h4>Watch:</h4>
+    <ul class="resources">
+      <li><a href="https://www.youtube.com/watch?v=ENOX40X20-s">42 Beginners: Understanding SER and ESTAR</a> — LightSpeed Spanish.</li>
+      <li><a href="https://www.youtube.com/watch?v=cXT06H3x9GI">47 Easily Learn Spanish: YOU ARE / VOSOTROS ESTÁIS</a> — LightSpeed Spanish.</li>
+      <li><a href="https://www.youtube.com/playlist?list=PL_7rDJ7DORb-UBdc_Mj-htkVGp3-ea5gA">Absolute Beginners Spanish 11-15</a> — LightSpeed Spanish, gender/number agreement and self-introductions.</li>
+    </ul>
+    <p><strong>Practice:</strong> A recurring warm-up builds one <em>ser</em> sentence and one <em>estar</em> sentence each
+    session, rotating topics (nationality, mood, profession, location) so nothing repeats. In
+    week 5 you'll record a 60–90 second monologue introducing yourself and someone else; week 6
+    combines that with Module 1's pronunciation work in one take.</p>
+    <p><input type="checkbox"> <strong>Checkpoint (20 min).</strong> Record a 60–90 second description of yourself and one other
+    person, including a <em>vosotros</em>-directed line, then transcribe it and mark every <em>ser</em>/
+    <em>estar</em> choice and agreement. Good enough to continue: correct most of the time, at most
+    1–2 explainable slips, one correct <em>vosotros</em> use. If it's not there yet, redo the relevant
+    drills and re-record on a new topic before Module 3.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 3 — Present-Tense Action</h3>
+    <div class="meta">A1.2 → A1.3 · Weeks 7–9</div>
+    <p>You'll conjugate regular -ar/-er/-ir verbs plus the high-frequency irregulars <em>tener</em>,
+    <em>ir</em>, <em>querer</em>, <em>poder</em>, <em>hacer</em>, form questions correctly with <em>qué/dónde/cuándo/cómo/
+    quién</em>, and ask and answer real personal questions aloud without a script.</p>
+    <h4>Watch and listen:</h4>
+    <ul class="resources">
+      <li><a href="https://www.youtube.com/playlist?list=PL_7rDJ7DORb86MxcytqlICBUNe_CAyjUy">Absolute Beginners Spanish 16-20</a> — LightSpeed Spanish, regular and irregular present-tense conjugation.</li>
+      <li><a href="https://lightspeedspanish.co.uk/beginners/beginners-spanish-podcast-16-spanish-question-words/">Beginners Spanish Podcast 16: Spanish Question Words</a> — LightSpeed Spanish (audio) — question words and word order. This one is audio rather than video; no equally strong video on this exact sub-topic was found, but the module's other two resources are video.</li>
+      <li><a href="https://www.youtube.com/watch?v=eQ9-w8brxyU">58 Beginners Spanish: ¿Qué vs Cuál?</a> — LightSpeed Spanish.</li>
+    </ul>
+    <p><strong>Practice:</strong> The recurring drill rotates through all eight target verbs and all five
+    question words across the module's nine sessions. In week 8 you'll record yourself asking
+    and then answering eight personal questions unscripted; week 9's synthesis chains
+    Modules 1–3 together into one continuous recording — greeting, description, and Q&amp;A.</p>
+    <p><input type="checkbox"> <strong>Checkpoint (25 min).</strong> Eight unscripted question-and-answer exchanges, transcribed and
+    checked for word order and conjugation. Good enough to continue: at most two conjugation
+    slips across all eight, and only brief hesitation. If it's not there yet, redo drills for
+    whichever irregular verbs failed and re-run with a fresh set of questions.</p>
+    <p><input type="checkbox"> <strong>Cumulative review — Modules 1–3 (25 min, end of week 9).</strong> Closed-notes: recite the
+    alphabet and count to 30, write five <em>ser</em>/<em>estar</em> sentences, conjugate the five irregular
+    verbs in first and second-person plural from memory, and say one <em>vosotros</em> sentence aloud.
+    Any part that fails points back to that module's checkpoint — fix it there before Module 4,
+    since everything after this builds on it being solid.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 4 — Daily Life &amp; Routine</h3>
+    <div class="meta">A1.3 → A2.1 · Weeks 10–12</div>
+    <p>You'll use reflexive verbs to describe a routine, tell time and state days and months,
+    express likes and dislikes with <em>gustar</em>-type verbs, and narrate a full minute of your
+    actual day.</p>
+    <h4>Watch:</h4>
+    <ul class="resources">
+      <li><a href="https://www.youtube.com/watch?v=3K1PpC-gT0c">14 Tell Time in Spanish</a> — LightSpeed Spanish.</li>
+      <li><a href="https://www.youtube.com/watch?v=vNEzUTNSHwU">44 Beginners Verbs like Gustar</a> — LightSpeed Spanish.</li>
+      <li><a href="https://www.youtube.com/watch?v=Vl8BcH5lgCw">Spanish Lesson Early Inter 6: Reflexive Verbs</a> — LightSpeed Spanish.</li>
+      <li><a href="https://www.youtube.com/watch?v=JqBVaAQzOVQ">30 Beginners: Test your listening skills</a> — LightSpeed Spanish, a listening review before Module 5.</li>
+    </ul>
+    <p><strong>Practice:</strong> The warm-up rotates reflexive verbs (<em>levantarse</em>, <em>ducharse</em>, <em>vestirse</em>,
+    <em>acostarse</em>, <em>despertarse</em>) alongside stating the time and a <em>gustar</em> opinion. Twice during
+    the module you'll narrate what you actually did that day, in Spanish, using at least three
+    reflexive verbs; the week-12 synthesis layers that on top of Modules 2–3's grammar in one
+    continuous take.</p>
+    <p><input type="checkbox"> <strong>Checkpoint (20 min).</strong> Record a 60-second narration of a typical day. Good enough to
+    continue: reflexives correctly formed most of the time, two or more time expressions,
+    <em>gustar</em>/<em>gustan</em> matched correctly at least once. If not, revisit the reflexive and
+    <em>gustar</em> objectives and redo with a different day before Module 5.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 5 — Getting Around</h3>
+    <div class="meta">A2.1 · Weeks 13–15</div>
+    <p>You'll use prepositions of place and imperatives to give and follow directions, read simple
+    transport signage, and handle a directions role-play at a natural Peninsular pace.</p>
+    <h4>Watch:</h4>
+    <ul class="resources">
+      <li><a href="https://www.youtube.com/watch?v=E5SHi-vo978">Spanish Lesson 35: Abs Beginner Spanish Prepositions</a> — LightSpeed Spanish, prepositions of place.</li>
+      <li><a href="https://www.youtube.com/playlist?list=PLlpPf-YgbU7GbOHc3siOGQ5KmVSngZucl">Superbeginner Dreaming Spanish</a> — comprehensible-input listening; filter to Spain-accent hosts.</li>
+      <li><a href="https://www.youtube.com/watch?v=_th2tbkpZ8c">Mi Vida Loca — Full Story</a> — BBC's drama; watch from Episode 3 (about 10 minutes in) for the street/subway directions segment this module actually needs — you don't need the full 22-episode compilation here.</li>
+    </ul>
+    <p><strong>Practice:</strong> The warm-up has you invent a fresh four-step route from memory using
+    imperatives and at least two prepositions each time. In week 14 you'll read a piece of
+    transport signage aloud and improvise a directions exchange, then shadow a short native
+    clip about directions three times before reproducing three phrases from memory. Week 15's
+    synthesis plays both a lost traveller and a local giving directions in one recording.</p>
+    <p><input type="checkbox"> <strong>Checkpoint (25 min).</strong> Two parts: a recorded directions role-play (both roles), and a
+    shadow-and-compare listening pass on a native clip with comprehension questions answered
+    before checking the transcript, plus reading a real sign or timetable. Good enough to
+    continue: imperatives correct for at least 3 of the directions given, and 3–4 of 5
+    comprehension/reading questions right before checking. If the listening part specifically
+    isn't there yet, slow the clip down, re-shadow, and retry before moving to Module 6 — don't
+    carry an unresolved listening gap forward.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 6 — Eating, Shopping &amp; Lodging</h3>
+    <div class="meta">A2.1 → A2.2 · Weeks 16–18</div>
+    <p>You'll read a menu, shop sign or hotel notice, use comparatives (<em>más/menos... que</em>) and
+    quantity expressions, and role-play ordering food and checking into lodging with polite
+    request forms.</p>
+    <h4>Watch, listen and read:</h4>
+    <ul class="resources">
+      <li><a href="https://lightspeedspanish.co.uk/early-intermediate/intermediate-spanish-lesson-3-how-to-order-food-in-spanish-restaurant/">How to Order Food in Spanish</a> — LightSpeed Spanish (audio) — restaurant ordering and polite requests.</li>
+      <li><a href="https://www.youtube.com/playlist?list=PLlpPf-YgbU7HWrrenMs3-nuhxgzyAiA-C">Beginner Dreaming Spanish</a> — shopping/food comprehensible input, Spain-accent filterable.</li>
+      <li><a href="https://www.spanishdict.com/guide/make-comparisons-in-spanish">Make Comparisons in Spanish</a> — SpanishDict grammar guide (article), <em>más/menos... que</em> and <em>tan... como</em>.</li>
+      <li><a href="https://www.youtube.com/watch?v=gHYUjQZhtSk">Unequal Comparisons (part 1): Más/menos ___ que</a> — Señor Jordan. Note: this instructor teaches general/neutral Spanish rather than Peninsular-accented — used here because the comparative grammar itself doesn't vary by dialect, while your Peninsular listening exposure for this module comes from the Dreaming Spanish entry above.</li>
+    </ul>
+    <p><strong>Practice:</strong> The warm-up drills two comparative sentences and one polite request form per
+    session, rotating patterns. In week 17 you'll read a menu or notice aloud and then record
+    yourself ordering or checking in; the week-18 synthesis strings together Modules 1, 4, 5
+    and 6 into a full simulated travel day.</p>
+    <p><input type="checkbox"> <strong>Checkpoint (25 min).</strong> A recorded role-play ordering food or checking into lodging, plus
+    reading a real menu or notice and answering questions about it. Good enough to continue: at
+    least one correct polite request, one correct comparative, and 2–3 of 3 reading questions
+    right. If not, revisit polite requests and comparatives and redo with a different scenario.</p>
+    <p><input type="checkbox"> <strong>Cumulative review — Modules 1–6 (25 min, end of week 18).</strong> Narrate your routine, give
+    directions, order a meal with a polite request, and — importantly — recite the Module 1
+    <em>distinción</em> word list once more against the same native clip, to check pronunciation
+    hasn't quietly drifted. Any part failing sends you back to that checkpoint; pay particular
+    attention to the pronunciation recheck, since it's the skill most likely to slide without
+    you noticing.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 7 — Talking About the Past</h3>
+    <div class="meta">A2.2 · Weeks 19–21</div>
+    <p>You'll conjugate the regular <em>pretérito</em> and the common irregulars (<em>ir, ser, hacer, tener,
+    estar</em>), learn when to use it versus the present tense, and narrate a past trip or weekend
+    in four to six connected sentences.</p>
+    <h4>Watch and listen:</h4>
+    <ul class="resources">
+      <li><a href="https://www.youtube.com/watch?v=k9BPcxMKhrU">Gordon's Diaries: Help with the Spanish Past 2, Preterite</a> — LightSpeed Spanish.</li>
+      <li><a href="https://soundcloud.com/languagetransfer/complete-spanish-track-58">Complete Spanish, Track 58</a> — Language Transfer (audio), "the dot in the past" for -ar verbs.</li>
+    </ul>
+    <p><strong>Practice:</strong> The warm-up rotates one regular verb from each conjugation class plus the
+    five key irregulars, and converts present-tense sentences into <em>pretérito</em> on the spot.
+    Twice in the module you'll narrate something you actually did recently; week 21's synthesis
+    links your destination, activities, purchases and current feelings about the trip into one
+    recording, moving correctly between past events and present-tense reflection.</p>
+    <p><input type="checkbox"> <strong>Checkpoint (20 min).</strong> Write out your intended conjugations first, then narrate a past
+    account aloud without reading them, and check what you actually said against your own key.
+    Good enough to continue: at most 1–2 verbs wrong, <em>pretérito</em> correctly chosen over present
+    tense throughout most of the narrative. If not, redo the irregular-verb drills and
+    re-narrate a different weekend before Module 8, since Module 8 teaches the near-future by
+    contrasting it with the past.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 8 — Plans, Requests &amp; Unexpected Situations</h3>
+    <div class="meta">A2.2 → A2.3 · Weeks 22–23</div>
+    <p>You'll form near-future statements with <em>ir a</em> + infinitive, handle a simple service or
+    emergency-adjacent exchange (reporting a problem, asking for help) at natural pace, and make
+    and respond to an invitation.</p>
+    <div class="caveat">
+    <p>This is the lightest-resourced module in the path — a free, Peninsular-specific video for
+    the emergency/service-request topic specifically proved hard to find, so it leans more on
+    the speaking practice below than the other modules do. Treat the practice tasks here as
+    carrying more of the weight.</p>
+    </div>
+    <h4>Listen and watch:</h4>
+    <ul class="resources">
+      <li><a href="https://soundcloud.com/languagetransfer/complete-spanish-track-7-language-transfer-the-thinking-method">Complete Spanish, Track 7</a> — Language Transfer (audio), "Voy a: Moving Toward Action," the near-future construction.</li>
+      <li><a href="https://www.ricksteves.com/watch-read-listen/video/travel-talks/spanish-language">Spanish Language for Travelers</a> — Rick Steves' Europe. Taught in English, and covers Spain and Latin America together rather than Peninsular-only — the weakest regional match in this path, but still useful for the practical request phrases it teaches.</li>
+    </ul>
+    <p><strong>Practice:</strong> The warm-up rotates <em>ir a</em> + infinitive plans across persons, including
+    <em>vosotros</em> at least twice. In week 22 you'll record a 60–90 second improvised exchange
+    reporting a problem or asking for help; week 23's synthesis chains an invitation, a
+    question about it, a reference to something you did before, and a confirmed time and place.</p>
+    <p><input type="checkbox"> <strong>Checkpoint (25 min).</strong> Three recordings: three near-future plans, a mock service/
+    emergency monologue, and a shadow-and-compare listening pass with two comprehension
+    questions. Good enough to continue: <em>ir a</em> + infinitive correct in at least 2 of 3 plans,
+    and — the part that matters most for actual travel — your core request or problem is
+    understandable on playback even with grammar slips. If the mock scenario isn't clear yet,
+    redo it focused purely on getting the message across, then add grammar back on a second
+    take.</p>
+  </section>
+
+  <section class="module">
+    <h3>Module 9 — Conversation Consolidation</h3>
+    <div class="meta">A2.3 → B1-threshold · Weeks 24–26</div>
+    <p>This is where everything comes together: sustaining a 3–5 minute spoken conversation
+    covering introductions, your daily routine, and at least two travel scenarios, mixing
+    present and <em>pretérito</em> correctly; understanding slow-to-natural Peninsular speech across
+    scenarios without a transcript; and catching and correcting your own errors in real time.</p>
+    <h4>Watch and listen:</h4>
+    <ul class="resources">
+      <li><a href="https://www.youtube.com/playlist?list=PL2k7gzcwtLTMgQpcYZSC5qCVz46bchbU4">Mi Vida Loca — full episode playlist</a> — BBC, cumulative review across transport, restaurant and shop scenarios.</li>
+      <li><a href="https://www.youtube.com/playlist?list=PLlpPf-YgbU7Gssxi9f72cZktgOb4Vpdoy">Intermediate Dreaming Spanish</a> — natural-pace listening without scaffolding, Spain-accent filterable.</li>
+      <li><a href="https://soundcloud.com/languagetransfer/complete-spanish-track-90-end">Complete Spanish, Track 90 (End)</a> — Language Transfer (audio), reviewing the grammar built across the whole course.</li>
+    </ul>
+    <p><strong>Practice:</strong> The warm-up has you speak freely for 60 seconds, mark your own errors on
+    playback, and re-record fixing them — a deliberate self-correction loop. Twice you'll
+    listen to an unfamiliar clip and summarise it aloud without pausing or reading anything.
+    The centrepiece is a solo 3–5 minute "conversation" playing both sides of an exchange,
+    covering an introduction, your routine, and at least two travel scenarios, with a short
+    rehearsal run first. An optional cold-questions stretch closes out the module.</p>
+    <p><input type="checkbox"> <strong>Checkpoint (30 min).</strong> Record the full self-interview, transcribe it, and mark <em>ser</em>/
+    <em>estar</em>, agreement and verb-ending accuracy — a self-correction you catch and fix in the
+    moment counts as a partial success, not a failure. Separately, do one listening pass on an
+    unused clip. Good enough to continue: the conversation is sustained close to three minutes
+    covering the required topics, and the listening pass gets the gist.</p>
+    <p><input type="checkbox"> <strong>Cumulative review — Modules 1–9 (25 min).</strong> One last full-path retrieval pass: alphabet,
+    counting to 100, three <em>distinción</em> words re-checked against the Module 1 clip, one regular
+    and one irregular verb conjugated in both present and <em>pretérito</em>, an <em>ir a</em> + infinitive
+    sentence, and 15 vocabulary items recalled from memory. This is the last checkpoint before
+    the final check — treat any failure here as worth an extra session before attempting it.</p>
+  </section>
+
+  <h2>Checkpoints and Progress</h2>
+
+  <p>Every module ends with a short, self-scored checkpoint built around producing spoken
+  language, not recognising the right answer — because your goal is spoken, a checkpoint
+  you could pass just by recognising correct Spanish wouldn't tell you anything useful.
+  Three techniques are used throughout:</p>
+
+  <ul>
+    <li><strong>Record-and-transcribe</strong> — record the task, write out exactly what you said (not what
+    you meant to say), and mark it against a checklist.</li>
+    <li><strong>Shadow-and-compare</strong> — repeat a native clip phrase by phrase, then play your recording
+    and the original back to back and mark each target sound.</li>
+    <li><strong>Pre-commit answer key</strong> — jot down the grammar you intend to use before recording, then
+    check what you actually said against that, not against memory.</li>
+  </ul>
+
+  <p>Each checkpoint uses three bands: <strong>not yet</strong>, <strong>good enough to continue</strong>, and <strong>solid</strong>.
+  In Modules 1–4 especially, "good enough to continue" is the expected, on-track result —
+  not a shortfall. "Solid" is a bonus.</p>
+
+  <div class="checkpoint-block">
+    <h4>Module 1</h4>
+    <div class="rubric">
+      <div class="band"><strong>What you record</strong>Alphabet, 10 target sounds, count to 20, 30-sec greeting</div>
+      <div class="band continue"><strong>Good enough to continue</strong>8/10 sounds match a native clip; fluent alphabet/count; one correct <em>vosotros</em></div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Redo drills, re-shadow 3x, repeat before Module 2</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4>Module 2</h4>
+    <div class="rubric">
+      <div class="band"><strong>What you record</strong>60–90 sec self + other description</div>
+      <div class="band continue"><strong>Good enough to continue</strong><em>ser</em>/<em>estar</em> right most of the time; agreement correct; one <em>vosotros</em> use</div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Redo drills, re-record on a new topic</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4>Module 3</h4>
+    <div class="rubric">
+      <div class="band"><strong>What you record</strong>8 unscripted Q&amp;A exchanges</div>
+      <div class="band continue"><strong>Good enough to continue</strong>At most 2 conjugation slips across all 8</div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Redo irregular-verb drills, retry with fresh questions</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4><em>Cumulative review, Modules 1–3</em></h4>
+    <div class="rubric">
+      <div class="band continue"><strong>Good enough to continue</strong>All four parts pass from memory</div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Return to the specific module's checkpoint</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4>Module 4</h4>
+    <div class="rubric">
+      <div class="band"><strong>What you record</strong>60-sec day narration</div>
+      <div class="band continue"><strong>Good enough to continue</strong>Reflexives mostly correct, 2+ time expressions, 1 correct <em>gustar</em></div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Redo with a different day</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4>Module 5</h4>
+    <div class="rubric">
+      <div class="band"><strong>What you record</strong>Directions role-play + listening/reading</div>
+      <div class="band continue"><strong>Good enough to continue</strong>Imperatives correct for 3+ directions; 3–4/5 comprehension right</div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Re-shadow at half then full speed before retrying</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4>Module 6</h4>
+    <div class="rubric">
+      <div class="band"><strong>What you record</strong>Order/check-in role-play + reading</div>
+      <div class="band continue"><strong>Good enough to continue</strong>1 correct polite request, 1 correct comparative, 2–3/3 reading right</div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Redo with a different scenario</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4><em>Cumulative review, Modules 1–6</em></h4>
+    <div class="rubric">
+      <div class="band continue"><strong>Good enough to continue</strong>All four parts pass, including a <em>distinción</em> recheck</div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Return to the specific module's checkpoint</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4>Module 7</h4>
+    <div class="rubric">
+      <div class="band"><strong>What you record</strong>Past-weekend narration vs. your own key</div>
+      <div class="band continue"><strong>Good enough to continue</strong>At most 1–2 verbs wrong; <em>pretérito</em> used correctly throughout most of it</div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Redo irregular drills, renarrate a different weekend</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4>Module 8</h4>
+    <div class="rubric">
+      <div class="band"><strong>What you record</strong>3 near-future plans + mock service scenario + listening</div>
+      <div class="band continue"><strong>Good enough to continue</strong><em>ir a</em> + inf. right in 2/3; core request clear on playback</div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Redo focused on clarity first, grammar second</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4>Module 9</h4>
+    <div class="rubric">
+      <div class="band"><strong>What you record</strong>3–5 min self-interview + listening pass</div>
+      <div class="band continue"><strong>Good enough to continue</strong>Sustained close to 3 min on-topic; listening gets the gist</div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Identify the weakest of grammar/duration/scenario/listening and revisit that module</div>
+    </div>
+  </div>
+
+  <div class="checkpoint-block">
+    <h4><em>Cumulative review, Modules 1–9</em></h4>
+    <div class="rubric">
+      <div class="band continue"><strong>Good enough to continue</strong>All parts pass from memory</div>
+      <div class="band not-yet"><strong>If it's not there yet</strong>Spend an extra session on the weak area before the final check</div>
+    </div>
+  </div>
+
+  <p><input type="checkbox"> <strong>The final check (45 minutes, week 26)</strong> ties directly back to your original five goals:
+  a 3–5 minute spoken conversation, listening comprehension on two unused clips, a grammar
+  tally from your own conversation transcript, reading comprehension on three real texts, and
+  a two-part vocabulary self-audit (a spot-check of any vocabulary log you've kept, plus a
+  five-minute free-recall list — free recall alone will undercount your real vocabulary, so
+  treat it as a floor, and your logged vocabulary as the better estimate). Passing "good
+  enough to continue" or better on all five parts means the path has met its goal — you're
+  ready to use this Spanish on your trip. If one part falls short, go back to the modules
+  that feed that specific outcome and redo their checkpoints before re-attempting only that
+  part. If a gap is still there after one redo, that's a real limit of what 130 hours can
+  build, not a personal failing.</p>
+
+  <div class="caveat">
+  <p><strong>Three things this plan honestly cannot check for you</strong>, no matter how carefully you
+  self-score:</p>
+  <ol>
+    <li><strong>Pronunciation accuracy</strong> — specifically <em>distinción</em> and the rolled <em>rr</em>. If you're
+    mispronouncing them, you typically can't hear it yourself; that's what makes them hard.
+    Shadowing catches gross errors but not subtle drift.</li>
+    <li><strong>Real-time, unpredictable listening</strong> — every listening check here uses a fixed clip
+    with a knowable answer. Tracking an actual person who interrupts or rephrases
+    unpredictably is a different, harder skill.</li>
+    <li><strong>Genuine conversational turn-taking</strong> — playing both sides of a conversation yourself
+    removes the central difficulty of real conversation: not knowing what the other person
+    will say next.</li>
+  </ol>
+  <p>All three point to the same fix: real conversation with a native or fluent speaker,
+  ideally around Modules 1, 3 and 8–9. See Time and Cost for what that would cost.</p>
+  </div>
+
+  <h2>Resources</h2>
+
+  <p>All resources are free. Where a duration isn't listed, it's marked accordingly rather than
+  guessed.</p>
+
+  <h4>Module 1 — Sounds, Script &amp; Survival Basics</h4>
+  <ul class="resources">
+    <li><a href="https://www.youtube.com/playlist?list=PL_7rDJ7DORb9T_CxcHYbsKNJRgLY4wAEJ">Absolute Beginners Spanish 4-10</a><span class="detail">LightSpeed Spanish · 2020s · video playlist (~7 lessons) · ~1.5h (est.) · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://soundcloud.com/languagetransfer/complete-spanish-track-1-language-transfer-the-thinking-method">Complete Spanish, Track 1</a><span class="detail">Language Transfer · ongoing · audio · unknown · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://www.youtube.com/watch?v=J85JdNuCQ6I">Mi Vida Loca — BBC Spanish Learning Ep.1</a><span class="detail">BBC (unofficial reupload) · 2009 · video · ~10 min · free · verified: websearch 2026-08-18</span></li>
+  </ul>
+
+  <h4>Module 2 — Being &amp; Describing</h4>
+  <ul class="resources">
+    <li><a href="https://www.youtube.com/watch?v=ENOX40X20-s">42 Beginners Understanding SER and ESTAR in Spanish</a><span class="detail">LightSpeed Spanish · 2020s · video · unknown · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://www.youtube.com/watch?v=cXT06H3x9GI">47 Easily Learn Spanish, YOU ARE / VOSOTROS ESTÁIS</a><span class="detail">LightSpeed Spanish · 2020s · video · unknown · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://www.youtube.com/playlist?list=PL_7rDJ7DORb-UBdc_Mj-htkVGp3-ea5gA">Absolute Beginners Spanish 11-15</a><span class="detail">LightSpeed Spanish · 2020s · video playlist (5 lessons) · ~1h (est.) · free · verified: websearch 2026-08-18</span></li>
+  </ul>
+
+  <h4>Module 3 — Present-Tense Action</h4>
+  <ul class="resources">
+    <li><a href="https://www.youtube.com/playlist?list=PL_7rDJ7DORb86MxcytqlICBUNe_CAyjUy">Absolute Beginners Spanish 16-20</a><span class="detail">LightSpeed Spanish · 2020s · video playlist (5 lessons) · ~1h (est.) · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://lightspeedspanish.co.uk/beginners/beginners-spanish-podcast-16-spanish-question-words/">Beginners Spanish Podcast 16: Spanish Question Words</a><span class="detail">LightSpeed Spanish · 2020s · audio · unknown · free · verified: webfetch 2026-08-19</span></li>
+    <li><a href="https://www.youtube.com/watch?v=eQ9-w8brxyU">58 Beginners Spanish ¿Qué vs Cuál?</a><span class="detail">LightSpeed Spanish · 2020s · video · unknown · free · verified: websearch 2026-08-18</span></li>
+  </ul>
+
+  <h4>Module 4 — Daily Life &amp; Routine</h4>
+  <ul class="resources">
+    <li><a href="https://www.youtube.com/watch?v=3K1PpC-gT0c">14 Tell Time in Spanish</a><span class="detail">LightSpeed Spanish · 2020s · video · unknown · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://www.youtube.com/watch?v=vNEzUTNSHwU">44 Beginners Verbs like Gustar</a><span class="detail">LightSpeed Spanish · 2021-03-05 · video · unknown · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://www.youtube.com/watch?v=Vl8BcH5lgCw">Spanish Lesson Early Inter 6 Reflexive Verbs</a><span class="detail">LightSpeed Spanish · 2011 · video · unknown · free · verified: websearch 2026-08-19</span></li>
+    <li><a href="https://www.youtube.com/watch?v=JqBVaAQzOVQ">30 Beginners Test your listening skills</a><span class="detail">LightSpeed Spanish · 2020s · video · unknown · free · verified: websearch 2026-08-18</span></li>
+  </ul>
+
+  <h4>Module 5 — Getting Around</h4>
+  <ul class="resources">
+    <li><a href="https://www.youtube.com/watch?v=E5SHi-vo978">Spanish Lesson 35 Abs Beginner Spanish Prepositions</a><span class="detail">LightSpeed Spanish · 2015 · video · unknown · free · verified: websearch 2026-08-19</span></li>
+    <li><a href="https://www.youtube.com/playlist?list=PLlpPf-YgbU7GbOHc3siOGQ5KmVSngZucl">Superbeginner Dreaming Spanish</a><span class="detail">Dreaming Spanish · ongoing · video playlist · variable (self-paced) · free (up to ~1,000 videos on the free tier) · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://www.youtube.com/watch?v=_th2tbkpZ8c">BBC Spanish – 'Mi Vida Loca', Full Story (All Episodes)</a><span class="detail">BBC (unofficial reupload) · 2009 · video · ~220 min (22 episodes) · free · verified: websearch 2026-08-18 — watch from Episode 3 for the directions/transport segment this module needs.</span></li>
+  </ul>
+
+  <h4>Module 6 — Eating, Shopping &amp; Lodging</h4>
+  <ul class="resources">
+    <li><a href="https://lightspeedspanish.co.uk/early-intermediate/intermediate-spanish-lesson-3-how-to-order-food-in-spanish-restaurant/">How to Order Food in Spanish | Restaurants</a><span class="detail">LightSpeed Spanish · 2020s · audio · unknown · free · verified: webfetch 2026-08-19</span></li>
+    <li><a href="https://www.youtube.com/playlist?list=PLlpPf-YgbU7HWrrenMs3-nuhxgzyAiA-C">Beginner Dreaming Spanish</a><span class="detail">Dreaming Spanish · ongoing · video playlist · variable (self-paced) · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://www.spanishdict.com/guide/make-comparisons-in-spanish">Make Comparisons in Spanish</a><span class="detail">SpanishDict · current · text article · ~15 min read · free · verified: webfetch 2026-08-18</span></li>
+    <li><a href="https://www.youtube.com/watch?v=gHYUjQZhtSk">01 Spanish Lesson – Unequal Comparisons (part 1)</a><span class="detail">Señor Jordan · 2013 · video · unknown · free · verified: websearch 2026-08-19</span></li>
+  </ul>
+
+  <h4>Module 7 — Talking About the Past</h4>
+  <ul class="resources">
+    <li><a href="https://www.youtube.com/watch?v=k9BPcxMKhrU">Gordon's Diaries: Help with the Spanish Past 2, Preterite</a><span class="detail">LightSpeed Spanish · 2020s · video · unknown · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://soundcloud.com/languagetransfer/complete-spanish-track-58">Complete Spanish, Track 58</a><span class="detail">Language Transfer · ongoing · audio · unknown · free · verified: websearch 2026-08-18</span></li>
+  </ul>
+
+  <h4>Module 8 — Plans, Requests &amp; Unexpected Situations</h4>
+  <ul class="resources">
+    <li><a href="https://soundcloud.com/languagetransfer/complete-spanish-track-7-language-transfer-the-thinking-method">Complete Spanish, Track 7</a><span class="detail">Language Transfer · ongoing · audio · unknown · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://www.ricksteves.com/watch-read-listen/video/travel-talks/spanish-language">Spanish Language for Travelers</a><span class="detail">Rick Steves' Europe · current · video · unknown · free · verified: webfetch 2026-08-18 — covers Spain and Latin America together, not Peninsular-exclusive.</span></li>
+  </ul>
+
+  <h4>Module 9 — Conversation Consolidation</h4>
+  <ul class="resources">
+    <li><a href="https://www.youtube.com/playlist?list=PL2k7gzcwtLTMgQpcYZSC5qCVz46bchbU4">Learning Spanish "Mi Vida Loca" BBC — full episode playlist</a><span class="detail">BBC (unofficial reupload) · 2009 · video playlist (22 episodes) · ~220 min · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://www.youtube.com/playlist?list=PLlpPf-YgbU7Gssxi9f72cZktgOb4Vpdoy">Intermediate Dreaming Spanish</a><span class="detail">Dreaming Spanish · ongoing · video playlist · variable (self-paced) · free · verified: websearch 2026-08-18</span></li>
+    <li><a href="https://soundcloud.com/languagetransfer/complete-spanish-track-90-end">Complete Spanish, Track 90 (End)</a><span class="detail">Language Transfer · ongoing · audio · unknown · free · verified: websearch 2026-08-18</span></li>
+  </ul>
+
+  <div class="caveat">
+  <p><strong>A note on availability.</strong> The BBC's "Mi Vida Loca," used in Modules 1, 5 and 9, is no
+  longer hosted on the BBC's own site — it survives through unofficial reuploads. The content
+  itself is still authoritative (it's genuine BBC-produced material), but if a specific link
+  above ever stops working, search the episode title directly; copies tend to reappear.</p>
+  </div>
+
+  <h2>Time and Cost</h2>
+
+  <div class="scroll">
+  <table class="totals">
+    <thead>
+      <tr>
+        <th scope="col">Component</th>
+        <th scope="col" class="num">Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Resource viewing (known durations only)</td><td class="num">~11.3</td></tr>
+      <tr><td>Speaking practice (drills, applications, syntheses)</td><td class="num">~23.25</td></tr>
+      <tr><td>Checkpoints, cumulative reviews and the final check</td><td class="num">~5.5</td></tr>
+      <tr><td><strong>Total structured time (a floor)</strong></td><td class="num"><strong>~40</strong></td></tr>
+      <tr><td>Available time (5h/week × 26 weeks)</td><td class="num">130</td></tr>
+      <tr><td><strong>Slack against your budget</strong></td><td class="num"><strong>~90 hours</strong></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>This total is a floor, not a ceiling: about two-thirds of the video and audio resources in
+  this path don't list an exact running time, so real weeks will typically run somewhat
+  longer than the table above shows. That's fine — the smallest weekly margin anywhere in the
+  path is still over two hours below your weekly limit, comfortably able to absorb it.</p>
+
+  <p><strong>Money: EUR 0 of your EUR 50 budget.</strong> Every single resource in this plan is free — there
+  is no free-versus-paid trade-off to make here, because nothing costs anything to begin
+  with. <span class="badge">free</span></p>
+
+  <div class="caveat">
+  <p><strong>What your EUR 50 would actually be best spent on.</strong> Since nothing in this plan costs
+  money, the real question is what the unspent budget should go toward. Based on the three
+  things self-assessment genuinely cannot verify — pronunciation, real-time listening, and
+  turn-taking — the highest-value use of that money is one or a handful of paid
+  conversation-practice sessions (a platform like italki or Preply, or any language-exchange
+  option you have access to), timed around Modules 1, 3, and 8–9. This is the single most
+  useful piece of practical advice in this plan: even one session, focused specifically on
+  checking your <em>distinción</em>/<em>rr</em> and having a real, unpredictable conversation, will tell you
+  things weeks of self-recording cannot. As a rough, unverified sense of scale, conversation-
+  tutoring sessions on these platforms commonly run somewhere in the EUR 8–20 range for
+  30–45 minutes — treat that as an illustrative starting point to research, not a quote.</p>
+  </div>
+
+  <p><strong>Other costs to know about, even though none are priced in this plan:</strong></p>
+  <ul>
+    <li>A <strong>DELE certification exam fee</strong> is not part of this plan's scope — the goal here was
+    deliberately retargeted away from certified B1 toward practical competence. If you later
+    decide you want the certificate, that's a separate undertaking with its own costs.</li>
+    <li>A <strong>vocabulary-logging tool</strong> — a notebook or spreadsheet is free and sufficient, but
+    worth setting up from week 1 rather than week 25.</li>
+    <li><strong>Recording equipment</strong> — a phone microphone is assumed and is almost always adequate;
+    worth confirming yours works before Module 1's first checkpoint.</li>
+  </ul>
+
+  <h2>What Comes Next</h2>
+
+  <p>Completing this path gets you to a strong A2 / B1-threshold level: able to hold a real
+  conversation, understand slower native speech in common travel situations, and read
+  everyday signs and menus, with Peninsular pronunciation and <em>vosotros</em> built in from the
+  start. Some things were deliberately left out to make the honest 130-hour budget work, and
+  you should know what they are before you assume you've covered everything a "B1" label
+  might imply elsewhere:</p>
+
+  <ul>
+    <li>The <strong>imperfect tense</strong> (for extended past narrative and habitual description)</li>
+    <li>The <strong>subjunctive mood</strong> (for wishes, doubt, and formal requests)</li>
+    <li><strong>Compound/perfect tenses</strong> (haber + participle)</li>
+    <li><strong>Sustained written composition</strong> and formal register</li>
+    <li><strong>Vocabulary beyond the ~1,000-word travel/social core</strong> this plan targets</li>
+    <li><strong>Latin American dialectal forms</strong> — this plan is Peninsular-only throughout, by design</li>
+  </ul>
+
+  <p>None of these are needed for the goal you actually confirmed; adding them back in would
+  have meant cutting the speaking practice you asked for. If you decide afterward that you
+  want certified B1 or beyond, these are exactly the gaps to fill next, and you'll be
+  starting that from a genuinely useful base rather than from zero.</p>
+
+  <p><strong>After the trip</strong>, the most natural next steps are: continuing with more advanced
+  Dreaming Spanish content at natural pace, picking up the imperfect and subjunctive through
+  a structured course, and — if the conversation practice recommended above went well —
+  simply continuing it. Real use, especially during the trip itself, will do more for your
+  Spanish than any additional module would.</p>
+
+  <div class="caveat">
+  <p>One module is worth flagging again here: Module 8 (plans, requests, and unexpected
+  situations) has the thinnest resource coverage in this path — a free, Peninsular-specific
+  video for reporting problems or asking for help in a service context was genuinely hard to
+  find. If you have any budget or time left over, that's the module worth reinforcing first.</p>
+  </div>
+
+  <footer>Generated 2026-08-20. Links were checked when this plan was built; if one has moved, search for the title.</footer>
+
+</main>
+</body>
+</html>

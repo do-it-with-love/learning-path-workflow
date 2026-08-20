@@ -1,0 +1,9 @@
+{
+  "run_id": "run-001-spanish-b1",
+  "status": "approved",
+  "source": "output/learning-path.md",
+  "digest": "sha256:9e6f5efb42d45c12a47db71572ee49c6f6931ca8809c7a369b3d9dc9cb9c5948",
+  "decided_at": "2026-08-20T07:06:39Z",
+  "approver": "tril2@outlook.com",
+  "feedback": null
+}
