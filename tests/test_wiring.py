@@ -17,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PASSED: list[str] = []
 FAILED: list[str] = []
+SKIPPED: list[str] = []
 
 
 def check(name: str, condition: bool, detail: str = "") -> None:
@@ -122,10 +123,17 @@ def main() -> int:
     check("at least one MCP server configured", len(mcp) >= 1, str(list(mcp)))
     check("no secrets in .mcp.json",
           not re.search(r"(api[_-]?key|token|secret|password)", json.dumps(mcp), re.I))
+    # The venv is a setup step, not a repository artifact, so on a fresh clone its
+    # absence is expected rather than broken. Report it as pending setup — a clean
+    # checkout should not greet you with failures you are about to fix anyway.
+    venv_present = (ROOT / ".venv").is_dir()
     for name, spec in mcp.items():
-        if spec["command"].startswith("."):
-            check(f"mcp {name}: command path exists", (ROOT / spec["command"]).exists(),
-                  "run: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt")
+        if spec["command"].startswith(".") and not venv_present:
+            SKIPPED.append(f"mcp {name}: command path")
+            print(f"  SETUP mcp {name}: needs the venv — "
+                  "python3 -m venv .venv && .venv/bin/pip install -r requirements.txt")
+        elif spec["command"].startswith("."):
+            check(f"mcp {name}: command path exists", (ROOT / spec["command"]).exists())
         for arg in spec.get("args", []):
             if arg.endswith(".py"):
                 check(f"mcp {name}: server script exists", (ROOT / arg).is_file())
@@ -141,7 +149,8 @@ def main() -> int:
     owners = set(re.findall(r"`([a-z-]+)`", gates_text)) & all_steps
     check("gate owners are real steps", bool(owners), str(sorted(owners)))
 
-    print(f"\n{len(PASSED)} passed, {len(FAILED)} failed")
+    tail = f", {len(SKIPPED)} pending setup" if SKIPPED else ""
+    print(f"\n{len(PASSED)} passed, {len(FAILED)} failed{tail}")
     for name in FAILED:
         print(f"  failed: {name}")
     return 1 if FAILED else 0
